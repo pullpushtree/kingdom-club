@@ -1,0 +1,40 @@
+
+
+ion-slide{
+
+    
+    height: 100%;
+    padding-top: 20px;
+    
+    display: block;
+    
+    p {
+        font-size: 17px;
+        font-family: 'Segoe UI';
+        font-weight: bold;
+        padding: 20px;
+    }
+
+    img{
+        width: 100%;
+    }
+
+    ion-button{        
+        margin-bottom: 10%;         
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    #gradient-btn{
+    --background: linear-gradient(
+        90deg,
+        rgba(5,0,68,1) 0%, 
+        rgba(87,66,158,0.51) 57%, 
+        rgba(60,115,209,1) 100%);
+    }
+
+    #onboarding-btn{
+        color: #57429E;
+    }
+    
+}

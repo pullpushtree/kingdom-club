@@ -1,9 +1,36 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>welcome</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <ion-slides pager="true" [options]="slideOpts" #slides  effect="flip">
 
+    <ion-slide>
+      <img class="slideImg" src="../../../assets/images/screen1.png" />
+      <p id="slideText">
+        Want to know what students are up to locally and abroad?
+      </p>
+      <ion-button id="onboarding-btn" shape="round" fill="clear" (click)="getStarted(event, i)">Get Started</ion-button>
+    </ion-slide>
+
+    <ion-slide>
+      <img class="slideImg" src="../../../assets/images/screen2.png" />
+      <p id="slideText">
+        Want follow student voices and interests groups around you?
+      </p>
+      <ion-button id="onboarding-btn" shape="round" fill="clear" (click)="getStarted(event, i)">Get Started</ion-button>
+    </ion-slide>
+
+    <ion-slide>
+      <img class="slideImg" src="../../../assets/images/screen3.png" />
+      <p id="slideText">
+        Create an account to exploare and discover new connections
+      </p>
+      <ion-button id="onboarding-btn" shape="round" fill="clear" (click)="getStarted(event, i)">Get Started</ion-button>
+    </ion-slide>
+
+    <ion-slide>
+      <img class="slideImg" src="../../../assets/images/screen4.png" />
+
+      <ion-button id='gradient-btn' expand="block" shape="round" (click)="loginAction()">Login</ion-button>
+      <ion-button id="onboarding-btn" expand="block" shape="round" fill="clear" (click)="signupAction()">Signup</ion-button>
+    </ion-slide>
+
+  </ion-slides>
 </ion-content>
