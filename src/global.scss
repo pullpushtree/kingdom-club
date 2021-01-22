@@ -24,3 +24,17 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+.swiper-pagination{
+    align-items: center;
+
+}
+
+.swiper-pagination-bullet{
+    transition: width 0.2s ease-in-out, height 0.2s easy-in-out;
+    background-color: #57429E;
+}
+.swiper-pagination-bullet-active{
+    transition: width 0.2s ease-in-out, height 0.2s easy-in-out;
+}

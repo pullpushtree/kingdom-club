@@ -74,9 +74,26 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  /** Background colour of entire app **/
+  --ion-background-color: #F3F3F3;
+
+  --ion-color-kingdomClub: #57429E;
+  --ion-color-kingdomClub-contrast: #050044;
+  --ion-color-kingdomClub-shade: #707070;
+  --ion-color-kingdomClub-tint: #D5D2DC;
+
+
+  /** tab icon selected and unselected colours **/
+  ion-tab-button.tab-selected{
+    ion-icon, ion-label {
+      color: var(--ion-color-kingdomClub) !important;
+      --ion-color-base: var(--ion-color-kingdomClub) !important;
+    }
+  }
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   /*
    * Dark Colors
    * -------------------------------------------
