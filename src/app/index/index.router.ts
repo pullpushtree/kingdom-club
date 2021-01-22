@@ -23,6 +23,10 @@ const routes: Routes = [
         path: "welcome",
         loadChildren: () => import("../pages/welcome/welcome.module").then((m) => m.WelcomePageModule),
       },
+      {
+        path: "forgotPassord",
+        loadChildren: () => import("../pages/forgot-password/forgot-password.module").then((m) => m.ForgotPasswordPageModule),
+      },
     ],
   },
 ];
