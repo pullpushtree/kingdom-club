@@ -1,9 +1,39 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>signup</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
+  <div class="header-label">
+    <h2>Create an account</h2>    
+  </div>
+  
+    <form>
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Username</ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input type="email"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="stacked">Password</ion-label>
+          <ion-input type="password"></ion-input>
+        </ion-item>
 
-<ion-content>
-
+        <ion-item >
+          <ion-label position="stacked">Birth of Date</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="MMMM DD YYYY"></ion-datetime>          
+        </ion-item>  
+        
+        <div class="signup-btn">          
+          <ion-button (click)="signupAction()"  shape="round" class="gradient-btn signup-btn">Sign Up</ion-button>   
+        </div>
+        
+        <ion-row class="signin-link">
+          Already have an account? &nbsp; <a routerLink="/login">Sign In</a>          
+        </ion-row>
+           
+  
+      </ion-list>
+    </form>
 </ion-content>
