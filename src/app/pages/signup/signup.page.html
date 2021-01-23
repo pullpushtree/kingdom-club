@@ -7,22 +7,22 @@
       <ion-list>
         <ion-item>
           <ion-label position="stacked">Username</ion-label>
-          <ion-input type="text"></ion-input>
+          <ion-input type="text" name="usernmae" [(ngModel)]="username"></ion-input>
         </ion-item>
   
         <ion-item>
           <ion-label position="stacked">Email</ion-label>
-          <ion-input type="email"></ion-input>
+          <ion-input type="email" name="email" [(ngModel)]="email"></ion-input>
         </ion-item>
   
         <ion-item>
           <ion-label position="stacked">Password</ion-label>
-          <ion-input type="password"></ion-input>
+          <ion-input type="password" name="password" [(ngModel)]="password"></ion-input>
         </ion-item>
 
         <ion-item >
           <ion-label position="stacked">Birth of Date</ion-label>
-          <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="MMMM DD YYYY"></ion-datetime>          
+          <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="MMMM DD YYYY" name="dob" [(ngModel)]="dob"></ion-datetime>          
         </ion-item>  
         
         <div class="signup-btn">          

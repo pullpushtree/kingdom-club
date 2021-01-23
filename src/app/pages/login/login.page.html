@@ -8,21 +8,19 @@
     <ion-list>
 
       <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input type="email"></ion-input>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="text" name="email" [(ngModel)]="email"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked">Password</ion-label>
-        <ion-input type="password"></ion-input>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" name="password" [(ngModel)]="password"></ion-input>
       </ion-item>
 
       <div class="forgot-pwrd">
-        <ion-button routerLink="/forgotPassord" fill="clear" class="forgot-pwrd ion-no-padding">Forgot Pasword?</ion-button>
+        <ion-button routerLink="/forgot-password" fill="clear" class="forgot-pwrd ion-no-padding">Forgot Pasword?</ion-button>
       </div>
-     
-    
-
+      
       <div class="login-btn">
         <ion-button (click)="loginAction()"  shape="round" class="gradient-btn login-btn">Login</ion-button>   
       </div>
