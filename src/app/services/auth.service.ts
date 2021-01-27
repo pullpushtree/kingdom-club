@@ -88,8 +88,6 @@ export class AuthService {
 
    async logout(){
      this.afAuth.signOut().then(()=> {
-       //this.localStorageService.clear();
-       //localStorage.setItem(AuthConstants.AUTH, null);
        this.localStorageService.removeItem(AuthConstants.AUTH);
 
        this.userData$.next('');

@@ -25,8 +25,7 @@ export class WelcomePage implements OnInit {
   }
 
   getStarted(){
-    this.slides.getActiveIndex().then(index => {
-      console.log(index);
+    this.slides.getActiveIndex().then(index => {      
       this.slides.slideTo(3)
     }) 
    
