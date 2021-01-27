@@ -32,7 +32,7 @@ export class ForgotPasswordPage implements OnInit {
 
       loading.present();
 
-      this.afauth.sendPasswordResetEmail(this.email)
+      this.afauth.sendPasswordResetEmail(this.email.trim())
       .then(()=> {
         loading.dismiss();
         this.toast('Please check your email','success')
@@ -45,16 +45,16 @@ export class ForgotPasswordPage implements OnInit {
         console.dir(error.message);
       })
     } else {
-      console.log('Please enter your email', this.email);
+      this.toast('Please enter your email', 'danger');
 
     }
   }
   async toast(message,status){
     const toast = await this.toastr.create({
       message: message,
-      position: 'top',
+      position: 'bottom',
       color: status, 
-      duration: 5000
+      duration: 2000
     });
     toast.present();
   }

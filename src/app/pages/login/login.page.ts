@@ -25,11 +25,17 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
   }
+  validateInputs(){
+    let email = this.email.trim();
+    let password = this.password.trim();
+
+    return (email && password && email.length > 0 && password.length > 0)
+  }
 
   async loginAction(){    
-    if(this.email && this.password)
+    if(this.validateInputs())
     {     
-      this.auth.login(this.email, this.password)
+      this.auth.login(this.email.trim(), this.password.trim())
       .catch((error) =>{      
         this.toast(error.message, 'danger');
         console.dir(error);
@@ -39,7 +45,7 @@ export class LoginPage implements OnInit {
         }
       });
     } else {
-      this.toast('Please enter your email and password! ', 'danger')
+      this.toast('Please try again!', 'danger')
     }
   }
 
@@ -48,7 +54,7 @@ export class LoginPage implements OnInit {
       message: message, 
       position: 'bottom',
       color: status,
-      duration: 5000
+      duration: 2000
     });
 
     toast.present();

@@ -31,22 +31,22 @@ export class SignupPage implements OnInit {
 
   async signupAction(){
     if(this.username && this.email && this.password && this.dob){
-      this.auth.signup(this.username, this.email, this.password, this.dob)
+      this.auth.signup(this.username.trim(), this.email.trim(), this.password.trim(), this.dob.trim())
       .catch((error) => {        
         this.toast(error.message, 'danger');
         console.dir(error);
       })
     } else {      
-      this.toast('Please submit a complete the form!', 'danger');
+      this.toast('Please try again!', 'danger');
     }
   }
 
   async toast(message, status){
     const toast = await this.toastr.create({
       message: message,
-      position: 'top',
+      position: 'bottom',
       color: status, 
-      duration: 5000
+      duration: 2000
     });
 
     toast.present();
