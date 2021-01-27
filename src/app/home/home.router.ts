@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePage } from './home.page';
+import { HomeGuard } from '../guards/home.guard';
+import { UserDataResolver } from '../resolver/userData.resolver';
+
 
 const routes: Routes = [
     {
         path: 'home',
         component: HomePage,
+        canActivate: [HomeGuard],
+        resolve: {
+            userData: UserDataResolver
+        },
         children: [
             {
                 path: '',
@@ -23,6 +30,9 @@ const routes: Routes = [
                 path: 'settings',
                 loadChildren:() => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
             },
+            {
+                path: '', redirectTo: 'home/profile', pathMatch: 'full'
+            }
         ]
     }
 ];

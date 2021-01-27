@@ -6,6 +6,7 @@ import { CanActivate,
   Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
+import { AuthConstants } from '../config/auth-constant';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -16,7 +17,8 @@ export class AuthGuard implements CanActivate
 {
   constructor(
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private storage: Storage
   ){}
 
   canActivate(
@@ -28,12 +30,14 @@ export class AuthGuard implements CanActivate
         tap(isLoggedIn => {
           if(!isLoggedIn)
           {
+            this.storage.removeItem(AuthConstants.AUTH)
             this.router.navigate(['/login']);
             console.log("canActivate returned false");
             return false;
           }
-          console.log("canActivate returned true");
-          return true
+          console.log("canActivate returned true");          
+
+          return true;
         })
       )    
   } 
