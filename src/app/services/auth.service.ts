@@ -16,7 +16,10 @@ export class AuthService {
 
   user$: Observable<User>;
   user: User
-  userData$ = new BehaviorSubject<any>('')
+  userData$ = new BehaviorSubject<any>('');
+
+  currentUser: any;
+  logingUserData: any;
 
   constructor(
     private afAuth: AngularFireAuth, 
@@ -56,7 +59,11 @@ export class AuthService {
 
     loading.present();
     this.afAuth.signInWithEmailAndPassword(email, password)
-    .then((data)=> {
+   
+    .then(  (data)=> {     
+      this.localStorageService.set(AuthConstants.AUTH, JSON.stringify(data));
+      localStorage.setItem(AuthConstants.AUTH, JSON.stringify(data));      
+      
       console.log("auth.service", data)
       if(!data.user.emailVerified)
       {        
@@ -64,20 +71,25 @@ export class AuthService {
         this.toast('Please confirm your email', 'warning');
         this.logout();       
       
-      } else {
-        if (data.user.photoURL == null){
+      } else {        
+        console.log("photoUrl value :",data.user.photoURL)
+        if (!data.user.photoURL){
           loading.dismiss();
-          this.router.navigate(['/set-profile-images']);
+          this.router.navigate(['/home/setup']);
         } else {
-          loading.dismiss();
-          this.localStorageService.set(AuthConstants.AUTH, JSON.stringify(data.user));
-          this.router.navigate(['/home/chats']);
+          loading.dismiss();          
+          this.router.navigate(['/home/profile']);
         }        
       }
     })
+   
     .catch((error) => {
       this.toast(error.message, 'danger');
-      this.logout();    
+      console.log("auth.service.ts login() An error happened - localStorage userCredentials set to null")    
+      this.localStorageService.set("userCredential", null);
+      localStorage.setItem('userCredential', null);
+      this.logout();  
+
       console.dir(error);
       if(error.code === "auth/user-not-found") {
         console.log("User not found");
@@ -111,6 +123,7 @@ export class AuthService {
         'timeStamp': Date.now(),
         'dob': dob
       });
+      
 
       data.user.sendEmailVerification();
     })

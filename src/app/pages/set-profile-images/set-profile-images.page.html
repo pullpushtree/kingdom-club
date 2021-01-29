@@ -2,198 +2,33 @@
   <ion-toolbar>
     <ion-buttons id="camera-btn" class="test" slot="end" (click)="takePicture()">
       <ion-icon name="camera"></ion-icon>
-    </ion-buttons>  
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <div class="header-label">
-    <h2>Select your <br/> profile images</h2>    
+    <h2>
+      Select your <br />
+      profile images
+    </h2>
   </div>
 
-  
   <ion-button (click)="addPhoto('library')" shape="round" color="primary">
     <ion-icon slot="start" name="image"></ion-icon>
-    Open Library
-  </ion-button>   
+    Library
+  </ion-button>
 
- 
-  <ion-button (click)="addPhoto('camera')" shape="round" color="tertiary">Complete
+  <ion-button (click)="addPhoto('camera')" shape="round" color="tertiary">
     <ion-icon slot="start" name="camera"></ion-icon>
-    Take photo
-  </ion-button>   
-  
-
-
+    Camera
+  </ion-button>
 
   <div class="flex">
     <div class="img-box">
-      <img [src]="image">
+      <img [src]="image" />
     </div>
   </div>
 
-
-  <ion-button (click)="uploadFirebase()" shape="round" color="warning">Complete
-    <ion-icon slot="start" name="menu"></ion-icon>
-    Take photo
-  </ion-button>   
-
-
-
-
-
-    <form>
-      <ion-list>  
-<!-- 
-        <ion-row>
-
-          <ion-item lines="none" >
-           
-              <div>
-
-              <ng-template  #showImgPlaceholder>
-                <ion-buttons type="button" id="main-pic-shape" (click)="fileInput.click()">
-                  <button ion-button>                   
-                    <input style="display: none;" multiple type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput>
-                  <ion-icon name="add"></ion-icon>
-                </button>
-                </ion-buttons>
-              </ng-template>
-             
-              <div *ngIf="imgURL0?.length > 0; else showImgPlaceholder">
-                <img [src]="imgURL0" *ngIf="imgURL0" />
-                <img *ngFor='let url of urls' [src]="url">
-              </div>  
-              
-            </div> 
-
-          
-          </ion-item>
-        </ion-row>
-  
-
-        <ion-row> -->
-
-
-          <!-- <ion-item lines="none">
-            <div class="other-profile-pic"> 
-              <ng-template  #showImgOtherPlaceholder1>
-              <ion-buttons id="other-profile-pic-shape" (click)="fileInput.click()">
-                <button ion-button>
-                  <input style="display: none;" type="file" accept="image/*" (change)="onChange(fileInput.files)" #fileInput>
-                  <ion-icon name="add"></ion-icon>
-                </button>
-              </ion-buttons> 
-            </ng-template>  
-
-            <div *ngIf="imgURL1?.length > 0; else showImgOtherPlaceholder1">
-              <img [src]="imgURL1" *ngIf="imgURL1" />
-            </div>  
-
-            </div>
-          </ion-item>
-
-          <ion-item lines="none">
-            <div class="other-profile-pic"> 
-              <ng-template  #showImgOtherPlaceholder2>
-              <ion-buttons id="other-profile-pic-shape" (click)="fileInput.click()">
-                <button ion-button>
-                  <input style="display: none;" type="file" accept="image/*" (change)="onChange(fileInput.files)" #fileInput>
-                  <ion-icon name="add"></ion-icon>
-                </button>
-              </ion-buttons>  
-            </ng-template>  
-            
-            <div *ngIf="imgURL2?.length > 0; else showImgOtherPlaceholder2">
-              <img [src]="imgURL2" *ngIf="imgURL2" />
-            </div>  
-
-            </div>
-          </ion-item>
-
-          <ion-item lines="none">
-            <div class="other-profile-pic"> 
-              <ng-template  #showImgOtherPlaceholder3>
-              <ion-buttons id="other-profile-pic-shape" (click)="fileInput.click()">
-                <button ion-button>
-                  <input style="display: none;" type="file" accept="image/*" (change)="onChange(fileInput.files)" #fileInput>
-                  <ion-icon name="add"></ion-icon>
-                </button>
-              </ion-buttons> 
-            </ng-template>    
-            
-            <div *ngIf="imgURL3?.length > 0; else showImgOtherPlaceholder3">
-              <img [src]="imgURL3" *ngIf="imgURL3" />
-            </div>  
-
-            </div>
-          </ion-item>
-
-          <ion-item lines="none">
-            <div class="other-profile-pic"> 
-              <ng-template  #showImgOtherPlaceholder4>
-              <ion-buttons id="other-profile-pic-shape" (click)="fileInput.click()">
-                <button ion-button>
-                  <input style="display: none;" type="file" accept="image/*" (change)="onChange(fileInput.files)" #fileInput>
-                  <ion-icon name="add"></ion-icon>
-                </button>
-              </ion-buttons> 
-            </ng-template>    
-            
-            <div *ngIf="imgURL4?.length > 0; else showImgOtherPlaceholder4">
-              <img [src]="imgURL4" *ngIf="imgURL4" />
-            </div>  
-
-            </div>
-          </ion-item> -->
-
-
-
-<!-- 
-            <ion-item lines="none">
-              <div class="other-profile-pic"> 
-                <ion-buttons id="other-profile-pic-shape" (click)="selectPicture()">
-                  <button ion-button>
-                    <ion-icon name="add"></ion-icon>
-                  </button>
-                </ion-buttons>
-              </div>              
-            </ion-item>
-
-
-            <ion-item lines="none">
-              <div class="other-profile-pic">
-                <ion-buttons id="other-profile-pic-shape" (click)="selectPicture()">
-                  <button ion-button>
-                  <ion-icon name="add"></ion-icon>
-                </button>
-                </ion-buttons>                
-              </div>
-            </ion-item>
-
-
-            <ion-item lines="none">
-            <div class="other-profile-pic">
-              <ion-buttons id="other-profile-pic-shape" (click)="selectPicture()">                
-                <button ion-button>
-                  <ion-icon name="add"></ion-icon>
-                </button>
-              </ion-buttons>              
-            </div> 
-          </ion-item>
-        
-        </ion-row>
-        -->
-
-
-      
-  
-        <ion-row>
-          <ion-button (click)="onUpload()" shape="round" class="gradient-btn next-btn">Complete</ion-button>   
-        </ion-row>  
-        
-  
-      </ion-list>
-    </form>
-  </ion-content>
-  
+  <ion-button (click)="uploadFirebase()" shape="round" class="gradient-btn next-btn">Complete</ion-button>
+</ion-content>

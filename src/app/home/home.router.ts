@@ -31,9 +31,16 @@ const routes: Routes = [
                 loadChildren:() => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
             },
             {
-                path: '', redirectTo: 'home/profile', pathMatch: 'full'
+                path: 'setup',
+                loadChildren: () => import('../pages/set-profile-images/set-profile-images.module').then( m => m.SetProfileImagesPageModule),    
+            },
+            {
+                path: '', redirectTo: 'profile', pathMatch: 'full'
             }
         ]
+    },
+    {
+        path: '', redirectTo: 'home/profile', pathMatch: 'full'
     }
 ];
 
