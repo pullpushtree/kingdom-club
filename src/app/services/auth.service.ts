@@ -58,9 +58,8 @@ export class AuthService {
     });
 
     loading.present();
-    this.afAuth.signInWithEmailAndPassword(email, password)
-   
-    .then(  (data)=> {     
+    this.afAuth.signInWithEmailAndPassword(email, password)   
+    .then( async (data)=> {     
       this.localStorageService.set(AuthConstants.AUTH, JSON.stringify(data));
       localStorage.setItem(AuthConstants.AUTH, JSON.stringify(data));      
       
@@ -71,15 +70,20 @@ export class AuthService {
         this.toast('Please confirm your email', 'warning');
         this.logout();       
       
-      } else {        
-        console.log("photoUrl value :",data.user.photoURL)
-        if (!data.user.photoURL){
-          loading.dismiss();
-          this.router.navigate(['/home/setup']);
-        } else {
-          loading.dismiss();          
-          this.router.navigate(['/home/profile']);
-        }        
+      } else { 
+        //If user profile value is not set send user to setpu page
+        //else send user to profile page  
+        let docValRef = this.afs.collection('users').doc(`${data.user.uid}`).valueChanges()
+        docValRef.subscribe((res) => {
+          this.currentUser = res
+          if(this.currentUser.photoURL == null ){
+            loading.dismiss();
+            this.router.navigate(['/home/setup']);
+          } else {
+            loading.dismiss();
+            this.router.navigate(['/home/profile']);
+          }
+        })             
       }
     })
    
@@ -124,7 +128,7 @@ export class AuthService {
         'dob': dob
       });
       
-
+      data.user.updateProfile({ displayName: username});
       data.user.sendEmailVerification();
     })
     .then(()=> {
