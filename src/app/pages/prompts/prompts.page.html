@@ -1,0 +1,14 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/profile/edit"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+  <ion-list >    
+    <ion-item *ngFor="let item of items | async;">      
+      <p (click)="userSelectedQuestion($event)">{{item.text}}</p>            
+    </ion-item>     
+  </ion-list>
