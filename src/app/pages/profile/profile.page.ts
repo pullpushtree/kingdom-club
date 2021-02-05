@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { StorageService } from '../../services/storage.service';
-import { AuthConstants } from 'src/app/config/auth-constant';
+import { AuthService } from 'src/app/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-profile',
@@ -11,19 +11,25 @@ import { AuthConstants } from 'src/app/config/auth-constant';
 export class ProfilePage implements OnInit {
   
   currentUser: any;
-  constructor(    
-    private localStorageService: StorageService,
+  user:any;
+  
+  constructor( 
+    private router: Router,
+    private afauthSrv: AuthService,   
     ) { }
 
-  image: any;
-
-
   ngOnInit() {
-    this.currentUser = this.localStorageService.get(AuthConstants.AUTH);
-    if(this.currentUser != null){
-      console.log("profile.ts ngOnInit current user : ", this.currentUser)
-    } else {
-      console.log("profile.ts ngOnInit currentUser is null")
-    }
+
+    this.afauthSrv.user$.subscribe(user => {
+      this.currentUser = user;
+      console.log("afauthSrv value : ", this.user)      
+    });
+  }
+   editProfile(){
+      this.router.navigate(['home/profile/edit/']);
+  }
+
+  followProfile(){
+    console.log("follow was clicked")
   }
 }

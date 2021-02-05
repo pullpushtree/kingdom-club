@@ -1,8 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from "@angular/fire/firestore";
+import { AngularFirestore } from "@angular/fire/firestore";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Router } from "@angular/router";
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
@@ -19,6 +16,8 @@ import { AuthConstants } from "../../config/auth-constant";
   styleUrls: ["./set-profile-images.page.scss"],
 })
 export class SetProfileImagesPage implements OnInit {
+  currentUser: any;
+  
   image = "https://dummyimage.com/300";
   imagePath: string;
   imageUpload: any;
@@ -33,7 +32,10 @@ export class SetProfileImagesPage implements OnInit {
     private toastr: ToastController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem(AuthConstants.AUTH));
+    console.log(this.currentUser);
+  }
 
   async addPhoto(source: string) {
     if (source === "library") {

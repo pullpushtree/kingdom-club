@@ -1,16 +1,212 @@
-<ion-header>
+<ion-header class="header">
   <ion-toolbar>
-    <ion-title>profile</ion-title>
+    <ion-row>    
+
+      <ion-buttons >
+        <ion-button ion-button icon-only fill="clear">          
+        </ion-button>
+      </ion-buttons>
+      
+      <ion-buttons class="profile-edit-btn">
+        <ion-button (click)="editProfile()"  color="light" >
+          <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="ion-padding">
   <div class="flex">
-    <div class="img-box">
-      <img [src]="image">
+
+    <!-- main profile pictture -->
+    <div class="img-box"> 
+      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="like-btn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
     </div>
+
+    <!-- follow section -->
+    <div class="profile-contact-row">
+      <ion-row>
+        <div class="profile-lable-box-left">
+          <h4 class="profile-name-label">Serge Badio Jr</h4>
+          <p class="profile-username-label">@badledgends</p>
+        </div>
+
+        <div class="profile-label-follow-right">
+          <ion-button (click)="followProfile()"  shape="round" class="profile-follow-btn">Follow</ion-button>   
+        </div>
+      </ion-row>
+    </div>
+    
+    <!-- School info  -->
+    
+    <div class="text-card-school">
+
+      <ion-row class="profile-details">
+        <ion-col size="2">
+          <ion-icon name="book"></ion-icon>
+        </ion-col>
+        <ion-col size="10">
+          <p>School</p>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row class="profile-details">
+        <ion-col size="2">
+          <ion-icon name="ribbon"></ion-icon>
+        </ion-col>
+        <ion-col size="10">
+          <p>Program</p>
+        </ion-col>
+      </ion-row>
+      
+
+      <ion-row class="profile-details">
+        <ion-col size="2">          
+          <ion-icon name="school"></ion-icon>
+        </ion-col>
+        <ion-col size="10">
+          <p>Class off</p>
+        </ion-col>
+      </ion-row>
+      
+
+      <ion-row class="profile-details">
+        <ion-col size="2">
+          <ion-icon name="location"></ion-icon>
+        </ion-col>
+        <ion-col size="10">
+          <p>location</p>
+        </ion-col>
+      </ion-row>
+      
+    </div>    
+    
+    <!-- Sencond Image  -->
+
+    <div class="img-box"> 
+      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="like-btn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+    <!-- First Card Text Prompt  -->
+
+    <div class="text-card-prompt">
+
+      <ion-row class="profile-prompts-text">
+       <p>{{currentUser?.profileAnswer1.text}}</p>
+      </ion-row>
+      
+      <ion-row class="profile-prompts-asnwer">
+       <h3>{{currentUser?.profileAnswer1.answer}}</h3>
+      </ion-row> 
+
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-prompt" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="like-btn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row> 
+      
+    </div>
+
+    <div class="img-box"> 
+      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="like-btn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+    <!-- Second Card Text Prompt  -->
+
+    <div class="text-card-prompt">
+
+      <ion-row class="profile-prompts-text">
+       <p>{{currentUser?.profileAnswer2.text}}</p>
+      </ion-row>
+      
+      <ion-row class="profile-prompts-asnwer">
+       <h3>{{currentUser?.profileAnswer2.answer}}</h3>
+      </ion-row> 
+
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-prompt" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="like-btn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row> 
+      
+    </div>
+
+    <div class="img-box"> 
+      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="like-btn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+    <!-- Third Card Text Prompt  -->
+
+    <div class="text-card-prompt">      
+
+      <ion-row class="profile-prompts-text">
+       <p>{{currentUser?.profileAnswer3.text}}</p>
+      </ion-row>
+      
+      <ion-row class="profile-prompts-asnwer">
+       <h3>{{currentUser?.profileAnswer3.answer}}</h3>
+      </ion-row> 
+
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-prompt" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="like-btn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row> 
+      
+    </div>
+
+    <div class="img-box"> 
+      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="like-btn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
   </div>
-
-
+  
 </ion-content>
+
