@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chats',
@@ -10,18 +8,9 @@ import { Router } from '@angular/router';
 export class ChatsPage implements OnInit {
 
   constructor(
-    private aftauth: AngularFireAuth,
-    private router: Router
+    
   ) { }
 
   ngOnInit() {
   }
-
-  logout(){
-    this.aftauth.signOut()
-    .then(() => {
-      this.router.navigate(['/login']);
-    });
-  }
-
 }

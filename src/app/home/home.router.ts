@@ -27,6 +27,14 @@ const routes: Routes = [
                 loadChildren:() => import('../pages/profile/profile.module').then(m => m.ProfilePageModule)
             },
             {
+                path: 'profile/edit',
+                loadChildren: () => import('../pages/profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
+            },
+            {
+                path: 'prompts/:id',
+                loadChildren: () => import('../pages/prompts/prompts.module').then( m => m.PromptsPageModule)
+            },
+            {
                 path: 'settings',
                 loadChildren:() => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
             },
