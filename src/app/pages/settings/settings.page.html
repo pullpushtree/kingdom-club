@@ -4,6 +4,24 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content> 
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label>Set Dark Mode</ion-label>
+          <ion-toggle (ionChange)="onToggleColorTheme($event)"></ion-toggle>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label>Logout</ion-label>
+          <ion-button (click)="logout()">Logout</ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>  
+  </ion-grid>
 
 </ion-content>
