@@ -25,12 +25,21 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda&display=swap');
+
+// * {
+//     font-family: 'Bodoni Mada', serif;
+
+//     h1{
+//         font-size: 1.7rem;
+//         font-weight: bolder;
+//         letter-spacing: 1px;
+//     }
+// }
 
 .swiper-pagination{
     align-items: center;
-
 }
-
 .swiper-pagination-bullet{
     transition: width 0.2s ease-in-out, height 0.2s easy-in-out;
     background-color: #57429E;
