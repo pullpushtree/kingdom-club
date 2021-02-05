@@ -1,0 +1,25 @@
+
+.edit-prompt{
+     border: 2px grey dashed;
+     border-radius: 10px;    
+     margin-bottom: 10px;
+}
+
+ion-item {
+    ion-label{
+        .prompt-string{            
+            font-size: 14px  !important;
+            white-space: nowrap;  
+        } 
+    } 
+}
+    
+.prompt-string{
+    font-size: 4em !important;
+    font-size: 30px !important;
+    text-overflow: inherit;
+    overflow: inherit;
+    white-space: normal;
+}
+
+

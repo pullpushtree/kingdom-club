@@ -1,0 +1,70 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/profile"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>  
+  <div class="header-label ion-padding">
+    <h2>
+      Personalize <br />
+      your profile
+    </h2>
+  </div>
+
+  <ion-list class="ion-padding">
+
+    <div class="edit-prompt">
+      
+      <ion-item>
+        <ion-label class="prompt-string"   (click)="userSelectedQuestion($event)">
+          <h2 id="profileAnswer1" >{{profileQuestion1 != null ? profileQuestion1 : 'Select a prompt' }}  </h2>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="stacked">Write your answer</ion-label>        
+        <ion-textarea [(ngModel)]="profileAnswer1" type="text" autoGrow="true" maxlength="120" wrap="soft"  rows="1"
+        ></ion-textarea>
+      </ion-item>
+    </div>
+
+    <div class="edit-prompt">
+      
+      <ion-item>
+        <ion-label class="prompt-string"  (click)="userSelectedQuestion($event)">
+          <h2 id="profileAnswer2"> {{profileQuestion2 != null ? profileQuestion2 : 'Select a prompt' }} </h2>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="stacked">Write your answer</ion-label>        
+        <ion-textarea [(ngModel)]="profileAnswer2" type="text" autoGrow="true" maxlength="120" wrap="soft"  rows="1"
+        ></ion-textarea>
+      </ion-item>
+    </div>
+
+    <div class="edit-prompt">
+      
+      <ion-item>
+        <ion-label class="prompt-string"  (click)="userSelectedQuestion($event)">
+          <h2 id="profileAnswer3"> {{profileQuestion3 != null ? profileQuestion3 : 'Select a prompt' }} </h2>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="stacked">Write your answer</ion-label>        
+        <ion-textarea [(ngModel)]="profileAnswer3" type="text" autoGrow="true" maxlength="120" wrap="soft"  rows="1"
+        ></ion-textarea>
+      </ion-item>
+    </div>
+    
+  </ion-list>
+  
+  <ion-button class="ion-padding" (click)="saveSelectedProfileAnswers()"> Save</ion-button>
+
+</ion-content>
+
