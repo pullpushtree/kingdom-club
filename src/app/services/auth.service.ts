@@ -30,7 +30,7 @@ export class AuthService {
     private localStorageService: StorageService,
     
   ) {
-    this.user$= this.afAuth.authState.pipe(
+    this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if(user)
         { 
@@ -61,9 +61,7 @@ export class AuthService {
     this.afAuth.signInWithEmailAndPassword(email, password)   
     .then( async (data)=> {     
       this.localStorageService.set(AuthConstants.AUTH, JSON.stringify(data));
-      localStorage.setItem(AuthConstants.AUTH, JSON.stringify(data));      
-      
-      console.log("auth.service", data)
+      localStorage.setItem(AuthConstants.AUTH, JSON.stringify(data));                  
       if(!data.user.emailVerified)
       {        
         loading.dismiss();        
@@ -71,7 +69,7 @@ export class AuthService {
         this.logout();       
       
       } else { 
-        //If user profile value is not set send user to setpu page
+        //If user profile value is not set, send user to setup page
         //else send user to profile page  
         let docValRef = this.afs.collection('users').doc(`${data.user.uid}`).valueChanges()
         docValRef.subscribe((res) => {
