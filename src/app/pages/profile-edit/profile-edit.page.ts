@@ -7,7 +7,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
 import { ModalController, PopoverController } from "@ionic/angular";
 import { Observable } from "rxjs";
-import { SelectImageComponent } from "src/app/components/select-image/select-image.component";
+import { SelectImageComponent } from "../../components/select-image/select-image.component";
 import { AuthService } from "src/app/services/auth.service";
 import { ProfileSetupService } from "src/app/services/profile-setup.service";
 import { MediaService } from "../../services/media.service";
