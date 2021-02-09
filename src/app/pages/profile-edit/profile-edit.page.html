@@ -1,13 +1,14 @@
 <ion-header class="header">
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons >
       <ion-back-button defaultHref="home/profile"></ion-back-button>
     </ion-buttons>
+    <ion-button slot="end" (click)="saveSelectedProfileAnswers()"> Save</ion-button>
   </ion-toolbar>
 </ion-header>
 
 
-<ion-content>  
+<ion-content class="ion-padding">  
   <div class="header-label ion-padding">
     <h2>
       Personalize <br />
@@ -15,7 +16,93 @@
     </h2>
   </div>
 
-  <ion-list class="ion-padding">
+  <ion-button (click)="clearLocalStorage()"> Clear Local Storage</ion-button>
+  <div class="profilePicsGrid">
+    <ion-grid>
+
+      <ion-row>
+
+        <ion-col class="profilePicHolder">          
+          <div>
+            <img [src]="profilePic1 ? profilePic1 : image" 
+            (click)="createPopOver($event)" 
+            id="profilePic1" 
+            name="profilePic1"/>                
+          </div>     
+              
+          <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>                    
+        </ion-col>
+
+
+        <ion-col class="profilePicHolder">    
+          <div>            
+            <img [src]="profilePic2 ? profilePic2 : image"  
+            id="profilePic2"
+            (click)="createPopOver($event)" 
+             name="profilePic2" />    
+          </div>
+
+          <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+        </ion-col> 
+        
+        
+        <ion-col class="profilePicHolder">          
+          <div >
+            <img [src]="profilePic3 ? profilePic3 : image" 
+            id="profilePic3" 
+            (click)="createPopOver($event)" 
+            name="profilePic3"/>    
+          </div>
+         
+           <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+        </ion-col>
+        
+      </ion-row>
+
+      <ion-row>
+
+        <ion-col class="profilePicHolder" >
+          
+          <div >
+            <img [src]="profilePic4 ? profilePic4 : image" 
+            id="profilePic4" 
+            (click)="createPopOver($event)" 
+            name="profilePic4"/>    
+          </div>
+         
+           <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+
+        </ion-col>  
+        <ion-col class="profilePicHolder" >
+          
+          <div >
+            <img [src]="profilePic5 ? profilePic5 : image" 
+            id="profilePic5" 
+            (click)="createPopOver($event)" 
+            name="profilePic5"/>    
+          </div>
+         
+           <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+
+        </ion-col>  
+        <ion-col class="profilePicHolder"  >
+          
+          <div >            
+            <img [src]="profilePic6 ? profilePic6 : image" 
+            id="profilePic6" 
+            (click)="createPopOver($event)" 
+            name="profilePic6"/>    
+          </div>
+         
+           <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+        </ion-col>  
+       
+      </ion-row>   
+    </ion-grid>
+
+  </div>
+
+  <ion-list >
 
     <div class="edit-prompt">
       
@@ -64,7 +151,8 @@
     
   </ion-list>
   
-  <ion-button class="ion-padding" (click)="saveSelectedProfileAnswers()"> Save</ion-button>
+
 
 </ion-content>
+
 

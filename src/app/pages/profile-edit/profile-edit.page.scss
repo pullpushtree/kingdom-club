@@ -1,4 +1,133 @@
 
+.first{
+    border: 2px rgb(71, 25, 197) dashed;
+}
+.second{
+    border: 2px rgb(213, 53, 53) dashed;
+}
+
+.header-label{
+    h2{
+        font-family: Corbel;
+        font-weight: bold;
+        font-style: italic;
+        font-size: 25pt;        
+        margin-bottom: 5px;
+        letter-spacing: -1px;
+    }    
+    
+    p {
+        font-family: 'Segoe UI';
+        //font-weight: bold;
+        font-size: 16;
+        margin-top: 5px;        
+        padding-bottom: 50px;
+    }
+}
+
+.profilePicsGrid{
+    border: 2px grey dashed;
+    //align-self:center;
+    //align-self: stretch;
+   
+
+}
+
+.profilePicHolder{
+    border: 2px grey dashed;
+    margin: 2px;
+    // width: 33vm;
+    // height: 33vm;
+    // width: calc(100% - 16px);
+    // height: calc(100% - 16px);   
+    border-radius: 10px;
+    background-color: lightgray;
+    position: relative;
+    vertical-align: middle;
+    align-self: stretch;
+
+    .content { 
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        max-height: width;
+    }
+    &:after{
+        //content:'';
+        //display: block;
+        //padding-top: 100%;
+        
+    }
+    div{        
+        //height: 100%;
+        //width: 100%;
+        border: 2px rgb(81, 8, 150) dashed;
+    }
+
+}
+
+//  .delete-btn {
+//     //position: relative;
+//    // background-color: "red";
+// //    border-radius: "100%";
+//    // color: "white";
+//     //width: 52;
+//     position: absolute;
+//   top: 0;
+//   right: 0;
+// }
+
+
+#gradient-btn{
+    --background: linear-gradient(
+        90deg,
+        rgba(5,0,68,1) 0%, 
+        rgba(87,66,158,0.51) 57%, 
+        rgba(60,115,209,1) 100%);
+    }
+
+    #onboarding-btn{
+        color: #57429E;
+}
+
+
+.delete-btn {
+    display: none;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    border-radius: 10em;
+    padding: 2px 6px 3px;
+    text-decoration: none;
+    font: 700 21px/20px sans-serif;    
+    background:  rgba(87,66,158,1);
+//    rgba(5,0,68,1);   
+//     rgba(60,115,209,1);
+    border: 3px solid #fff;
+    color: #FFF;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    -webkit-transition: background 0.5s;
+    transition: background 0.5s;
+    z-index: 100;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .edit-prompt{
      border: 2px grey dashed;
      border-radius: 10px;    

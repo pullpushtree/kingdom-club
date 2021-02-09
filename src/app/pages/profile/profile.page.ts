@@ -12,6 +12,8 @@ export class ProfilePage implements OnInit {
   
   currentUser: any;
   user:any;
+
+  image = "https://dummyimage.com/400";
   
   constructor( 
     private router: Router,

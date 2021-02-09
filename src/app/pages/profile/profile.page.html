@@ -19,9 +19,9 @@
 <ion-content class="ion-padding">
   <div class="flex">
 
-    <!-- main profile pictture -->
-    <div class="img-box"> 
-      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+    <!-- main profile picture -->
+    <div class="img-box">
+      <img src="{{currentUser?.profilePic1 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
         <ion-input class="input-pic" placeholder="Write something"></ion-input>        
@@ -90,10 +90,10 @@
       
     </div>    
     
-    <!-- Sencond Image  -->
+    <!-- Second Image  -->
 
     <div class="img-box"> 
-      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+      <img src="{{currentUser?.profilePic2 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
         <ion-input class="input-pic" placeholder="Write something"></ion-input>        
@@ -126,8 +126,10 @@
       
     </div>
 
+    <!-- Third Image  -->
+
     <div class="img-box"> 
-      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+      <img src="{{currentUser?.profilePic3 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
         <ion-input class="input-pic" placeholder="Write something"></ion-input>        
@@ -160,8 +162,10 @@
       
     </div>
 
+    <!-- Fourth Image  -->
+
     <div class="img-box"> 
-      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+      <img src="{{currentUser?.profilePic4 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
         <ion-input class="input-pic" placeholder="Write something"></ion-input>        
@@ -194,8 +198,10 @@
       
     </div>
 
+    <!-- Fifth Image  -->
+
     <div class="img-box"> 
-      <img src="{{currentUser?.photoURL}}" class="profile-img">       
+      <img src="{{currentUser?.profilePic5 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
         <ion-input class="input-pic" placeholder="Write something"></ion-input>        
@@ -206,7 +212,24 @@
       </ion-row>
     </div>
 
+     <!-- Sixth Image  -->
+
+    <div class="img-box"> 
+      <img src="{{currentUser?.profilePic6 || image }}" class="profile-img">       
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="like-btn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+
   </div>
+
+  
   
 </ion-content>
 
