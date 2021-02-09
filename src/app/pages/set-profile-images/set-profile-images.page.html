@@ -14,12 +14,12 @@
     </h2>
   </div>
 
-  <ion-button (click)="addPhoto('library')" shape="round" color="primary">
+  <ion-button (click)="addPhotoAction('library')" shape="round" color="primary">
     <ion-icon slot="start" name="image"></ion-icon>
     Library
   </ion-button>
 
-  <ion-button (click)="addPhoto('camera')" shape="round" color="tertiary">
+  <ion-button (click)="addPhotoAction('camera')" shape="round" color="tertiary">
     <ion-icon slot="start" name="camera"></ion-icon>
     Camera
   </ion-button>
@@ -30,5 +30,5 @@
     </div>
   </div>
 
-  <ion-button (click)="uploadFirebase()" shape="round" class="gradient-btn next-btn">Complete</ion-button>
+  <ion-button (click)="uploadFirebaseAction()" shape="round" class="gradient-btn next-btn">Complete</ion-button>
 </ion-content>
