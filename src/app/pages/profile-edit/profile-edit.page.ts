@@ -4,7 +4,7 @@ import {
   OnInit,  
 } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Router } from "@angular/router";
+import { NavigationEnd, Router, RoutesRecognized } from "@angular/router";
 import { ModalController, PopoverController } from "@ionic/angular";
 import { Observable } from "rxjs";
 import { SelectImageComponent } from "../../components/select-image/select-image.component";
@@ -30,8 +30,8 @@ export class ProfileEditPage implements OnInit {
   
   image = "https://dummyimage.com/100";
 
-  profilePic1: Observable<any>;
-  profilePic2: string;
+  profilePic1: string;
+  profilePic2: string; 
   profilePic3: string;
   profilePic4: string;
   profilePic5: string;
@@ -59,99 +59,61 @@ export class ProfileEditPage implements OnInit {
   ngOnInit() {    
     this.afauthSrv.user$.subscribe((user) => {
       this.currentUser = user; 
-      console.log("profile-edit.ts ngOnInit()", this.currentUser)      
       
-      this.profileQuestion1 = this.currentUser.profileAnswer1.text
-      this.profileQuestion2 = this.currentUser.profileAnswer2.text
-      this.profileQuestion3 = this.currentUser.profileAnswer3.text
+      this.profileQuestion1 = this.currentUser.profileAnswer1.text;
+      this.profileQuestion2 = this.currentUser.profileAnswer2.text;
+      this.profileQuestion3 = this.currentUser.profileAnswer3.text;
 
-      this.profileAnswer1 = this.currentUser.profileAnswer1.answer      
-      this.profileAnswer2 = this.currentUser.profileAnswer2.answer
-      this.profileAnswer3 = this.currentUser.profileAnswer3.answer
+      this.profileAnswer1 = this.currentUser.profileAnswer1.answer;      
+      this.profileAnswer2 = this.currentUser.profileAnswer2.answer;
+      this.profileAnswer3 = this.currentUser.profileAnswer3.answer;  
 
-      this.profilePic1 = this.currentUser.profilePic1
-      this.profilePic2 = this.currentUser.profilePic2
-      this.profilePic3 = this.currentUser.profilePic3
-      this.profilePic4 = this.currentUser.profilePic4
-      this.profilePic5 = this.currentUser.profilePic5
-      this.profilePic6 = this.currentUser.profilePic6
+      this.profilePic1 = this.currentUser.profilePic1 ? this.currentUser.profilePic1 : this.image;
+      this.profilePic2 = this.currentUser.profilePic2 ? this.currentUser.profilePic2 : this.image;
+      this.profilePic3 = this.currentUser.profilePic3 ? this.currentUser.profilePic3 : this.image;
+      this.profilePic4 = this.currentUser.profilePic4 ? this.currentUser.profilePic4 : this.image;
+      this.profilePic5 = this.currentUser.profilePic5 ? this.currentUser.profilePic5 : this.image;
+      this.profilePic6 = this.currentUser.profilePic6 ? this.currentUser.profilePic6 : this.image;
 
+     // console.log(" ngOnInit() PRINTING THE VALUE OF THIS.PROFILEPIC1 FRON NGONINIT() VALUE : ", this.profilePic1)
     });
   }
 
 
-  clearLocalStorage(){   
-   localStorage.removeItem('newImage')
-   localStorage.removeItem('picSelectedHolder')
-    console.log("LOCAL STORAGE WAS CLEARED!!!!");
-  }
-
-  ionViewWillEnter() {
-    this.data = this.profSrv.getProfData();
-
-    if (this.data != null || undefined) {
-      if (this.data.id == "profileAnswer1") {
-        this.profileQuestion1 = this.data.text;
-      } else if (this.data.id == "profileAnswer2") {
-        this.profileQuestion2 = this.data.text;
-      } else if (this.data.id == "profileAnswer3") {
-        this.profileQuestion3 = this.data.text;
-      } else {
-        return;
-      }
-    }     
-    
-    console.log("1WillEnter")
-    console.log("IONVIEW LOADED")
-  }
+  clearLocalStorage(){ 
   
+    localStorage.removeItem('profilePic1');
+    localStorage.removeItem('profilePic2');
+    localStorage.removeItem('profilePic3');
+    localStorage.removeItem('profilePic4');
+    localStorage.removeItem('profilePic5');
+    localStorage.removeItem('profilePic6');
+    localStorage.removeItem('picSelectedHolder');
+    localStorage.removeItem('newImage');
+    }
+ 
 
-  async showModal(){
-    const modal = await this.modalCtrl.create({
-      component:  SelectImageComponent,
-      componentProps: {
-        data: 5
-      }
-    })
-    await modal.present();
-    modal.onDidDismiss().then(res => alert(JSON.stringify(res)))
-  
-  }
 
-  createPopOver(ev: any){
-    console.log("^ event value : " + JSON.stringify(ev.target.value))
-
-    if(!ev.target.id == null || !ev.target.id == undefined || ev.target.id !== '' )  {      
+  async createPopOver(ev: any){
+      if (!ev.target.id == null || !ev.target.id == undefined || ev.target.id !== '' )  {      
       localStorage.setItem('picSelectedHolder', ev.target.id); 
 
-      console.log("^ TARGE.ID : " + ev.target.id + '\n' + " & PATH.ID : " + ev.path[1].id);
-      console.log("^ TARGET.ID was used profile-edit.page.ts creaePopOver() : ", ev.target.id) 
-
-    } else if  (!ev.path[1].id === null || !ev.path[1].id === undefined || ev.path[1].id !== '') {
-      localStorage.setItem('picSelectedHolder', ev.path[1].id);   
-
-      console.log("^ TARGE.ID : " + ev.target.id + '\n' + " & PATH.ID : " + ev.path[1].id);
-      console.log("^ PATH.ID was used profile-edit.ts createPopOver() : ", ev.path[1].id)
-
-    } else {
-      console.log("^ TARGE.ID : " + ev.target.id + '\n' + " & PATH.ID : " + ev.path[1].id);      
-      console.log("^ ev.target.id + ev.path[1].id value : ", ev.target.id + ev.path[1].id  )
-    }       
+    } else{
+      console.log("event target didn't set any id");
+    }
     
-    
-    this.popoverCtrl.create({
-      component: SelectImageComponent, showBackdrop: true
+    await this.popoverCtrl.create({
+      component: SelectImageComponent, showBackdrop: true,
     })
     .then((popoverElement) =>{
-      popoverElement.present();
+      return popoverElement.present();
     })
   }
 
 
-   deletePic(ev: any){
-    console.log("delete clicked ev value : ", ev)
-    console.log("delete clicked ev.target.id value : ", ev.target.id)
-    console.log("deletePic clicked")
+   async deletePic(ev: any){
+    localStorage.setItem('picSelectedHolder', ev.target.id);
+    await this.media.delete()
   }
 
   userSelectedQuestion(ev: any) {    
