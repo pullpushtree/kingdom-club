@@ -18,12 +18,12 @@ import { AuthService } from "./auth.service";
 export class MediaService {
   currentUser: any;
 
-  photos: any[] = [];
-  base64Image: string;
   image = "https://dummyimage.com/300";
   imagePath: string;
   imageUpload: any;
 
+  picData: any;
+  imgURL: any;
 
   profilePic1: string;
   profilePic2: string;
@@ -31,9 +31,9 @@ export class MediaService {
   profilePic4: string;
   profilePic5: string;
   profilePic6: string;
-
+  
   constructor(
-    public camera: Camera,
+    private camera: Camera,
     private loadingCtrl: LoadingController,
     private router: Router,
     private afauthSrv: AuthService,
@@ -45,118 +45,144 @@ export class MediaService {
   ) {
     this.afauthSrv.user$.subscribe((user) => {
       this.currentUser = user; 
-      console.log("media.service.ts constructor", this.currentUser)      
-      this.profilePic1 = this.currentUser.photoURL
+      //console.log("media.service.ts constructor", this.currentUser)
     })
 
   }
 
+  async upload(){    
+    const getImageSlot = localStorage.getItem('picSelectedHolder');  
+
+    this.imagePath = `profilePicture/${this.currentUser.uid}_`+ new Date().getTime() +'.jpg';
+    let ref = await this.afStore.ref(this.imagePath).putString(this.picData, 'data_url')
+      .then((res) => {
+        const bootlegt = res.ref.getDownloadURL();
+        
+
+        bootlegt.then(res => {
+          this.imgURL = res;
+          if(getImageSlot == 'profilePic1'){
+
+            localStorage.setItem('profilePic1', this.imgURL)  
+            this.profilePic1 = this.imgURL;              
+             //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePic1 : this.imgURL });              
+             this.afs.collection("users").doc(this.currentUser.uid)
+             .set({ 
+              profilePic1 : this.imgURL,
+              profilePics: { profilePic1 : this.imgURL }
+              
+              }, {merge : true})  
+           } 
+           else if (getImageSlot == 'profilePic2') 
+           {
+            localStorage.setItem('profilePic2', this.imgURL)  
+            this.profilePic2 = this.imgURL;
+            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic2 : this.imgURL } });
+            this.afs.collection("users").doc(this.currentUser.uid)
+            .set({ 
+              profilePic2 : this.imgURL,
+              profilePics: { profilePic2 : this.imgURL },
+              
+             }, {merge : true})  
+           } 
+           else if (getImageSlot == 'profilePic3') 
+           {
+            localStorage.setItem('profilePic3', this.imgURL)  
+            this.profilePic3 = this.imgURL;            
+            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic3 : this.imgURL } });
+            this.afs.collection("users").doc(this.currentUser.uid)
+            .set({ 
+              profilePic3 : this.imgURL,
+              profilePics: { profilePic3 : this.imgURL },
+              
+             },  {merge : true})
+           } 
+           else if (getImageSlot == 'profilePic4') 
+           {
+            localStorage.setItem('profilePic4', this.imgURL)  
+            this.profilePic4 = this.imgURL;            
+            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic4 : this.imgURL } });
+            this.afs.collection("users").doc(this.currentUser.uid)
+            .update({ 
+              profilePic4 : this.imgURL,
+              profilePics: { profilePic4 : this.imgURL },
+              
+             })
+             
+           } 
+           else if (getImageSlot == 'profilePic5') 
+           {
+            localStorage.setItem('profilePic5', this.imgURL)  
+            this.profilePic5 = this.imgURL;            
+            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic5 : this.imgURL } });
+            this.afs.collection("users").doc(this.currentUser.uid)
+            .update({ 
+              profilePic5 : this.imgURL,
+              profilePics: { profilePic5 : this.imgURL },
+              
+             })
+           } 
+           else if (getImageSlot == 'profilePic6') 
+           {
+            localStorage.setItem('profilePic6', this.imgURL)  
+            this.profilePic6 = this.imgURL;            
+            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic6 : this.imgURL } });
+            this.afs.collection("users").doc(this.currentUser.uid)
+            .update({ 
+              profilePic6 : this.imgURL,
+              profilePics: { profilePic6 : this.imgURL },
+              
+             })
+           }
+           else 
+           {
+             console.log("error profilePic selected slot didn't work. Try again")
+             return;
+           }
+           
+           
+          }).catch((error) => {
+            console.error(error);      
+          });
+
+
+    }).catch((error) => {
+      this.popover.dismiss();
+      console.error(error);      
+    });
+
+  } 
+
   async addPhoto(source: string) {
     if (source === "library") {
+      await this.openLibrary()
+      .then((imgData) => {         
+        this.picData = "data:image/jpg;base64," + imgData; 
+        
+        this.upload();
 
-
-      const libraryImage = await this.openLibrary();
-      this.base64Image = "data:image/jpg;base64," + libraryImage;
-
-      const getImageSlot = localStorage.getItem('picSelectedHolder');
-      this.checkPicPlacehodlerSlot(getImageSlot)      
-      //this.popover.dismiss();
+      }).catch((error) => {
+        this.popover.dismiss();
+        console.error(error);      
+      });
+      
+      this.popover.dismiss();
+      
       
     } else {
-      const cameraPhoto = await this.openCamera();
-      this.base64Image = "data:image/jpg;base64," + cameraPhoto;           
-      
-      const getImageSlot = localStorage.getItem('picSelectedHolder');
-      this.checkPicPlacehodlerSlot(getImageSlot)
-    }
-  }
-  async checkPicPlacehodlerSlot(slot: string){
+      await this.openCamera()
+      .then((imgData) => {         
+        this.picData = "data:image/jpg;base64," + imgData; 
+        
+        this.upload();
 
-    const getImageSlot = slot
-    try {
-      if (getImageSlot == 'profilePic1'){        
-        await this.afs.doc(`users/${this.currentUser.uid}`)
-        .update({           
-          photoURL : this.base64Image,
-          profilePic1 : this.base64Image
-        })
-
-        if(this.currentUser.profilePic1 != null || this.currentUser.profilePic1 != undefined ){         
-          this.profilePic1 = this.currentUser.profilePic1         
-        } else {         
-          this.profilePic1 = this.base64Image;
-        }        
-        this.popover.dismiss(); 
-      } 
-      else if (getImageSlot == 'profilePic2'){
-        this.afs.doc(`users/${this.currentUser.uid}`)
-        .update({ profilePic2 : this.base64Image})        
-
-        if(this.currentUser.profilePic2 != null || this.currentUser.profilePic2 != undefined ){
-          this.profilePic2 = this.currentUser.profilePic2
-        } else {          
-          this.profilePic2 = this.base64Image;
-        }        
+      }).catch((error) => {
         this.popover.dismiss();
-      } 
-      else if (getImageSlot == 'profilePic3')
-      {        
-        this.afs.doc(`users/${this.currentUser.uid}`)
-        .update({ profilePic3 : this.base64Image})
-
-        if(this.currentUser.profilePic3 != null || this.currentUser.profilePic3 != undefined ){         
-          this.profilePic3 = this.currentUser.profilePic3
-        } else {          
-          this.profilePic3 = this.base64Image;
-        }
-        this.popover.dismiss()
-      } 
-      else if (getImageSlot == 'profilePic4'){        
-        this.afs.doc(`users/${this.currentUser.uid}`)
-        .update({ profilePic4 : this.base64Image})
-
-        if(this.currentUser.profilePic4 != null || this.currentUser.profilePic4 != undefined ){          
-          this.profilePic4 = this.currentUser.profilePic4
-        } else {          
-          this.profilePic4 = this.base64Image;
-        }
-        this.popover.dismiss()        
-      } 
-      else if (getImageSlot == 'profilePic5'){
-        this.afs.doc(`users/${this.currentUser.uid}`)
-        .update({ profilePic5 : this.base64Image})
-
-        if(this.currentUser.profilePic5 != null || this.currentUser.profilePic5 != undefined ){          
-          this.profilePic5 = this.currentUser.profilePic5
-        } else {          
-          this.profilePic5 = this.base64Image;
-        }
-        this.popover.dismiss()        
-      } 
-      else if (getImageSlot == 'profilePic6'){
-        this.afs.doc(`users/${this.currentUser.uid}`)
-        .update({ profilePic6 : this.base64Image})
-
-        if(this.currentUser.profilePic6 != null || this.currentUser.profilePic6 != undefined ){          
-          this.profilePic6 = this.currentUser.profilePic6
-        } else {          
-          this.profilePic6 = this.base64Image;
-        }
-        this.popover.dismiss()        
-      }
-      else {
-        this.popover.dismiss()
-        console.log("COULDNT GET SLOT FROM LOCAL STORAGE. SOMETHING WENT WRONG")
-      }
-    } 
-    catch {
-      this.popover.dismiss()
-      console.log("COULDNT SAVE IMAGE. SOMETHING WENT WRONG")
+        console.error(error);      
+      });
+      this.popover.dismiss();
     }
-
   }
-  
-
 
   async openLibrary() {
     const options: CameraOptions = {
@@ -249,6 +275,82 @@ export class MediaService {
       duration: 2000,
     });
     toast.present();
+  }
+
+  async delete(){
+    const getImageSlot = localStorage.getItem('picSelectedHolder');      
+
+    if(getImageSlot == 'profilePic1'){
+      localStorage.setItem('profilePic1', '')  
+       this.profilePic1 = this.image; 
+       this.afs.collection("users").doc(this.currentUser.uid)
+       .set({ 
+        profilePic1 : '',
+        profilePics: { profilePic1 : '' }
+        
+        }, {merge:true})  
+     } 
+     else if (getImageSlot == 'profilePic2') 
+     {
+      localStorage.setItem('profilePic2', '')  
+      this.profilePic2 = this.image;            
+      
+      this.afs.collection("users").doc(this.currentUser.uid)
+      .set({ 
+        profilePic2 : '',
+        profilePics: { profilePic2 : '' }        
+       }, {merge:true})  
+     } 
+      
+     else if (getImageSlot == 'profilePic3') 
+     {
+      localStorage.setItem('profilePic3', '')  
+      this.profilePic3 = this.image;            
+      
+      this.afs.collection("users").doc(this.currentUser.uid)
+      .set({ 
+        profilePic3 : '',
+        profilePics: { profilePic3 : '' }        
+       }, {merge:true})  
+     } 
+      
+     else if (getImageSlot == 'profilePic4') 
+     {
+      localStorage.setItem('profilePic4', '')  
+      this.profilePic4 = this.image;           
+     
+      this.afs.collection("users").doc(this.currentUser.uid)
+      .update({ 
+        profilePic4 : '',
+        profilePics: { profilePic4 : '' },
+        
+       })  
+     } 
+      
+     else if (getImageSlot == 'profilePic5') 
+     {
+      localStorage.setItem('profilePic5', '')  
+      this.profilePic5 = this.image;            
+      
+      this.afs.collection("users").doc(this.currentUser.uid)
+      .update({ 
+        profilePic5 : '',
+        profilePics: { profilePic5 : '' },
+        
+       })  
+     }  
+     else if (getImageSlot == 'profilePic6') 
+     {
+      localStorage.setItem('profilePic6', '')  
+      this.profilePic6 = this.image;            
+     
+      this.afs.collection("users").doc(this.currentUser.uid)
+      .update({ 
+        profilePic6 : '',
+        profilePics: { profilePic6 : '' },
+        
+       })  
+     } 
   }
 }
 
