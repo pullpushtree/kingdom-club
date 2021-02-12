@@ -17,20 +17,19 @@
   </div>
 
   <ion-button (click)="clearLocalStorage()"> Clear Local Storage</ion-button>
+  <br/><br/><br/>
   <div class="profilePicsGrid">
     <ion-grid>
 
-      <ion-row>
-
-        <ion-col class="profilePicHolder">          
-          <div>
-            <img [src]="profilePic1 ? profilePic1 : image" 
+      <ion-row >
+        <ion-col class="profilePicHolder">   
+            <img  [src]="profilePic1 ? profilePic1 : image" 
             (click)="createPopOver($event)" 
-            id="profilePic1" 
+            id="profilePic1"
+            class="center" 
             name="profilePic1"/>                
-          </div>     
               
-          <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>                    
+          <a class="delete-btn" (click)="deletePic($event)" id="profilePic1" style="display: inline;">&#215;</a>                    
         </ion-col>
 
 
@@ -39,10 +38,11 @@
             <img [src]="profilePic2 ? profilePic2 : image"  
             id="profilePic2"
             (click)="createPopOver($event)" 
+            class="center"
              name="profilePic2" />    
           </div>
 
-          <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+          <a class="delete-btn" (click)="deletePic($event)" id="profilePic2" style="display: inline;">&#215;</a>
         </ion-col> 
         
         
@@ -54,7 +54,7 @@
             name="profilePic3"/>    
           </div>
          
-           <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+           <a class="delete-btn" (click)="deletePic($event)" id="profilePic3" style="display: inline;">&#215;</a>
         </ion-col>
         
       </ion-row>
@@ -70,7 +70,7 @@
             name="profilePic4"/>    
           </div>
          
-           <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+           <a class="delete-btn" (click)="deletePic($event)" id="profilePic4" style="display: inline;">&#215;</a>
 
         </ion-col>  
         <ion-col class="profilePicHolder" >
@@ -82,7 +82,7 @@
             name="profilePic5"/>    
           </div>
          
-           <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+           <a class="delete-btn" (click)="deletePic($event)" id="profilePic5" style="display: inline;">&#215;</a>
 
         </ion-col>  
         <ion-col class="profilePicHolder"  >
@@ -94,7 +94,7 @@
             name="profilePic6"/>    
           </div>
          
-           <a class="delete-btn" (click)="deletePic($event)" style="display: inline;">&#215;</a>
+           <a class="delete-btn" (click)="deletePic($event)" id="profilePic6" style="display: inline;">&#215;</a>
         </ion-col>  
        
       </ion-row>   

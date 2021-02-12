@@ -15,7 +15,7 @@ export class SelectImageComponent implements OnInit {
     private media: MediaService
   ) {}
   ngOnInit() {}
-  async addPhotoAction(source) {
+  async addPhotoAction(source: string) {
     console.log("source", source);
     return await this.media.addPhoto(source);    
   }
