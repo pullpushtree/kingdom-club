@@ -18,6 +18,9 @@
 
   <ion-button (click)="clearLocalStorage()"> Clear Local Storage</ion-button>
   <br/><br/><br/>
+ 
+ <!-- Profile Picture Grid -->
+
   <div class="profilePicsGrid">
     <ion-grid>
 
@@ -101,6 +104,54 @@
     </ion-grid>
 
   </div>
+
+  <!-- School Details Section -->
+
+  <form>
+    <ion-list>
+      <!-- School Name  -->
+      <ion-item *ngIf="!showSearchBar"  >
+        <ion-label position="floating">School</ion-label>
+        <ion-input type="text" name="searchTerm" (click)="showSchoolField($event)"
+        [(ngModel)]="searchTerm"></ion-input>          
+      </ion-item>
+
+      <!-- searchbar  -->
+      <ion-searchbar *ngIf="showSearchBar" name="searchTerm" [(ngModel)]="searchTerm"  
+      (input)="filterList($event)" type="text" debounce="200" >      
+      </ion-searchbar>
+
+      <!-- shearcbar list -->
+      <ion-list *ngIf="showList" style="width: 100%; "> 
+        <ion-item class="ddlSchoolItems" *ngFor="let school of schoolList" 
+        (click)="schoolSelected($event)">
+          <li> {{school.name}}</li>          
+        </ion-item> 
+      </ion-list>
+     
+    <!-- Program of study> -->
+
+      <ion-item>
+        <ion-label position="floating">Program of Study</ion-label>
+        <ion-input type="text" name="program" [(ngModel)]="program"></ion-input>
+      </ion-item>
+
+      <!-- Class off -->
+
+      <ion-item>
+        <ion-label position="floating">Class off</ion-label>
+        <ion-datetime displayFormat="YYYY" pickerFormat="MMMM DD YYYY" name="year" [(ngModel)]="year"></ion-datetime>          
+        <!-- <ion-input type="text" name="year" [(ngModel)]="year"></ion-input> -->
+      </ion-item>
+
+      <!-- Location -->
+      
+      <ion-item>
+        <ion-label position="floating">Location</ion-label>
+        <ion-input type="text" name="location" [(ngModel)]="location"></ion-input>
+      </ion-item>  
+    </ion-list>
+  </form>
 
   <ion-list >
 

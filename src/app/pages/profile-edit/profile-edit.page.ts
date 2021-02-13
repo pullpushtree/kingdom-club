@@ -1,16 +1,15 @@
-import { 
+import {   
   Component,
   Input,
   OnInit,  
 } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { NavigationEnd, Router, RoutesRecognized } from "@angular/router";
+import { Router } from "@angular/router";
 import { ModalController, PopoverController } from "@ionic/angular";
-import { Observable } from "rxjs";
 import { SelectImageComponent } from "../../components/select-image/select-image.component";
 import { AuthService } from "src/app/services/auth.service";
-import { ProfileSetupService } from "src/app/services/profile-setup.service";
 import { MediaService } from "../../services/media.service";
+import { first } from "rxjs/operators";
 
 
 @Component({
@@ -19,7 +18,7 @@ import { MediaService } from "../../services/media.service";
   styleUrls: ["./profile-edit.page.scss"],
 })
 export class ProfileEditPage implements OnInit {
-  @Input() text: string;
+  @Input() text: string;  
   
   currentUser: any;
   user: any;
@@ -27,7 +26,6 @@ export class ProfileEditPage implements OnInit {
 
   photos: string[];
 
-  
   image = "https://dummyimage.com/100";
 
   profilePic1: string;
@@ -37,26 +35,31 @@ export class ProfileEditPage implements OnInit {
   profilePic5: string;
   profilePic6: string;
 
+  searchTerm: string;  
+  school: any;  
+  schoolList: any;
+  showSearchBar: boolean = false;
+  showList: boolean = false;
+
   profileQuestion1: string;
   profileQuestion2: string;
   profileQuestion3: string;
 
   profileAnswer1: string;
   profileAnswer2: string;
-  profileAnswer3: string;
+  profileAnswer3: string;  
 
   constructor(
     private router: Router,
     private afauthSrv: AuthService,
-    private afs: AngularFirestore,
-    private profSrv: ProfileSetupService,
-    private modalCtrl: ModalController,
+    private afs: AngularFirestore,   
     private popoverCtrl: PopoverController,
     private media: MediaService,
   ) { 
   }
 
-  ngOnInit() {    
+  async ngOnInit() {
+    this.schoolList = await this.initializeSchoolDirectory();
     this.afauthSrv.user$.subscribe((user) => {
       this.currentUser = user; 
       
@@ -73,13 +76,10 @@ export class ProfileEditPage implements OnInit {
       this.profilePic3 = this.currentUser.profilePic3 ? this.currentUser.profilePic3 : this.image;
       this.profilePic4 = this.currentUser.profilePic4 ? this.currentUser.profilePic4 : this.image;
       this.profilePic5 = this.currentUser.profilePic5 ? this.currentUser.profilePic5 : this.image;
-      this.profilePic6 = this.currentUser.profilePic6 ? this.currentUser.profilePic6 : this.image;
-
-     // console.log(" ngOnInit() PRINTING THE VALUE OF THIS.PROFILEPIC1 FRON NGONINIT() VALUE : ", this.profilePic1)
+      this.profilePic6 = this.currentUser.profilePic6 ? this.currentUser.profilePic6 : this.image;      
+      
     });
   }
-
-
   clearLocalStorage(){ 
   
     localStorage.removeItem('profilePic1');
@@ -90,16 +90,15 @@ export class ProfileEditPage implements OnInit {
     localStorage.removeItem('profilePic6');
     localStorage.removeItem('picSelectedHolder');
     localStorage.removeItem('newImage');
-    }
- 
-
+    localStorage.removeItem('schoolSelected');
+  }
 
   async createPopOver(ev: any){
       if (!ev.target.id == null || !ev.target.id == undefined || ev.target.id !== '' )  {      
       localStorage.setItem('picSelectedHolder', ev.target.id); 
 
     } else{
-      console.log("event target didn't set any id");
+      console.log("event target didn't set any profile slot id");
     }
     
     await this.popoverCtrl.create({
@@ -110,10 +109,49 @@ export class ProfileEditPage implements OnInit {
     })
   }
 
-
-   async deletePic(ev: any){
+  async deletePic(ev: any){
     localStorage.setItem('picSelectedHolder', ev.target.id);
-    await this.media.delete()
+    await this.media.delete();
+  }
+
+  async initializeSchoolDirectory(): Promise<any>{
+     this.schoolList = await this.afs.collection('schools').valueChanges()
+    .pipe(first()).toPromise();    
+    return this.schoolList;  
+  }
+
+  showSchoolField(){    
+    this.showSearchBar=true;
+    
+    if(this.searchTerm == undefined) {
+      this.showList = false;      
+    } else {
+      this.showList = true;      
+    }    
+  }
+
+ async filterList(ev: any){
+     this.showList = true;
+     this.schoolList = await this.initializeSchoolDirectory();
+     
+    this.searchTerm = ev.srcElement.value;
+    
+    if (!this.searchTerm){      
+      this.showList = false;
+      return;
+    }
+   this.schoolList = this.schoolList.filter(currentSchool => {     
+      if( currentSchool.name && this.searchTerm){
+        return (currentSchool.name.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1)
+      }
+    });
+  }
+
+  schoolSelected(ev: any) :void {
+    this.school = this.schoolList;
+    this.searchTerm = ev.target.innerText;
+    this.showList = false;
+    this.showSearchBar=false;   
   }
 
   userSelectedQuestion(ev: any) {    
