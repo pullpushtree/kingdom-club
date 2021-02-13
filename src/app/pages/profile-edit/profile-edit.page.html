@@ -123,7 +123,7 @@
 
       <!-- shearcbar list -->
       <ion-list *ngIf="showList" style="width: 100%; "> 
-        <ion-item class="ddlSchoolItems" *ngFor="let school of schoolList" 
+        <ion-item class="ddlSelectItems" *ngFor="let school of schoolList" 
         (click)="schoolSelected($event)">
           <li> {{school.name}}</li>          
         </ion-item> 
@@ -131,10 +131,25 @@
      
     <!-- Program of study> -->
 
-      <ion-item>
+      <ion-item *ngIf="!showProgramSearchBar" class="ddlProgramTraditionalInput">
         <ion-label position="floating">Program of Study</ion-label>
-        <ion-input type="text" name="program" [(ngModel)]="program"></ion-input>
+        <ion-input type="text" name="programSearchTerm" (click)="showProgramField($event)"
+        [(ngModel)]="programSearchTerm"></ion-input>
       </ion-item>
+
+      <!-- program searchbar  -->
+      <ion-searchbar *ngIf="showProgramSearchBar" name="programSearchTerm" 
+      class="ddlProgramSearchBar"
+      [(ngModel)]="programSearchTerm"  (input)="filterProgramList($event)" type="text" debounce="200" >      
+      </ion-searchbar>
+
+      <!-- program shearcbar list -->
+      <ion-list *ngIf="showProgramList" style="width: 100%; "> 
+        <ion-item class="ddlSelectItems" *ngFor="let program of programList" 
+        (click)="programSelected($event)">
+          <li> {{program.name}}</li>          
+        </ion-item> 
+      </ion-list>
 
       <!-- Class off -->
 

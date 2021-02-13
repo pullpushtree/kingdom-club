@@ -41,6 +41,12 @@ export class ProfileEditPage implements OnInit {
   showSearchBar: boolean = false;
   showList: boolean = false;
 
+  programSearchTerm: string;  
+  program: any;
+  programList: any;
+  showProgramSearchBar: boolean = false;
+  showProgramList: boolean = false;
+
   profileQuestion1: string;
   profileQuestion2: string;
   profileQuestion3: string;
@@ -60,6 +66,8 @@ export class ProfileEditPage implements OnInit {
 
   async ngOnInit() {
     this.schoolList = await this.initializeSchoolDirectory();
+    this.programList = await this.initializeProgramDirectory();    
+
     this.afauthSrv.user$.subscribe((user) => {
       this.currentUser = user; 
       
@@ -129,30 +137,70 @@ export class ProfileEditPage implements OnInit {
       this.showList = true;      
     }    
   }
-
- async filterList(ev: any){
-     this.showList = true;
-     this.schoolList = await this.initializeSchoolDirectory();
-     
+  
+  async filterList(ev: any){
+    this.showList = true;
+    this.schoolList = await this.initializeSchoolDirectory();
     this.searchTerm = ev.srcElement.value;
     
     if (!this.searchTerm){      
       this.showList = false;
       return;
     }
-   this.schoolList = this.schoolList.filter(currentSchool => {     
+    this.schoolList = this.schoolList.filter(currentSchool => {     
       if( currentSchool.name && this.searchTerm){
         return (currentSchool.name.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1)
       }
     });
   }
-
+  
   schoolSelected(ev: any) :void {
     this.school = this.schoolList;
     this.searchTerm = ev.target.innerText;
     this.showList = false;
     this.showSearchBar=false;   
   }
+
+  async initializeProgramDirectory(): Promise<any>{
+    this.programList = await this.afs.collection('school-programs').valueChanges()
+   .pipe(first()).toPromise();    
+   return this.programList;  
+  }
+
+  showProgramField(){    
+    this.showProgramSearchBar=true;
+    
+    if(this.programSearchTerm == undefined) {
+      this.showProgramList = false;      
+    } else {
+      this.showProgramList = true;      
+    }    
+  }
+
+  async filterProgramList(ev: any){
+    this.showProgramList = true;
+    this.programList = await this.initializeProgramDirectory();
+    
+    this.programSearchTerm = ev.srcElement.value;
+  
+  if (!this.programSearchTerm){      
+    this.showProgramList = false;
+    return;
+  }
+  this.programList = this.programList.filter(currentProgram => {     
+    if( currentProgram.name && this.programSearchTerm){
+      return (currentProgram.name.toLowerCase().indexOf(this.programSearchTerm.toLowerCase()) > -1)
+    }
+  });
+  }
+
+  programSelected(ev: any) :void {
+    this.program = this.programList;
+    this.programSearchTerm = ev.target.innerText;
+    this.showProgramList = false;
+    this.showProgramSearchBar=false;   
+  }
+  
 
   userSelectedQuestion(ev: any) {    
     this.router.navigate(["home/prompts", ev.target.id]);
