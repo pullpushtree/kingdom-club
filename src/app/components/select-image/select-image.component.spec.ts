@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { SelectImageComponent } from './select-image.component';
@@ -7,7 +7,7 @@ describe('SelectImageComponent', () => {
   let component: SelectImageComponent;
   let fixture: ComponentFixture<SelectImageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SelectImageComponent ],
       imports: [IonicModule.forRoot()]
