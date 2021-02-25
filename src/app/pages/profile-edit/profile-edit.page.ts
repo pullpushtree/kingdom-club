@@ -1,11 +1,8 @@
-import {   
-  Component,
-  Input,
-  OnInit,  
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
-import { ModalController, PopoverController } from "@ionic/angular";
+import { PopoverController } from "@ionic/angular";
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { SelectImageComponent } from "../../components/select-image/select-image.component";
 import { AuthService } from "src/app/services/auth.service";
 import { MediaService } from "../../services/media.service";
@@ -18,7 +15,6 @@ import { first } from "rxjs/operators";
   styleUrls: ["./profile-edit.page.scss"],
 })
 export class ProfileEditPage implements OnInit {
-  @Input() text: string;  
   
   currentUser: any;
   user: any;
@@ -35,17 +31,20 @@ export class ProfileEditPage implements OnInit {
   profilePic5: string;
   profilePic6: string;
 
-  searchTerm: string;  
+  firstLastName: string;
+  schoolSearchTerm: string;  
   school: any;  
   schoolList: any;
-  showSearchBar: boolean = false;
-  showList: boolean = false;
+  showSchoolSearchBar: boolean = false;
+  showSchoolList: boolean = false;
 
   programSearchTerm: string;  
   program: any;
   programList: any;
   showProgramSearchBar: boolean = false;
   showProgramList: boolean = false;
+
+  classOf: any;
 
   profileQuestion1: string;
   profileQuestion2: string;
@@ -54,6 +53,7 @@ export class ProfileEditPage implements OnInit {
   profileAnswer1: string;
   profileAnswer2: string;
   profileAnswer3: string;  
+  location: string;
 
   constructor(
     private router: Router,
@@ -61,16 +61,30 @@ export class ProfileEditPage implements OnInit {
     private afs: AngularFirestore,   
     private popoverCtrl: PopoverController,
     private media: MediaService,
-  ) { 
-  }
+    private keyboard: Keyboard
+  ) { }
 
   async ngOnInit() {
     this.schoolList = await this.initializeSchoolDirectory();
-    this.programList = await this.initializeProgramDirectory();    
+    this.programList = await this.initializeProgramDirectory();        
 
     this.afauthSrv.user$.subscribe((user) => {
       this.currentUser = user; 
       
+      this.firstLastName = this.currentUser.firstLastName ?  this.currentUser.firstLastName : "";
+      this.schoolSearchTerm = this.currentUser.school ? this.currentUser.school : "";
+      this.programSearchTerm = this.currentUser.program ? this.currentUser.program : "";
+      this.classOf = this.currentUser.classOf ? this.currentUser.classOf : "";
+      this.location = this.currentUser.location ? this.currentUser.location : "";
+      
+
+      this.profilePic1 = this.currentUser.profilePic1 ? this.currentUser.profilePic1 : this.image;
+      this.profilePic2 = this.currentUser.profilePic2 ? this.currentUser.profilePic2 : this.image;
+      this.profilePic3 = this.currentUser.profilePic3 ? this.currentUser.profilePic3 : this.image;
+      this.profilePic4 = this.currentUser.profilePic4 ? this.currentUser.profilePic4 : this.image;
+      this.profilePic5 = this.currentUser.profilePic5 ? this.currentUser.profilePic5 : this.image;
+      this.profilePic6 = this.currentUser.profilePic6 ? this.currentUser.profilePic6 : this.image; 
+
       this.profileQuestion1 = this.currentUser.profileAnswer1.text;
       this.profileQuestion2 = this.currentUser.profileAnswer2.text;
       this.profileQuestion3 = this.currentUser.profileAnswer3.text;
@@ -78,14 +92,6 @@ export class ProfileEditPage implements OnInit {
       this.profileAnswer1 = this.currentUser.profileAnswer1.answer;      
       this.profileAnswer2 = this.currentUser.profileAnswer2.answer;
       this.profileAnswer3 = this.currentUser.profileAnswer3.answer;  
-
-      this.profilePic1 = this.currentUser.profilePic1 ? this.currentUser.profilePic1 : this.image;
-      this.profilePic2 = this.currentUser.profilePic2 ? this.currentUser.profilePic2 : this.image;
-      this.profilePic3 = this.currentUser.profilePic3 ? this.currentUser.profilePic3 : this.image;
-      this.profilePic4 = this.currentUser.profilePic4 ? this.currentUser.profilePic4 : this.image;
-      this.profilePic5 = this.currentUser.profilePic5 ? this.currentUser.profilePic5 : this.image;
-      this.profilePic6 = this.currentUser.profilePic6 ? this.currentUser.profilePic6 : this.image;      
-      
     });
   }
   clearLocalStorage(){ 
@@ -100,7 +106,6 @@ export class ProfileEditPage implements OnInit {
     localStorage.removeItem('newImage');
     localStorage.removeItem('schoolSelected');
   }
-
   async createPopOver(ev: any){
       if (!ev.target.id == null || !ev.target.id == undefined || ev.target.id !== '' )  {      
       localStorage.setItem('picSelectedHolder', ev.target.id); 
@@ -116,49 +121,52 @@ export class ProfileEditPage implements OnInit {
       return popoverElement.present();
     })
   }
-
   async deletePic(ev: any){
     localStorage.setItem('picSelectedHolder', ev.target.id);
     await this.media.delete();
   }
 
+  async getFirstLastName(){    
+    if (this.currentUser.firstLastName != null ){
+      this.firstLastName = this.currentUser.firstLastName;
+    } else {
+      this.afs.doc(`users/${this.currentUser.uid}`).update({ firstLastName: this.firstLastName});      
+    }   
+  }
   async initializeSchoolDirectory(): Promise<any>{
      this.schoolList = await this.afs.collection('schools').valueChanges()
     .pipe(first()).toPromise();    
     return this.schoolList;  
   }
-
   showSchoolField(){    
-    this.showSearchBar=true;
+    this.showSchoolSearchBar=true;
     
-    if(this.searchTerm == undefined) {
-      this.showList = false;      
+    if(this.schoolSearchTerm == undefined) {
+      this.showSchoolList = false;      
     } else {
-      this.showList = true;      
+      this.showSchoolList = true;      
     }    
   }
   
   async filterList(ev: any){
-    this.showList = true;
+    this.showSchoolList = true;
     this.schoolList = await this.initializeSchoolDirectory();
-    this.searchTerm = ev.srcElement.value;
-    
-    if (!this.searchTerm){      
-      this.showList = false;
+    this.schoolSearchTerm = ev.srcElement.value;
+    if (!this.schoolSearchTerm){      
+      this.showSchoolList = false;
       return;
     }
     this.schoolList = this.schoolList.filter(currentSchool => {     
-      if( currentSchool.name && this.searchTerm){
-        return (currentSchool.name.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1)
+      if( currentSchool.name && this.schoolSearchTerm){
+        return (currentSchool.name.toLowerCase().indexOf(this.schoolSearchTerm.toLowerCase()) > -1)
       }
     });
   }
-  
   schoolSelected(ev: any) :void {
     this.school = this.schoolList;
-    this.searchTerm = ev.target.innerText;
-    this.showList = false;
-    this.showSearchBar=false;   
+    this.schoolSearchTerm = ev.target.innerText;
+    this.showSchoolList = false;
+    this.showSchoolSearchBar=false;   
   }
 
   async initializeProgramDirectory(): Promise<any>{
@@ -166,7 +174,6 @@ export class ProfileEditPage implements OnInit {
    .pipe(first()).toPromise();    
    return this.programList;  
   }
-
   showProgramField(){    
     this.showProgramSearchBar=true;
     
@@ -176,7 +183,6 @@ export class ProfileEditPage implements OnInit {
       this.showProgramList = true;      
     }    
   }
-
   async filterProgramList(ev: any){
     this.showProgramList = true;
     this.programList = await this.initializeProgramDirectory();
@@ -193,7 +199,6 @@ export class ProfileEditPage implements OnInit {
     }
   });
   }
-
   programSelected(ev: any) :void {
     this.program = this.programList;
     this.programSearchTerm = ev.target.innerText;
@@ -206,7 +211,32 @@ export class ProfileEditPage implements OnInit {
     this.router.navigate(["home/prompts", ev.target.id]);
   }
 
+  async validateEntries(){
+    if (this.firstLastName.trim() && 
+    this.schoolSearchTerm.trim() && 
+    this.programSearchTerm.trim() && 
+    this.classOf && 
+    this.location.trim()
+    ){
+      const propForUser = {
+        firstLastName: this.firstLastName,
+        school: this.schoolSearchTerm,
+        program: this.programSearchTerm,
+        classOf: this.classOf,
+        location: this.location
+      }
+      console.log("propForUser value ", propForUser)
+    }
+  }
+
+  async onSearch(ev){
+    this.keyboard.hide();
+    console.log("onSearch ev : ", ev);
+    console.log("onSearch ev.target.val : ", ev.target.value);
+    
+  }
   async saveSelectedProfileAnswers() {
+
     let submitedValues = {
       profileAnswer1: {
         text: this.profileQuestion1,
@@ -220,11 +250,23 @@ export class ProfileEditPage implements OnInit {
         text: this.profileQuestion3,
         answer: this.profileAnswer3,
       },
+
+      displayName: this.firstLastName,
+      firstLastName: this.firstLastName,
+      school: this.schoolSearchTerm,
+      program: this.programSearchTerm,
+      classOf: this.classOf,
+      location: this.location,
+      lastUpdated: Date.now(),
     };
-    this.media.uploadFirebase();
+    //this.media.uploadFirebase();
     await this.afs
       .collection("users").doc(`${this.currentUser.uid}`)
-      .update(submitedValues);    
+      .update(submitedValues)
+      .catch(error => {
+        console.error(error);
+
+      });    
     this.router.navigate(["home/profile"]);
   }
 }

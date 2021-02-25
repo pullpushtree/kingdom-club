@@ -36,8 +36,8 @@
     <div class="profile-contact-row">
       <ion-row>
         <div class="profile-lable-box-left">
-          <h4 class="profile-name-label">Serge Badio Jr</h4>
-          <p class="profile-username-label">@badledgends</p>
+          <h4 class="profile-name-label">{{currentUser?.firstLastName}}</h4>
+          <p class="profile-username-label">@{{currentUser?.displayName}}</p>
         </div>
 
         <div class="profile-label-follow-right">
@@ -55,7 +55,7 @@
           <ion-icon name="book"></ion-icon>
         </ion-col>
         <ion-col size="10">
-          <p>School</p>
+          <p>{{currentUser?.school}}</p>
         </ion-col>
       </ion-row>
       
@@ -64,7 +64,7 @@
           <ion-icon name="ribbon"></ion-icon>
         </ion-col>
         <ion-col size="10">
-          <p>Program</p>
+          <p>{{currentUser?.program}}</p>
         </ion-col>
       </ion-row>
       
@@ -74,7 +74,7 @@
           <ion-icon name="school"></ion-icon>
         </ion-col>
         <ion-col size="10">
-          <p>Class off</p>
+          <p>{{currentUser?.classOf | date  :  'yyyy'  }}</p>
         </ion-col>
       </ion-row>
       
@@ -84,7 +84,7 @@
           <ion-icon name="location"></ion-icon>
         </ion-col>
         <ion-col size="10">
-          <p>location</p>
+          <p>{{currentUser?.location}}</p>
         </ion-col>
       </ion-row>
       

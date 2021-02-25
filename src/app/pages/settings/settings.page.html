@@ -10,7 +10,10 @@
       <ion-col size="12">
         <ion-item>
           <ion-label>Set Dark Mode</ion-label>
-          <ion-toggle (ionChange)="onToggleColorTheme($event)"></ion-toggle>
+          <ion-toggle 
+          checked="isThemeSetFlag"
+          [(ngModel)]="isThemeSetFlag" id="isThemeSetFlag" name="isThemeSetFlag"  
+          (ionChange)="onToggleColorTheme($event)"></ion-toggle>
         </ion-item>
       </ion-col>
     </ion-row>

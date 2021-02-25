@@ -105,24 +105,38 @@
 
   </div>
 
-  <!-- School Details Section -->
+  <!-- User Details Section -->
 
+  <br/>
   <form>
+
+    <!-- User Name -->
+
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input type="text" name="firstLastName"         
+      [(ngModel)]="firstLastName"></ion-input>
+    </ion-item>
+
     <ion-list>
+
       <!-- School Name  -->
-      <ion-item *ngIf="!showSearchBar"  >
+      <ion-item *ngIf="!showSchoolSearchBar"  >
         <ion-label position="floating">School</ion-label>
-        <ion-input type="text" name="searchTerm" (click)="showSchoolField($event)"
-        [(ngModel)]="searchTerm"></ion-input>          
+        <ion-input type="text" name="schoolSearchTerm" (click)="showSchoolField($event)"
+        [(ngModel)]="schoolSearchTerm"></ion-input>          
       </ion-item>
 
       <!-- searchbar  -->
-      <ion-searchbar *ngIf="showSearchBar" name="searchTerm" [(ngModel)]="searchTerm"  
-      (input)="filterList($event)" type="text" debounce="200" >      
+      
+      <ion-searchbar *ngIf="showSchoolSearchBar" name="schoolSearchTerm" [(ngModel)]="schoolSearchTerm"  
+       type="text" debounce="200" 
+      (ionInput)="filterList($event)" 
+      (search)="onSearch($event)">      
       </ion-searchbar>
 
       <!-- shearcbar list -->
-      <ion-list *ngIf="showList" style="width: 100%; "> 
+      <ion-list *ngIf="showSchoolList" style="width: 100%; "> 
         <ion-item class="ddlSelectItems" *ngFor="let school of schoolList" 
         (click)="schoolSelected($event)">
           <li> {{school.name}}</li>          
@@ -131,7 +145,7 @@
      
     <!-- Program of study> -->
 
-      <ion-item *ngIf="!showProgramSearchBar" class="ddlProgramTraditionalInput">
+      <ion-item *ngIf="!showProgramSearchBar">
         <ion-label position="floating">Program of Study</ion-label>
         <ion-input type="text" name="programSearchTerm" (click)="showProgramField($event)"
         [(ngModel)]="programSearchTerm"></ion-input>
@@ -155,18 +169,19 @@
 
       <ion-item>
         <ion-label position="floating">Class off</ion-label>
-        <ion-datetime displayFormat="YYYY" pickerFormat="MMMM DD YYYY" name="year" [(ngModel)]="year"></ion-datetime>          
+        <ion-datetime displayFormat="YYYY" pickerFormat="MMMM DD YYYY" name="classOf" [(ngModel)]="classOf"></ion-datetime>          
         <!-- <ion-input type="text" name="year" [(ngModel)]="year"></ion-input> -->
       </ion-item>
 
-      <!-- Location -->
-      
       <ion-item>
         <ion-label position="floating">Location</ion-label>
-        <ion-input type="text" name="location" [(ngModel)]="location"></ion-input>
-      </ion-item>  
+        <ion-input type="text" name="location"
+        [(ngModel)]="location"></ion-input>
+      </ion-item>
     </ion-list>
   </form>
+
+  <br/>
 
   <ion-list >
 
@@ -217,7 +232,6 @@
     
   </ion-list>
   
-
 
 </ion-content>
 
