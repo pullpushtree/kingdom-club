@@ -20,7 +20,7 @@
   <div class="flex">
 
     <!-- main profile picture -->
-    <div class="img-box">
+    <div class="img-box" *ngIf="currentUser?.profilePic1">
       <img src="{{currentUser?.profilePic1 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
@@ -92,7 +92,7 @@
     
     <!-- Second Image  -->
 
-    <div class="img-box"> 
+    <div class="img-box" *ngIf="currentUser?.profilePic2"> 
       <img src="{{currentUser?.profilePic2 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
@@ -128,7 +128,7 @@
 
     <!-- Third Image  -->
 
-    <div class="img-box"> 
+    <div class="img-box" *ngIf="currentUser?.profilePic3"> 
       <img src="{{currentUser?.profilePic3 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
@@ -164,7 +164,7 @@
 
     <!-- Fourth Image  -->
 
-    <div class="img-box"> 
+    <div class="img-box" *ngIf="currentUser?.profilePic4"> 
       <img src="{{currentUser?.profilePic4 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
@@ -200,7 +200,7 @@
 
     <!-- Fifth Image  -->
 
-    <div class="img-box"> 
+    <div class="img-box" *ngIf="currentUser?.profilePic5"> 
       <img src="{{currentUser?.profilePic5 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
@@ -214,7 +214,7 @@
 
      <!-- Sixth Image  -->
 
-    <div class="img-box"> 
+    <div class="img-box" *ngIf="currentUser?.profilePic6"> 
       <img src="{{currentUser?.profilePic6 || image }}" class="profile-img">       
      
       <ion-row class="image-input-row-style">
