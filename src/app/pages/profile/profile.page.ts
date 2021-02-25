@@ -21,10 +21,8 @@ export class ProfilePage implements OnInit {
     ) { }
 
   ngOnInit() {
-
     this.afauthSrv.user$.subscribe(user => {
       this.currentUser = user;
-      //console.log("profile.ts ngOnInit() this.currentUser value : ", this.currentUser)      
     });
   }
    editProfile(){

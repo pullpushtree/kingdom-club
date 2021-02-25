@@ -10,7 +10,7 @@ import { AuthService } from "src/app/services/auth.service";
   styleUrls: ["./settings.page.scss"],
 })
 export class SettingsPage implements OnInit {
-  isThemeFlagSet: any;
+  isDarkThemeTurnedOn: boolean;
   constructor(
     private render: Renderer2,
     private router: Router,
@@ -18,13 +18,13 @@ export class SettingsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    const isThemeSet = localStorage.getItem("themeSelected")
-    if (isThemeSet == "light") {
-      this.isThemeFlagSet = false;     
-    } else if (isThemeSet == "dark") {
-      this.isThemeFlagSet = true;
+    const themeSelected = localStorage.getItem("themeSelected")
+    if (themeSelected == "light") {
+      this.isDarkThemeTurnedOn = false;      
+    } else if (themeSelected == "dark") {
+      this.isDarkThemeTurnedOn = true;      
     } else {
-      this.isThemeFlagSet = false;
+      this.isDarkThemeTurnedOn = false;      
     }
   }
 
