@@ -33,7 +33,7 @@
     </div>
 
     <!-- follow section -->
-    <div class="profile-contact-row">
+    <div class="profile-contact-row" *ngIf="currentUser?.firstLastName">
       <ion-row>
         <div class="profile-lable-box-left">
           <h4 class="profile-name-label">{{currentUser?.firstLastName}}</h4>
@@ -48,7 +48,7 @@
     
     <!-- School info  -->
     
-    <div class="text-card-school">
+    <div class="text-card-school" *ngIf="currentUser?.school">
 
       <ion-row class="profile-details">
         <ion-col size="2">
@@ -106,7 +106,7 @@
 
     <!-- First Card Text Prompt  -->
 
-    <div class="text-card-prompt">
+    <div class="text-card-prompt" *ngIf="currentUser?.profileAnswer1.text">
 
       <ion-row class="profile-prompts-text">
        <p>{{currentUser?.profileAnswer1.text}}</p>
@@ -142,7 +142,7 @@
 
     <!-- Second Card Text Prompt  -->
 
-    <div class="text-card-prompt">
+    <div class="text-card-prompt"  *ngIf="currentUser?.profileAnswer2.text">
 
       <ion-row class="profile-prompts-text">
        <p>{{currentUser?.profileAnswer2.text}}</p>
@@ -178,7 +178,7 @@
 
     <!-- Third Card Text Prompt  -->
 
-    <div class="text-card-prompt">      
+    <div class="text-card-prompt"  *ngIf="currentUser?.profileAnswer3.text">      
 
       <ion-row class="profile-prompts-text">
        <p>{{currentUser?.profileAnswer3.text}}</p>
@@ -214,7 +214,7 @@
 
      <!-- Sixth Image  -->
 
-    <div class="img-box" *ngIf="currentUser?.profilePic6"> 
+    <div class="img-box lastImage" *ngIf="currentUser?.profilePic6"> 
       <img src="{{currentUser?.profilePic6 || image }}" class="profile-img">       
      
       <ion-row class="image-input-row-style">

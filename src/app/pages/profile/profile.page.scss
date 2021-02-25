@@ -54,6 +54,9 @@ ion-toolbar {
     }
   }
 }
+.lastImage{
+  margin-top: 12px;  
+}
 
 .profile-contact-row {
   ion-row {
@@ -92,13 +95,15 @@ ion-toolbar {
 }
 
 .text-card-school {  
+  background-color: rgba(148, 148, 158, 0.2);
   border-radius: 10px;
   padding: 20px 20px 20px 20px;
   margin: 20px 0px 20px 0px;
   width: 100%;
   --box-shadow: rgba(28, 61, 207, 0.12) 0px 4px 16px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
-  //background-color: #ffffff;
+  box-shadow: rgb(0 0 0 / 12%) 0px 4px 5px;
+  //box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+  //box-shadow: inset rgb(0 0 0 / 12%) 0px 4px 5px;
 
   ion-row {    
     
@@ -109,11 +114,15 @@ ion-toolbar {
 }
 
 .text-card-prompt {  
+  background-color: rgba(148, 148, 158, 0.2);
   border-radius: 10px;
   width: 100%;
   --box-shadow: rgba(28, 61, 207, 0.12) 0px 4px 16px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
-  //background-color: #ffffff;
+  box-shadow: rgb(0 0 0 / 12%) 0px 4px 5px;
+  // box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+  // box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+  //box-shadow: inset rgb(0 0 0 / 12%) 0px 4px 5px;  
+  
   margin: 20px 0px 20px 0px;
 
   .profile-prompts-text {    
