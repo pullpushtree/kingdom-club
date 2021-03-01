@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>contacts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item  
+    *ngFor=" let contact of contacts | async ; let i = index" 
+    (click)="selectedContact(contact)">
+      
+    <ion-avatar slot="start">
+        <img src="{{contact.photoURL? contact.photoURL : this.image}}">
+      </ion-avatar>
+      <ion-label>{{contact.displayName}}</ion-label>
+    </ion-item>
+
+  </ion-list>
+</ion-content>
