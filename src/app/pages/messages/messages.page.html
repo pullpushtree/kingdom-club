@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>messages</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item  
+    *ngFor=" let message of messages | async ; let i = index" 
+    (click)="selectedContact(contact)">
+      
+    <ion-avatar slot="start">
+        <img src="{{message.photoURL? message.photoURL : this.image}}">
+      </ion-avatar>
+      <ion-label>{{message.displayName}}</ion-label>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
