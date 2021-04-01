@@ -1,11 +1,3 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons id="camera-btn" class="test" slot="end" (click)="takePicture()">
-      <ion-icon name="camera"></ion-icon>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding">
   <div class="header-label">
     <h2>
@@ -13,7 +5,7 @@
       profile images
     </h2>
   </div>
-
+  <div class="flex">
   <ion-button (click)="addPhotoAction('library')" shape="round" color="primary">
     <ion-icon slot="start" name="image"></ion-icon>
     Library
@@ -23,12 +15,14 @@
     <ion-icon slot="start" name="camera"></ion-icon>
     Camera
   </ion-button>
-
-  <div class="flex">
-    <div class="img-box">
-      <img [src]="image" />
-    </div>
   </div>
 
-  <ion-button (click)="uploadFirebaseAction()" shape="round" class="gradient-btn next-btn">Complete</ion-button>
+  <ion-list>
+    <div class="flex img-box" >     
+      <img src="{{userData ? userData.photoURL : this.imageDefault}}">          
+    </div>
+  </ion-list>
+<div class="flex">
+  <ion-button (click)="completeUploadToFirebaseAction()" shape="round" class="gradient-btn next-btn">Complete</ion-button>
+</div>
 </ion-content>

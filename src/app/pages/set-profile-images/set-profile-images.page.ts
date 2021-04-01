@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFirestore, DocumentSnapshot } from "@angular/fire/firestore";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Router } from "@angular/router";
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
@@ -8,6 +8,8 @@ import {
   AlertController,
   ToastController,
 } from "@ionic/angular";
+import { Observable } from "rxjs";
+import { ProfileSetupService } from "src/app/services/profile-setup.service";
 import { AuthConstants } from "../../config/auth-constant";
 import { MediaService } from "../../services/media.service";
 
@@ -19,36 +21,46 @@ import { MediaService } from "../../services/media.service";
 export class SetProfileImagesPage implements OnInit {
   currentUser: any;
   
-  image = "https://dummyimage.com/300";
+  image = "../../../assets/images/defaultProfile.png"; 
   imagePath: string;
   imageUpload: any;
-
+  userData: any;
+  
   constructor(
     public camera: Camera,
-    private loadingCtrl: LoadingController,
     private router: Router,
-    private afs: AngularFirestore,
-    private afStore: AngularFireStorage,
-    private alert: AlertController,
-    private toastr: ToastController,
     private media: MediaService,
-  ) {}
+    private profSrv : ProfileSetupService
+  ) {
+    this.currentUser = JSON.parse(localStorage.getItem(AuthConstants.AUTH)).user;    
+  }
 
   ngOnInit() {
-    this.currentUser = JSON.parse(localStorage.getItem(AuthConstants.AUTH));
-    console.log(this.currentUser);
+    this.getProfileImage();
+  }
+  
+  ionViewWillEnter() {
+    this.userData = this.profSrv.getUser(this.currentUser.uid)
+    .subscribe(res => {
+      this.userData = res;
+    });
   }
 
   async addPhotoAction(source: string) {
-    this.media.addPhoto(source).then((res) => {
-      console.log("addPhotoAction res value  ", res)
-    })
+    this.media.takeCameraOrLibraryPhoto(source)    
   }
 
+  async completeUploadToFirebaseAction() {
+    this.userData = this.profSrv.getUser(this.currentUser.uid)
+    .subscribe(res => {    
+      this.userData = res
+       this.media.setUserPhotoURLDisplayName(this.userData.displayName, this.userData.photoURL)
+       .then( () => this.router.navigate(["/home/settings"]))          
+      .catch(error => console.dir(error))      
+    });
+  }
 
-  async uploadFirebaseAction() {
-    this.media.uploadFirebase().then( (res) => {
-      console.log("uploadFirebaseAction res value", res)
-    });  
+  async getProfileImage(){
+    this.profSrv.getProfileImage();
   }
 }
