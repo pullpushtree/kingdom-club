@@ -42,6 +42,7 @@ export class SettingsPage implements OnInit {
 
   logout() {
     this.afauth.signOut().then(() => {
+      localStorage.clear();
       this.router.navigate(["/login"]);
     });
   }
