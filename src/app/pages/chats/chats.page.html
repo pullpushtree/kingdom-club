@@ -1,49 +1,59 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>chats</ion-title>    
+    <ion-avatar slot="start">      
+      <img src="{{o_userRef.photoURL ? o_userRef.photoURL : this.image}}">    
+    </ion-avatar>    
+    <h3>{{o_userRef.displayName}}</h3> 
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content #content class="ion-padding">
   <ion-grid>
     <ion-row *ngFor="let message of messages | async">
-      <ion-col 
-      size="9" [offset]="message.myMsg ? 3 : 0"
-       class="message" 
-       [ngClass]="{ 'my-message' : message.myMsg, 'other-message' : !message.myMsg }">
+      
+      <ion-col *ngIf="message.sentBy == currentUser.user.uid" 
+      size="9" [offset]="0" class="message my-message" >
 
-        <b>{{ message.fromName}}</b> <br/>
-        <span>{{message.msg}}</span>
+        <b>{{ message.text}}</b> <br/>
+        <div class="time ion-text-right">
+          <br/> 
+          {{ message.createdAt?.toMillis() | date: 'short' }}
+        </div>
+        </ion-col>
 
-        <div class="time ion-text-right"><br/> 
-          {{ message.createdAt?.toMillis() | date: 'short' }}</div>
+      <ion-col *ngIf="message.sentBy !== currentUser.user.uid" 
+      size="9" [offset]="3" class="message other-message" >
+      <b>{{ message.text}}</b> <br/>
+        <div class="time ion-text-right">
+          <br/> 
+          {{ message.createdAt?.toMillis() | date: 'short' }}
+        </div>
       </ion-col>
+
     </ion-row>
   </ion-grid>
-
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button  size="small" (click)="goToContacts()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-
 </ion-content>
+
 <ion-footer>
-  <ion-toolbar color="light">
+  <ion-toolbar>
     <ion-row class="ion-align-items-center">
       <ion-col size="10">
-        <ion-textarea authGrow="true" class="message-input" row="1" 
-        maxLength="500" [(ngModel)]="newMsg">            
-        </ion-textarea>
+        <div >         
+          <ion-textarea rows="1" class="message-input"
+          auto-grow="true" maxRows="4" (keyup.enter)="sendMessage()"
+          maxLength="500" [(ngModel)]="newMsg"></ion-textarea>
+        </div>
       </ion-col>
-      <ion-col size="2">
-        <ion-button expand="block" fill="clear" color="primary" 
-        [disabled]="newMsg === '' " class="msg-btn" (click)="sendMessage()">
+      <ion-col size="2" class="col-small">        
+      
+        <ion-button fill="clear" [disabled]="newMsg === '' "  
+        class="send-btn " (click)="sendMessage()">
           <ion-icon name="send" slot="icon-only"></ion-icon>
         </ion-button>
+
       </ion-col>
     </ion-row>
   </ion-toolbar>
 </ion-footer>
+
+

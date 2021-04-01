@@ -1,22 +1,61 @@
+ion-header {
+    h3 {
+        font-size: 17px;
+    }
+
+    ion-avatar, .img{
+        width: 40px;
+        height: 40px;
+        margin: 0px 10px 0px 20px;        
+    }
+ }
+
 .message {
-    padding: 10px impor !important;
+    padding: 10px !important;
     border-radius: 10px !important;
     margin-bottom: 4px !important;
     white-space: pre-wrap;
 }
 
-.my-message {
-    background-color : var( --ion-color-tertiary);
+.my-message {    
+    background: rgb(132, 138, 225);
     color: #fff;
+    font-size: 15px;    
 }
 
-.other-message {
-    background: var(--ion-color-secondary);
+.other-message {    
+    background-color : rgb(92, 92, 136);
     color: #fff;
+    font-size: 15px;
 }
 
 .time{
     color: #dfdfdf;
     float: right;
     font-size: small;
+}
+
+.message-input{    
+    margin-left: 5px;
+    margin-top: 0px;  
+    background-color: rgb(220, 221, 228);    
+    border: 2px solid rgb(189, 189, 196);
+    border-radius: 20px;
+    resize: none;
+    max-height: 120px;
+}
+
+.send-btn {
+    background: rgb(187, 189, 212);
+    box-shadow: 0px 2px 14px rgb(30 40 182 / 59%);
+    border-radius: 50px;    
+    font-size: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+}
+
+.col-small{
+    display: flex;
+    justify-content: center;
 }

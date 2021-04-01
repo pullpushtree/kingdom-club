@@ -13,8 +13,15 @@ import { Router } from '@angular/router';
 export class ChatsPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
 
+  image = "../../../assets/images/defaultProfile.png"
   messages: Observable<Message[]>;
   newMsg = '' ;
+  currentUser: any;
+  o_userRef = {
+    uid: "",
+    photoURL: "",
+    displayName: ""
+  }  
 
   constructor(
     private router: Router,
@@ -22,17 +29,32 @@ export class ChatsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.messages = this.chatService.getChatMessages();
+  }
+  
+  ionViewWillEnter(){
+    let msgId = localStorage.getItem('selectedConversationId'); 
+    this.messages = this.chatService.getConversationHistory(msgId);  
+    this.currentUser = JSON.parse(localStorage.getItem("userCredKey"));    
+    this.o_userRef = this.chatService.getOtherUserDetailsForChat()
+  }
+
+  ionViewDidEnter() {    
+    this.scrollToBottomOnInit();
+  }
+  scrollToBottomOnInit() {    
+    setTimeout(() => {      
+      if (this.content.scrollToBottom) {
+        this.content.scrollToBottom(0);
+      }
+    }, 200);
   }
 
   sendMessage(){
-    this.chatService.addChatMessage(this.newMsg).then(()=> {
+    this.chatService.addChatMessage(this.newMsg)
+    .then(()=> {
       this.newMsg = '';
       this.content.scrollToBottom();
     })
   }
 
-  goToContacts(){
-    this.router.navigate(['/home/contacts'])
-  }
 }
