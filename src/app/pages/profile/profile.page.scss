@@ -9,6 +9,31 @@ ion-toolbar {
   }
 }
 
+.no-profile-setup{  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  img{
+    border-radius: 50%;    
+    height: 150px;
+    width: 150px;
+    margin-top: 10%;
+    object-fit: cover;
+  }
+  p {
+    text-align: center;
+  }
+   ion-button{
+    --background: linear-gradient(
+        90deg,
+        rgba(5,0,68,1) 0%, 
+        rgba(87,66,158,0.51) 57%, 
+        rgba(60,115,209,1) 100%);        
+   }
+}
+
 .img-box {
   position: relative;
   z-index: 2;  
@@ -19,6 +44,7 @@ ion-toolbar {
     height: 100vw;
     border-radius: 10px;
     z-index: 0;
+    object-fit: cover;
   }
   
   ion-row {
@@ -85,7 +111,6 @@ ion-toolbar {
     .profile-label-follow-right { 
       justify-content: space-between;      
       width: 40%;
-      padding-right: 10px;
       .profile-follow-btn {
         float: right;
         margin: 0px;

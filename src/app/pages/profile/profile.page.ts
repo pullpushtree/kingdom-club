@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -13,19 +12,20 @@ export class ProfilePage implements OnInit {
   currentUser: any;
   user:any;
 
-  image = "https://dummyimage.com/400";
+  image = "../../../assets/images/defaultProfile.png"; 
   
   constructor( 
     private router: Router,
-    private afauthSrv: AuthService,   
-    ) { }
+    private afauthSrv: AuthService,
+    ) {
+      this.afauthSrv.user$.subscribe(user => {
+        this.currentUser = user;
+      })
+    }
 
-  ngOnInit() {
-    this.afauthSrv.user$.subscribe(user => {
-      this.currentUser = user;
-    });
-  }
-   editProfile(){
+  ngOnInit() { }
+
+  editProfile(){
       this.router.navigate(['home/profile/edit/']);
   }
 

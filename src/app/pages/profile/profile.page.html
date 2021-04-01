@@ -1,24 +1,15 @@
-<ion-header class="header">
-  <ion-toolbar>
-    <ion-row>    
-
-      <ion-buttons >
-        <ion-button ion-button icon-only fill="clear">          
-        </ion-button>
-      </ion-buttons>
-      
-      <ion-buttons class="profile-edit-btn">
-        <ion-button (click)="editProfile()"  color="light" >
-          <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-row>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding">
-  <div class="flex">
 
+  <ng-template class="no-profile-pic"  #noProfilePic>
+    <div class="no-profile-setup">
+      <img src="{{ image }}" >
+      <p>You haven't selected your profile picture!</p>
+      <ion-button (click)="editProfile()">Get Started</ion-button>
+    </div>
+  </ng-template>
+
+
+  <div class="flex" *ngIf="currentUser?.profilePic1; else noProfilePic">
     <!-- main profile picture -->
     <div class="img-box" *ngIf="currentUser?.profilePic1">
       <img src="{{currentUser?.profilePic1 || image }}" class="profile-img">
@@ -41,7 +32,8 @@
         </div>
 
         <div class="profile-label-follow-right">
-          <ion-button (click)="followProfile()"  shape="round" class="profile-follow-btn">Follow</ion-button>   
+          <ion-button (click)="editProfile()"  shape="round" 
+          class="profile-follow-btn" >Edit</ion-button>   
         </div>
       </ion-row>
     </div>
