@@ -10,7 +10,6 @@
 
   p {
     font-family: "Segoe UI";
-    //font-weight: bold;
     font-size: 16;
     margin-top: 5px;
     padding-bottom: 50px;
@@ -19,6 +18,7 @@
 
 ion-grid {
   padding: 0px;
+
   .profilePicHolder {
     margin: 4px;
     padding: 0px;
@@ -39,6 +39,10 @@ ion-grid {
       }
     }
   }
+}
+
+img, .img-edit-profile-grid{
+  object-fit: cover;
 }
 
 #gradient-btn {
@@ -63,9 +67,7 @@ ion-grid {
   padding: 2px 6px 3px;
   text-decoration: none;
   font: 700 21px/20px sans-serif;
-  background: rgba(87, 66, 158, 1);
-  //    rgba(5,0,68,1);
-  //     rgba(60,115,209,1);
+  background: rgba(87, 66, 158, 1); 
   border: 3px solid #fff;
   color: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.3);

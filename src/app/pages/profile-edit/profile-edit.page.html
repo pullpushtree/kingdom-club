@@ -3,7 +3,7 @@
     <ion-buttons >
       <ion-back-button defaultHref="home/profile"></ion-back-button>
     </ion-buttons>
-    <ion-button slot="end" (click)="saveSelectedProfileAnswers()"> Save</ion-button>
+    <ion-button slot="end" shape="round" class="edit-profile-save-btn" (click)="saveSelectedProfileAnswers()"> Save</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -27,9 +27,9 @@
       <ion-row >
         <ion-col class="profilePicHolder">   
             <img  [src]="profilePic1 ? profilePic1 : image" 
+            class="center img-edit-profile-grid"            
             (click)="createPopOver($event)" 
             id="profilePic1"
-            class="center" 
             name="profilePic1"/>                
               
           <a class="delete-btn" (click)="deletePic($event)" id="profilePic1" style="display: inline;">&#215;</a>                    
@@ -112,14 +112,12 @@
 
     <!-- User Name -->
 
+    <ion-list>
     <ion-item>
       <ion-label position="floating">Name</ion-label>
       <ion-input type="text" name="firstLastName"         
       [(ngModel)]="firstLastName"></ion-input>
     </ion-item>
-
-    <ion-list>
-
       <!-- School Name  -->
       <ion-item *ngIf="!showSchoolSearchBar"  >
         <ion-label position="floating">School</ion-label>
@@ -172,6 +170,8 @@
         <ion-datetime displayFormat="YYYY" pickerFormat="MMMM DD YYYY" name="classOf" [(ngModel)]="classOf"></ion-datetime>          
         <!-- <ion-input type="text" name="year" [(ngModel)]="year"></ion-input> -->
       </ion-item>
+
+      <!-- Location -->
 
       <ion-item>
         <ion-label position="floating">Location</ion-label>

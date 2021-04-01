@@ -7,6 +7,7 @@ import { SelectImageComponent } from "../../components/select-image/select-image
 import { AuthService } from "src/app/services/auth.service";
 import { MediaService } from "../../services/media.service";
 import { first } from "rxjs/operators";
+import { ProfileSetupService } from "src/app/services/profile-setup.service";
 
 
 @Component({
@@ -17,12 +18,8 @@ import { first } from "rxjs/operators";
 export class ProfileEditPage implements OnInit {
   
   currentUser: any;
-  user: any;
   data: any;
-
-  photos: string[];
-
-  image = "https://dummyimage.com/100";
+  image = "../../../assets/images/defaultProfile.png"; 
 
   profilePic1: string;
   profilePic2: string; 
@@ -31,20 +28,20 @@ export class ProfileEditPage implements OnInit {
   profilePic5: string;
   profilePic6: string;
 
-  firstLastName: string;
-  schoolSearchTerm: string;  
-  school: any;  
-  schoolList: any;
-  showSchoolSearchBar: boolean = false;
-  showSchoolList: boolean = false;
+   firstLastName: string;
+   schoolSearchTerm: string;
+   school: any;
+   schoolList: any;
+   showSchoolSearchBar: boolean = false;
+   showSchoolList: boolean = false;
 
-  programSearchTerm: string;  
-  program: any;
-  programList: any;
-  showProgramSearchBar: boolean = false;
-  showProgramList: boolean = false;
+   programSearchTerm: string;
+   program: any;
+   programList: any;
+   showProgramSearchBar: boolean = false;
+   showProgramList: boolean = false;
 
-  classOf: any;
+   classOf: any;
 
   profileQuestion1: string;
   profileQuestion2: string;
@@ -58,7 +55,8 @@ export class ProfileEditPage implements OnInit {
   constructor(
     private router: Router,
     private afauthSrv: AuthService,
-    private afs: AngularFirestore,   
+    private afs: AngularFirestore,
+    private profSrv: ProfileSetupService,   
     private popoverCtrl: PopoverController,
     private media: MediaService,
     private keyboard: Keyboard
@@ -85,13 +83,13 @@ export class ProfileEditPage implements OnInit {
       this.profilePic5 = this.currentUser.profilePic5 ? this.currentUser.profilePic5 : this.image;
       this.profilePic6 = this.currentUser.profilePic6 ? this.currentUser.profilePic6 : this.image; 
 
-      this.profileQuestion1 = this.currentUser.profileAnswer1.text;
-      this.profileQuestion2 = this.currentUser.profileAnswer2.text;
-      this.profileQuestion3 = this.currentUser.profileAnswer3.text;
+      this.profileQuestion1 = this.currentUser.profileAnswer1 ? this.currentUser.profileAnswer1.text : "";
+      this.profileQuestion2 = this.currentUser.profileAnswer2 ? this.currentUser.profileAnswer2.text : "";
+      this.profileQuestion3 = this.currentUser.profileAnswer3 ? this.currentUser.profileAnswer3.text : "";
 
-      this.profileAnswer1 = this.currentUser.profileAnswer1.answer;      
-      this.profileAnswer2 = this.currentUser.profileAnswer2.answer;
-      this.profileAnswer3 = this.currentUser.profileAnswer3.answer;  
+      this.profileAnswer1 = this.currentUser.profileAnswer1 ? this.currentUser.profileAnswer1.answer : "";      
+      this.profileAnswer2 = this.currentUser.profileAnswer2 ? this.currentUser.profileAnswer2.answer : "";
+      this.profileAnswer3 = this.currentUser.profileAnswer3 ? this.currentUser.profileAnswer3.answer : "";  
     });
   }
   clearLocalStorage(){ 
@@ -205,6 +203,22 @@ export class ProfileEditPage implements OnInit {
     this.showProgramList = false;
     this.showProgramSearchBar=false;   
   }
+
+  ionViewWillEnter() {
+    this.data = this.profSrv.getProfData();
+
+    if (this.data != null || undefined) {
+      if (this.data.id == "profileAnswer1") {
+        this.profileQuestion1 = this.data.text;
+      } else if (this.data.id == "profileAnswer2") {
+        this.profileQuestion2 = this.data.text;
+      } else if (this.data.id == "profileAnswer3") {
+        this.profileQuestion3 = this.data.text;
+      } else {
+        return;
+      }
+    }   
+  }
   
 
   userSelectedQuestion(ev: any) {    
@@ -250,8 +264,7 @@ export class ProfileEditPage implements OnInit {
         text: this.profileQuestion3,
         answer: this.profileAnswer3,
       },
-
-      displayName: this.firstLastName,
+      
       firstLastName: this.firstLastName,
       school: this.schoolSearchTerm,
       program: this.programSearchTerm,
