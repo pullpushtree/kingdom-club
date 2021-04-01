@@ -14,6 +14,7 @@ export class MessagesPage implements OnInit {
 
   messages: Observable<Message[]>;
   newMsg = '' ;
+  image = "../../../assets/images/defaultProfile.png"  
 
   constructor(
     private router: Router,
@@ -21,8 +22,10 @@ export class MessagesPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.messages = this.chatService.getChatMessages();
-    this.messages = this.chatService.getConversationsListToPutInMessagesInBox();
+  }
+
+  ionViewWillEnter(){
+    this.messages = this.chatService.getChatMessageFB()
   }
 
   sendMessage(){
@@ -36,8 +39,11 @@ export class MessagesPage implements OnInit {
     this.router.navigate(['/home/contacts'])
   }
 
-  
-
+  selectedConversation(val: any){    
+    localStorage.setItem('selectedConversationId', val.msgId);
+    this.chatService.setOtherDetails(JSON.stringify(val.participantsDetails))
+    this.router.navigate(['/home/chats/', val.msgId])
+  }
 }
 
 
