@@ -17,7 +17,7 @@ export class SelectImageComponent implements OnInit {
   ngOnInit() {}
   async addPhotoAction(source: string) {
     console.log("source", source);
-    return await this.media.addPhoto(source);    
+    return await this.media.takeCameraOrLibraryPhoto(source);    
   }
 
   async closePopover() {

@@ -18,7 +18,7 @@ import { AuthService } from "./auth.service";
 export class MediaService {
   currentUser: any;
 
-  image = "https://dummyimage.com/300";
+  image = "../../assets/images/defaultProfile.png"
   imagePath: string;
   imageUpload: any;
 
@@ -45,31 +45,36 @@ export class MediaService {
   ) {
     this.afauthSrv.user$.subscribe((user) => {
       this.currentUser = user; 
-      //console.log("media.service.ts constructor", this.currentUser)
     })
 
-  }
+  } 
 
   async upload(){    
     const getImageSlot = localStorage.getItem('picSelectedHolder');  
 
     this.imagePath = `profilePicture/${this.currentUser.uid}_`+ new Date().getTime() +'.jpg';
-    let ref = await this.afStore.ref(this.imagePath).putString(this.picData, 'data_url')
+    await this.afStore.ref(this.imagePath).putString(this.picData, 'data_url')
       .then((res) => {
         const bootlegt = res.ref.getDownloadURL();
-        
-
         bootlegt.then(res => {
           this.imgURL = res;
-          if(getImageSlot == 'profilePic1'){
-
+          if(getImageSlot == 'mainProfilePic'){
+            //update firebase object user photoURL value
+            this.afauthSrv.updateUserProfileImage(this.imgURL)
+            this.afs.collection("users").doc(this.currentUser.uid)
+            .set({
+              photoURL : this.imgURL,               
+            })
+          }
+          else if (getImageSlot == 'profilePic1') 
+          {
             localStorage.setItem('profilePic1', this.imgURL)  
-            this.profilePic1 = this.imgURL;              
-             //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePic1 : this.imgURL });              
+            this.profilePic1 = this.imgURL;
+             
              this.afs.collection("users").doc(this.currentUser.uid)
              .set({ 
               profilePic1 : this.imgURL,
-              profilePics: { profilePic1 : this.imgURL }
+              profilePics: { profilePic1 : this.imgURL }             
               
               }, {merge : true})  
            } 
@@ -77,110 +82,90 @@ export class MediaService {
            {
             localStorage.setItem('profilePic2', this.imgURL)  
             this.profilePic2 = this.imgURL;
-            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic2 : this.imgURL } });
             this.afs.collection("users").doc(this.currentUser.uid)
             .set({ 
               profilePic2 : this.imgURL,
-              profilePics: { profilePic2 : this.imgURL },
+              profilePics: { profilePic2 : this.imgURL }
               
              }, {merge : true})  
            } 
            else if (getImageSlot == 'profilePic3') 
            {
             localStorage.setItem('profilePic3', this.imgURL)  
-            this.profilePic3 = this.imgURL;            
-            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic3 : this.imgURL } });
+            this.profilePic3 = this.imgURL;
+            
             this.afs.collection("users").doc(this.currentUser.uid)
             .set({ 
               profilePic3 : this.imgURL,
-              profilePics: { profilePic3 : this.imgURL },
+              profilePics: { profilePic3 : this.imgURL }
               
              },  {merge : true})
            } 
            else if (getImageSlot == 'profilePic4') 
            {
             localStorage.setItem('profilePic4', this.imgURL)  
-            this.profilePic4 = this.imgURL;            
-            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic4 : this.imgURL } });
+            this.profilePic4 = this.imgURL;
+            
             this.afs.collection("users").doc(this.currentUser.uid)
             .update({ 
               profilePic4 : this.imgURL,
-              profilePics: { profilePic4 : this.imgURL },
-              
+              profilePics: { profilePic4 : this.imgURL }            
              })
              
            } 
            else if (getImageSlot == 'profilePic5') 
            {
             localStorage.setItem('profilePic5', this.imgURL)  
-            this.profilePic5 = this.imgURL;            
-            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic5 : this.imgURL } });
+            this.profilePic5 = this.imgURL;
+            
             this.afs.collection("users").doc(this.currentUser.uid)
             .update({ 
               profilePic5 : this.imgURL,
-              profilePics: { profilePic5 : this.imgURL },
-              
+              profilePics: { profilePic5 : this.imgURL }            
              })
            } 
            else if (getImageSlot == 'profilePic6') 
            {
             localStorage.setItem('profilePic6', this.imgURL)  
-            this.profilePic6 = this.imgURL;            
-            //this.afs.collection("users").doc(this.currentUser.uid).update({ profilePics: { profilePic6 : this.imgURL } });
+            this.profilePic6 = this.imgURL;           
+            
             this.afs.collection("users").doc(this.currentUser.uid)
             .update({ 
               profilePic6 : this.imgURL,
-              profilePics: { profilePic6 : this.imgURL },
-              
+              profilePics: { profilePic6 : this.imgURL }             
              })
            }
            else 
            {
              console.log("error profilePic selected slot didn't work. Try again")
              return;
-           }
-           
-           
+           }           
           }).catch((error) => {
-            console.error(error);      
+            console.error(error);
           });
-
-
     }).catch((error) => {
-      this.popover.dismiss();
-      console.error(error);      
+        console.dir(error)
     });
-
   } 
 
-  async addPhoto(source: string) {
+  async takeCameraOrLibraryPhoto(source: string) {
     if (source === "library") {
       await this.openLibrary()
-      .then((imgData) => {         
-        this.picData = "data:image/jpg;base64," + imgData; 
-        
-        this.upload();
-
+      .then((imgData) => {
+        this.picData = "data:image/jpg;base64," + imgData;         
       }).catch((error) => {
-        this.popover.dismiss();
-        console.error(error);      
+        console.dir(error);
       });
-      
-      this.popover.dismiss();
-      
-      
     } else {
       await this.openCamera()
-      .then((imgData) => {         
+      .then((imgData) => {   
+        console.log("M3 media.service.ts takeCameraOrLibraryPhoto CAMERA imgData value : ", imgData)      
         this.picData = "data:image/jpg;base64," + imgData; 
-        
-        this.upload();
-
+        console.log("M4 media.service.ts takeCameraOrLibraryPhoto CAMERA >>> PICDATA value : ", this.picData)        
+        //this.upload();
       }).catch((error) => {
-        this.popover.dismiss();
-        console.error(error);      
+        console.log(error)
       });
-      this.popover.dismiss();
     }
   }
 
@@ -194,7 +179,11 @@ export class MediaService {
       targetWidth: 1000,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
     };
-    return await this.camera.getPicture(options);
+    return await this.camera.getPicture(options)
+    .catch(error =>
+      {
+        console.dir(error)
+      });
   }
 
   async openCamera() {
@@ -209,8 +198,21 @@ export class MediaService {
       correctOrientation: true,
       cameraDirection: 0,
     };
-    return await this.camera.getPicture(options);
+    return await this.camera.getPicture(options)
+    .catch(error =>
+      {
+        console.dir(error)
+      });
   } 
+
+
+  async  updateFirebasePhotoURL(URLv: string){
+    return await this.afauthSrv.updateUserProfileImage(URLv)
+  }
+
+  async setUserPhotoURLDisplayName(dispNam, imgURL){
+    return this.afauthSrv.updatePhotoURLAndUsername( dispNam, imgURL);
+  }
 
   async uploadFirebase() {
     const currentUser = JSON.parse(localStorage.getItem(AuthConstants.AUTH));
@@ -228,11 +230,15 @@ export class MediaService {
       .ref(this.imagePath)
       .putString(this.image, "data_url")
       .then((res) => {
-        const imageFile = res.task.snapshot.ref
+        res.task.snapshot.ref
           .getDownloadURL()
           .then((downloadableURL) => {
             //update user collection
             const tempDownloadbleURL = downloadableURL;
+            console.log("M5 media.service.ts uploadFirebase() then downloadebleURL value : ", tempDownloadbleURL)            
+            //update firebase user 
+            this.updateFirebasePhotoURL(tempDownloadbleURL);
+
             this.afs
               .collection("users")
               .doc(currentUser.user.uid)
@@ -251,19 +257,19 @@ export class MediaService {
               .catch((error) => {
                 loading.dismiss();
                 this.toast(error.message, "danger");
-                console.dir(error);
+                console.error(error);
               });
           })
           .catch((error) => {
             loading.dismiss();
             this.toast(error.message, "danger");
-            console.dir(error);
+            console.error(error);
           });
       })
       .catch((error) => {
         loading.dismiss();
         this.toast(error.message, "danger");
-        console.dir(error);
+        console.error(error);
       });
   }
 
