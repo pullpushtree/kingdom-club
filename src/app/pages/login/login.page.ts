@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
   async loginAction(){    
     if(this.validateInputs())
     {     
-      this.auth.login(this.email.trim(), this.password.trim())
+      await this.auth.login(this.email.trim(), this.password.trim())
       .catch((error) =>{      
         this.toast(error.message, 'danger');
         console.dir(error);

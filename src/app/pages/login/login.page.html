@@ -22,7 +22,7 @@
       </div>
       
       <div class="login-btn">
-        <ion-button (click)="loginAction()"  shape="round" class="gradient-btn login-btn">Login</ion-button>   
+        <ion-button (click)="loginAction()" (keyup.enter)="loginAction()"  shape="round" class="gradient-btn login-btn">Login</ion-button>   
       </div>
 
       <ion-row class="create-acct">
