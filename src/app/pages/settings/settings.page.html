@@ -4,11 +4,11 @@
     <ion-buttons >
       <!-- <ion-back-button defaultHref="home/profile"></ion-back-button> -->
       <ion-title></ion-title>
-      <h3>{{currentUser.firstLastName ? currentUser.firstLastName : ""}}</h3>
+      <h3>{{userData.firstLastName ? userData.firstLastName : ""}}</h3>
     </ion-buttons>
     
     <ion-avatar slot="end">
-      <img src="{{currentUser.photoURL ? currentUser.photoURL : this.image}}">    
+      <img src="{{userData.photoURL ? userData.photoURL : this.image}}">    
     </ion-avatar>
     
   </ion-toolbar>
