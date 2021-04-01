@@ -11,13 +11,21 @@ import { AuthService } from "src/app/services/auth.service";
 })
 export class SettingsPage implements OnInit {
   isDarkThemeTurnedOn: boolean;
+  image = "../../../assets/images/defaultProfile.png"
+  currentUser: any;  
+
   constructor(
     private render: Renderer2,
     private router: Router,
     private afauth: AngularFireAuth,
+    private authSrv: AuthService,
   ) { }
 
   ngOnInit() {
+    this.authSrv.user$.subscribe(user => {
+      this.currentUser = user      
+    })    
+
     const themeSelected = localStorage.getItem("themeSelected")
     if (themeSelected == "light") {
       this.isDarkThemeTurnedOn = false;      
@@ -26,6 +34,7 @@ export class SettingsPage implements OnInit {
     } else {
       this.isDarkThemeTurnedOn = false;      
     }
+    
   }
 
   onToggleColorTheme(ev: any) { 

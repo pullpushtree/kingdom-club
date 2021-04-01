@@ -1,13 +1,30 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>settings</ion-title>
+
+    <ion-buttons >
+      <!-- <ion-back-button defaultHref="home/profile"></ion-back-button> -->
+      <ion-title></ion-title>
+      <h3>{{currentUser.firstLastName ? currentUser.firstLastName : ""}}</h3>
+    </ion-buttons>
+    
+    <ion-avatar slot="end">
+      <img src="{{currentUser.photoURL ? currentUser.photoURL : this.image}}">    
+    </ion-avatar>
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content> 
   <ion-grid fixed>
-    <ion-row>
+    <div class="header-label ion-padding">
+      <h2>
+        Settings        
+      </h2>
+    </div>
+
+    <ion-row>      
       <ion-col size="12">
+        
         <ion-item>
           <ion-label>Set Dark Mode</ion-label>
           <ion-toggle 

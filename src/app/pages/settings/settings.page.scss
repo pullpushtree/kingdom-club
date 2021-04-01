@@ -1,0 +1,30 @@
+ion-header {
+    h3 {
+        font-size: 17px;
+    }
+
+    ion-avatar, .img{
+        width: 40px;
+        height: 40px;
+        margin: 0px 10px 0px 20px;        
+    }
+ }
+
+
+ .header-label {
+    h2 {
+      font-family: Corbel;
+      font-weight: bold;
+      font-style: italic;
+      font-size: 25pt;
+      margin-bottom: 5px;
+      letter-spacing: -1px;
+    }
+  
+    p {
+      font-family: "Segoe UI";
+      font-size: 16;
+      margin-top: 5px;
+      padding-bottom: 50px;
+    }
+  }
