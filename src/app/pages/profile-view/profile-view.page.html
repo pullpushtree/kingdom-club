@@ -1,0 +1,226 @@
+<ion-content class="ion-padding">
+
+  <ng-template class="no-profile-pic"  #noProfilePic>
+    <div class="no-profile-setup">
+      <img src="{{ image }}" >
+      <p>Private or user didn't set up their profile. </p> 
+    </div>
+  </ng-template>
+
+  
+  <div class="flex" *ngIf="selectedUserProfile?.profilePic1; else noProfilePic">
+    <!-- main profile picture -->
+    <div class="img-box" *ngIf="selectedUserProfile?.profilePic1">
+      <img src="{{selectedUserProfile?.profilePic1 || image }}" class="profile-img">
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+    <!-- follow section -->
+    <div class="profile-contact-row" *ngIf="selectedUserProfile?.firstLastName">
+      <ion-row>
+        <div class="profile-lable-box-left">
+          <h4 class="profile-name-label">{{selectedUserProfile?.firstLastName}}</h4>
+          <p class="profile-username-label">@{{selectedUserProfile?.displayName}}</p>
+        </div>
+
+        <div class="profile-label-follow-right">
+          <ion-button (click)="followProfile()"  shape="round" 
+          class="profile-follow-btn" >Follow</ion-button>   
+        </div>
+      </ion-row>
+    </div>
+    
+    <!-- School info  -->
+    
+    <div class="text-card-school" *ngIf="selectedUserProfile?.school">
+
+      <ion-row class="profile-details">
+        <ion-col size="2">
+          <ion-icon name="book"></ion-icon>
+        </ion-col>
+        <ion-col size="10">
+          <p>{{selectedUserProfile?.school}}</p>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row class="profile-details">
+        <ion-col size="2">
+          <ion-icon name="ribbon"></ion-icon>
+        </ion-col>
+        <ion-col size="10">
+          <p>{{selectedUserProfile?.program}}</p>
+        </ion-col>
+      </ion-row>
+      
+
+      <ion-row class="profile-details">
+        <ion-col size="2">          
+          <ion-icon name="school"></ion-icon>
+        </ion-col>
+        <ion-col size="10">
+          <p>{{selectedUserProfile?.classOf | date  :  'yyyy'  }}</p>
+        </ion-col>
+      </ion-row>
+      
+
+      <ion-row class="profile-details">
+        <ion-col size="2">
+          <ion-icon name="location"></ion-icon>
+        </ion-col>
+        <ion-col size="10">
+          <p>{{selectedUserProfile?.location}}</p>
+        </ion-col>
+      </ion-row>
+      
+    </div>    
+    
+    <!-- Second Image  -->
+
+    <div class="img-box" *ngIf="selectedUserProfile?.profilePic2"> 
+      <img src="{{selectedUserProfile?.profilePic2 || image }}" class="profile-img">
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+    <!-- First Card Text Prompt  -->
+
+    <div class="text-card-prompt" *ngIf="selectedUserProfile?.profileAnswer1.text">
+
+      <ion-row class="profile-prompts-text">
+       <p>{{selectedUserProfile?.profileAnswer1.text}}</p>
+      </ion-row>
+      
+      <ion-row class="profile-prompts-asnwer">
+       <h3>{{selectedUserProfile?.profileAnswer1.answer}}</h3>
+      </ion-row> 
+
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-prompt" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row> 
+      
+    </div>
+
+    <!-- Third Image  -->
+
+    <div class="img-box" *ngIf="selectedUserProfile?.profilePic3"> 
+      <img src="{{selectedUserProfile?.profilePic3 || image }}" class="profile-img">
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+    <!-- Second Card Text Prompt  -->
+
+    <div class="text-card-prompt"  *ngIf="selectedUserProfile?.profileAnswer2.text">
+
+      <ion-row class="profile-prompts-text">
+       <p>{{selectedUserProfile?.profileAnswer2.text}}</p>
+      </ion-row>
+      
+      <ion-row class="profile-prompts-asnwer">
+       <h3>{{selectedUserProfile?.profileAnswer2.answer}}</h3>
+      </ion-row> 
+
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-prompt" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row> 
+      
+    </div>
+
+    <!-- Fourth Image  -->
+
+    <div class="img-box" *ngIf="selectedUserProfile?.profilePic4"> 
+      <img src="{{selectedUserProfile?.profilePic4 || image }}" class="profile-img">
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+    <!-- Third Card Text Prompt  -->
+
+    <div class="text-card-prompt"  *ngIf="selectedUserProfile?.profileAnswer3.text">      
+
+      <ion-row class="profile-prompts-text">
+       <p>{{selectedUserProfile?.profileAnswer3.text}}</p>
+      </ion-row>
+      
+      <ion-row class="profile-prompts-asnwer">
+       <h3>{{selectedUserProfile?.profileAnswer3.answer}}</h3>
+      </ion-row> 
+
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-prompt" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row> 
+      
+    </div>
+
+    <!-- Fifth Image  -->
+
+    <div class="img-box" *ngIf="selectedUserProfile?.profilePic5"> 
+      <img src="{{selectedUserProfile?.profilePic5 || image }}" class="profile-img">
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+     <!-- Sixth Image  -->
+
+    <div class="img-box lastImage" *ngIf="selectedUserProfile?.profilePic6"> 
+      <img src="{{selectedUserProfile?.profilePic6 || image }}" class="profile-img">       
+     
+      <ion-row class="image-input-row-style">
+        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        
+        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>         
+      </ion-row>
+    </div>
+
+
+  </div>
+
+  
+  
+</ion-content>
+
