@@ -8,6 +8,7 @@ import { User } from "../models/User";
 })
 export class ProfileSetupService {
   profData: any;
+  profViewData: any;
   profileImg: string;
 
   constructor(
@@ -22,6 +23,10 @@ export class ProfileSetupService {
     if (this.profData != null) {
       return this.profData;
     }
+  }
+  
+  getSelectedUserProfileData(uid){
+    return this.profViewData = this.afs.doc(`users/${uid}`).valueChanges() as Observable<User[]>;
   }
 
   setProfileImage(profileImageObj: any) {

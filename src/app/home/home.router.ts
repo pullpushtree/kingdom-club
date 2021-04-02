@@ -43,6 +43,10 @@ const routes: Routes = [
                 loadChildren: () => import('../pages/profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
             },
             {
+              path: 'profile-view',
+              loadChildren: () => import('../pages/profile-view/profile-view.module').then( m => m.ProfileViewPageModule)
+            },
+            {
                 path: 'prompts/:id',
                 loadChildren: () => import('../pages/prompts/prompts.module').then( m => m.PromptsPageModule)
             },

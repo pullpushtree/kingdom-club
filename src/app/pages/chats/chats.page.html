@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-avatar slot="start">      
-      <img src="{{o_userRef.photoURL ? o_userRef.photoURL : this.image}}">    
+      <img src="{{o_userRef.photoURL ? o_userRef.photoURL : this.image}}" (click)="viewSelectedProfile($event)" id ="xxx" name="yyy">    
     </ion-avatar>    
     <h3>{{o_userRef.displayName}}</h3> 
   </ion-toolbar>

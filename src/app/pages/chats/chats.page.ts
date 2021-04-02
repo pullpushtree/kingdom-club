@@ -49,6 +49,10 @@ export class ChatsPage implements OnInit {
     }, 200);
   }
 
+  viewSelectedProfile(){   
+    this.router.navigate(['home/profile-view/']);
+  }
+
   sendMessage(){
     this.chatService.addChatMessage(this.newMsg)
     .then(()=> {
