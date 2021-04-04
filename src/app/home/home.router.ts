@@ -55,6 +55,10 @@ const routes: Routes = [
                 loadChildren:() => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
             },
             {
+              path: 'search',
+              loadChildren: () => import('../pages/search/search.module').then( m => m.SearchPageModule)
+            },
+            {
                 path: 'setup',
                 loadChildren: () => import('../pages/set-profile-images/set-profile-images.module').then( m => m.SetProfileImagesPageModule),    
             },

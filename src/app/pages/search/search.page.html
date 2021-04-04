@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>search</ion-title>   
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar 
+      #search    
+      type="text" 
+      debounce="200" 
+      (ionChange)="filterList($event)">      
+    </ion-searchbar> 
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ 
+ <ion-list *ngIf="searchTerm.length > 0" style="width: 100%; "> 
+
+   <ion-item class="ddlSelectItems" *ngFor="let user of searchTerm" (click)="goToSelectedProfile(user)" >
+    <ion-avatar slot="start">
+      <img src="{{user.photoURL? user.photoURL : this.image}}">
+    </ion-avatar>
+    <ion-label>
+      <h2>
+      {{user.firstLastName ? user.firstLastName : "" }}
+    </h2>
+    <p>
+      @{{user.displayName}}
+    </p>
+    </ion-label>
+  </ion-item> 
+
+ </ion-list>
+</ion-content>
