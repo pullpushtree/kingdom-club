@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { ProfileSetupService } from 'src/app/services/profile-setup.service';
+import { FollowService } from "../../services/follow.service"
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,41 +11,44 @@ import { Observable } from 'rxjs';
   styleUrls: ['./profile-view.page.scss'],
 })
 export class ProfileViewPage implements OnInit {
+  @Input() currentUser;
 
-  currentUser: any;  
+  
   selectedUserProfile: any;  
   user:any;
   o_userRef: any;
 
   image = "../../../assets/images/defaultProfile.png"; 
+
+  isFollowing: boolean;
+  following;
   
   constructor( 
     private router: Router,
     private afauthSrv: AuthService,
     private profSrv: ProfileSetupService,
+    private followSvc: FollowService
 
     ) {
-      this.afauthSrv.user$.subscribe(user => {
-        this.currentUser = user;
-        console.log("this.currentUser value : ", this.currentUser)
-      })      
+          
     }
 
   ngOnInit() { }
 
-  ionViewWillEnter(){    
+  ionViewDidEnter(){ 
+    this.currentUser = JSON.parse(localStorage.getItem("userCredKey"));    
     this.o_userRef = localStorage.getItem("otherUserObjectDetails")
-    const o_user = JSON.parse(this.o_userRef)
-    
-    this.selectedUserProfile = this.profSrv.getSelectedUserProfileData(o_user.uid)
-    .subscribe(res => {
-      this.selectedUserProfile = res;      
-       console.log("res", res)
-    })    
-  }
+    const o_userId = JSON.parse(this.o_userRef).uid
 
-  followProfile(){
-    console.log("follow was clicked")
+    this.following = this.followSvc.getFollowing(this.currentUser.uid, o_userId)
+    .then(following => {
+      this.isFollowing = following.exists
+    })
+    
+    this.selectedUserProfile = this.profSrv.getSelectedUserProfileData(o_userId)
+    .subscribe(res => {
+      this.selectedUserProfile = res; 
+    }) 
   }
 
   likeBtn(){

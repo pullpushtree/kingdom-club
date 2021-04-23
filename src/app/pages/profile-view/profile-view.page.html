@@ -31,8 +31,14 @@
         </div>
 
         <div class="profile-label-follow-right">
-          <ion-button (click)="followProfile()"  shape="round" 
-          class="profile-follow-btn" >Follow</ion-button>   
+
+          <app-follow-button 
+            class="profile-follow-btn"
+            [user]="selectedUserProfile" 
+            id="{{selectedUserProfile.uid}}" 
+            [currentUser]="currentUser">
+          </app-follow-button>
+
         </div>
       </ion-row>
     </div>

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { IonSearchbar } from '@ionic/angular';
+import { FollowService } from 'src/app/services/follow.service';
 
 @Component({
   selector: 'app-search',
@@ -19,10 +20,14 @@ export class SearchPage implements OnInit {
   searchTerm: any;
   
   list: any = []; 
+  following: any;
+  isFollowing: boolean;
+  o_userRef: string;
 
   constructor(
     private router: Router,    
     private afs: AngularFirestore,
+    private followSvc: FollowService
   ) { }
 
   ngOnInit() {    
@@ -35,6 +40,15 @@ export class SearchPage implements OnInit {
     setTimeout(() => {
       this.search.setFocus();
     });
+
+    this.o_userRef = localStorage.getItem("otherUserObjectDetails")
+    const o_userId = JSON.parse(this.o_userRef).uid
+
+    this.following = this.followSvc.getFollowing(this.currentUser.uid, o_userId)
+    .then(following => {      
+      this.isFollowing = following.exists      
+      console.log("this.isFollowing pv : ", this.isFollowing)      
+    })
   }
 
   getListOfUsers(){

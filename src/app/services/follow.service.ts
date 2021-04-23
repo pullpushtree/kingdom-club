@@ -49,13 +49,13 @@ export class FollowService {
     return  await this.afs.doc(`contacts/${followerId}/following/${followedId}`).ref.get() 
   }
 
-  follow(followerId: string, followedId: string){    
-    this.afs.doc(`contacts/${followerId}/following/${followedId}`).set( { [followedId]: true}, {merge : true})
-    this.afs.doc(`contacts/${followedId}/followers/${followerId}`).set( { [followerId]: true}, {merge : true} )  
+  async follow(followerId: string, followedId: string){    
+    await this.afs.doc(`contacts/${followerId}/following/${followedId}`).set( { [followerId]: true} )
+    await this.afs.doc(`contacts/${followedId}/followers/${followerId}`).set( { [followerId]: true} )
 }
 
-  unfollow(followerId: string, followedId: string){
-    this.afs.doc(`contacts/${followerId}/following/${followedId}`).delete()
-    this.afs.doc(`contacts/${followedId}/followers/${followerId}`).delete()
+  async unfollow(followerId: string, followedId: string){
+    await this.afs.doc(`contacts/${followerId}/following/${followedId}`).delete()
+    await this.afs.doc(`contacts/${followedId}/followers/${followerId}`).delete()
   }
 }

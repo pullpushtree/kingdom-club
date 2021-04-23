@@ -29,12 +29,17 @@
           <p>
             @{{user.displayName}}
           </p>
-          <p>{{user.uid ? user.uid : ""}}</p>
+          <h6>{{user.uid ? user.uid : ""}}</h6>
         </ion-label>
        </ion-col>
 
        <ion-col class="label" size="4" > 
-         <app-follow-button [user]="user" id="{{user.uid}}" [currentUser]="currentUser"></app-follow-button>
+
+         <app-follow-button 
+         [user]="user" 
+         id="{{user.uid}}" 
+         [currentUser]="currentUser">
+       </app-follow-button>
          
        </ion-col>   
   </ion-item> 
