@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
-import { AuthService } from "src/app/services/auth.service";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { IonSearchbar } from '@ionic/angular';
 
@@ -11,7 +10,8 @@ import { IonSearchbar } from '@ionic/angular';
 })
 export class SearchPage implements OnInit {
 
-  @ViewChild('search', { static : false } ) search : IonSearchbar;
+  @ViewChild('search', { static : false } ) search : IonSearchbar;  
+  @Input() currentUser;
 
   platformUserId : string
   platformUser: any;
@@ -30,11 +30,17 @@ export class SearchPage implements OnInit {
     this.getListOfUsers();
   }
 
+  ionViewDidEnter(){    
+    this.currentUser = JSON.parse(localStorage.getItem("userCredKey"));    
+    setTimeout(() => {
+      this.search.setFocus();
+    });
+  }
+
   getListOfUsers(){
     this.list = this.afs.collection('users')
     this.list.valueChanges().subscribe(val => {
       this.platformUser = val 
-      console.log("val of paltformUser", this.platformUser)
     })
     this.searchTerm = this.list;
   }
@@ -49,11 +55,6 @@ export class SearchPage implements OnInit {
     }   
   }
  
-  ionViewDidEnter(){
-    setTimeout(() => {
-      this.search.setFocus();
-    });
-  }
 
   goToSelectedProfile(event: any){
     const val = event;
@@ -63,7 +64,6 @@ export class SearchPage implements OnInit {
       uid: val.uid,
       firstLastName: val.firstLastName
     }
-    console.log("event val : ", val) 
     localStorage.setItem('selectedUserProfileView', val.uid)
     localStorage.setItem('otherUserObjectDetails', JSON.stringify(userData))
     this.router.navigate(['home/profile-view/']);
