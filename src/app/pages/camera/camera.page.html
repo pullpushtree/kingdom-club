@@ -1,0 +1,55 @@
+<!-- home.page.html -->
+
+<ion-content [fullscreen]="true" [ngClass]="{'custom-ion-content': isToBack}">  
+  
+  <ion-grid class="girdStyle" >
+    
+    <ion-row>
+      <ion-col></ion-col>
+    </ion-row>
+    
+    <ion-row>
+
+      <ion-col size="2" size-sm>
+        <app-flip ></app-flip>
+      </ion-col>
+      <ion-col size="10" size-sm>
+      </ion-col>
+
+      <ion-col size="2" size-sm>
+        <app-flash></app-flash>
+      </ion-col>
+      <ion-col size="10" size-sm>        
+      </ion-col>
+
+      <ion-col size="2" size-sm>
+        <app-hide></app-hide>
+      </ion-col>
+      <ion-col size="10" size-sm>        
+      </ion-col>
+
+      <ion-col size="2" size-sm>
+        <app-record></app-record>
+      </ion-col>
+      <ion-col size="10" size-sm>        
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button size="large" (click)="takePicture()">
+      <ion-icon name="camera-outline" ></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-row *ngIf="IMAGE_PATH" >
+    <div class="imageLayer">
+      <ion-col>
+        <img [src]="IMAGE_PATH" style="height:100%;width:100%;">
+      </ion-col>
+    </div>
+  </ion-row>
+  
+</ion-content>

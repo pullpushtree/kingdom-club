@@ -47,3 +47,7 @@
 .swiper-pagination-bullet-active{
     transition: width 0.2s ease-in-out, height 0.2s easy-in-out;
 }
+
+.custom-ion-content{
+    --background:transparent;
+}

@@ -19,6 +19,10 @@ const routes: Routes = [
                 loadChildren:() => import('../pages/chats/chats.module').then(m => m.ChatsPageModule)
             },
             {
+              path: 'camera',
+              loadChildren: () => import('../pages/camera/camera.module').then( m => m.CameraPageModule)
+            },            
+            {
                 path: 'chats',
                 loadChildren:() => import('../pages/chats/chats.module').then(m => m.ChatsPageModule)
             },

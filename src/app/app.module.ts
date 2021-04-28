@@ -19,6 +19,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { IonicStorageModule } from '@ionic/storage';
 import { Camera } from '@ionic-native/camera/ngx';
+import { CameraPreview } from '@ionic-native/camera-preview/ngx';
+
 
 export const firebaseConfig = environment.firebaseConfig;
 
@@ -39,7 +41,8 @@ export const firebaseConfig = environment.firebaseConfig;
     StatusBar,    
     SplashScreen,
     Keyboard,
-    Camera,    
+    Camera,
+    CameraPreview,    
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
