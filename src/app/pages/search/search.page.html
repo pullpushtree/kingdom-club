@@ -21,7 +21,7 @@
          <img src="{{user.photoURL? user.photoURL : this.image}}" (click)="goToSelectedProfile(user)" >
        </ion-avatar>
        
-       <ion-col class="label" size="8" >
+       <ion-col class="label" size="8" (click)="goToSelectedProfile(user)">
         <ion-label>
           <h2>
             {{user.firstLastName ? user.firstLastName : "" }}
