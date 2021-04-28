@@ -1,0 +1,24 @@
+<div >  
+  <div *ngIf="isFlip; then unflipCamera else flipCamera" class="action-btn">
+    buttons renders here
+  </div>
+
+  <ng-template #flipCamera >  
+    
+    <ion-fab vertical="top" horizontal="left" slot="fixed">
+      <ion-fab-button size="small" (click)="toggleCamera()">        
+        <ion-icon name="camera-reverse-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </ng-template>
+
+  <ng-template #unflipCamera>      
+    <ion-fab vertical="top" horizontal="left" slot="fixed">
+      <ion-fab-button size="small" (click)="toggleCamera()">
+        <ion-icon name="repeat-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ng-template>
+  
+</div>
