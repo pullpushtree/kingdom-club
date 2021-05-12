@@ -16,7 +16,7 @@ export class ContactsPage implements OnInit {
   contacts: Observable<any[]>;
   
   currentUser: any;
-  image = "../../../assets/images/defaultProfile.png"
+  image = "../../../assets/images/defaultProfile.jpg"
   o_userId: string;
   newChatId: string;
   currentUserObject: Observable<any>;

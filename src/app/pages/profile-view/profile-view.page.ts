@@ -18,7 +18,7 @@ export class ProfileViewPage implements OnInit {
   user:any;
   o_userRef: any;
 
-  image = "../../../assets/images/defaultProfile.png"; 
+  image = "../../../assets/images/defaultProfile.jpg"; 
 
   isFollowing: boolean;
   following;

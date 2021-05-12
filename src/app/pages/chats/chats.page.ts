@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class ChatsPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
 
-  image = "../../../assets/images/defaultProfile.png"
+  image = "../../../assets/images/defaultProfile.jpg"
   messages: Observable<Message[]>;
   newMsg = '' ;
   currentUser: any;

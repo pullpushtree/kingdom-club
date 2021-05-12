@@ -16,7 +16,7 @@ export class SearchPage implements OnInit {
 
   platformUserId : string
   platformUser: any;
-  image = "../../../assets/images/defaultProfile.png";
+  image = "../../../assets/images/defaultProfile.jpg";
   searchTerm: any;
   
   list: any = []; 

@@ -18,7 +18,7 @@ import { AuthService } from "./auth.service";
 export class MediaService {
   currentUser: any;
 
-  image = "../../assets/images/defaultProfile.png"
+  image = "../../assets/images/defaultProfile.jpg"
   imagePath: string;
   imageUpload: any;
 
@@ -54,9 +54,9 @@ export class MediaService {
 
     this.imagePath = `profilePicture/${this.currentUser.uid}_`+ new Date().getTime() +'.jpg';
     await this.afStore.ref(this.imagePath).putString(this.picData, 'data_url')
-      .then((res) => {
-        const bootlegt = res.ref.getDownloadURL();
-        bootlegt.then(res => {
+      .then((snapshot) => {
+        const dwnldURL = snapshot.ref.getDownloadURL();
+        dwnldURL.then(res => {
           this.imgURL = res;
           if(getImageSlot == 'mainProfilePic'){
             //update firebase object user photoURL value
