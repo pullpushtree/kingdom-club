@@ -84,11 +84,8 @@
   --ion-color-light-tint: #f5f6f9;
 
   /** Background colour of entire app **/
-  --ion-background-color: #dedce0;  
-  //--background-color: transparent !important;     
-  app-camera ion-content{
-    --background-color: transparent !important;
-  }
+  
+  --background-color: transparent !important;
 
   --ion-color-kingdomClub: #57429E;
   --ion-color-kingdomClub-contrast: #050044;
@@ -112,6 +109,9 @@
    */
 
   body[color-theme="dark"] {
+    :not( ion-content .custom-ion-content ){   
+      --ion-background-color: #121212;
+    }
     --ion-color-primary: #428cff;
     --ion-color-primary-rgb: 66,140,255;
     --ion-color-primary-contrast: #ffffff;
@@ -182,10 +182,8 @@
    */
 
   .ios body[color-theme="dark"] {
-   --ion-background-color: #000000;   
-   //--background-color: transparent !important;     
-   app-camera ion-content{
-    --background-color: transparent !important;
+   :not( ion-content .custom-ion-content ){   
+    --ion-background-color: #121212;
   }
 
     --ion-text-color: #ffffff;
@@ -225,10 +223,8 @@
    */
 
   .md body[color-theme="dark"] {
+  :not( ion-content .custom-ion-content ){   
     --ion-background-color: #121212;
-    //--background-color: transparent !important;     
-    app-camera ion-content{
-      --background-color: transparent !important;     
     }
 
     --ion-text-color: #ffffff;
