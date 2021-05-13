@@ -1,0 +1,23 @@
+<div >  
+  <div *ngIf="isHidden; then unhide else hide">
+    buttons renders here
+  </div>
+
+  <ng-template #hide>
+    <ion-fab vertical="top" horizontal="left" slot="fixed">
+      <ion-fab-button size="small" (click)="togglePreview()">        
+        <ion-icon name="eye-outline" ></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </ng-template>
+
+  <ng-template #unhide>      
+    <ion-fab vertical="top" horizontal="left" slot="fixed">
+      <ion-fab-button size="small"  color="secondary" (click)="togglePreview()">
+        <ion-icon name="eye-off-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ng-template>
+  
+</div>

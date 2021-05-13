@@ -19,6 +19,10 @@ const routes: Routes = [
                 loadChildren:() => import('../pages/chats/chats.module').then(m => m.ChatsPageModule)
             },
             {
+              path: 'camera',
+              loadChildren: () => import('../pages/camera/camera.module').then( m => m.CameraPageModule)
+            },            
+            {
                 path: 'chats',
                 loadChildren:() => import('../pages/chats/chats.module').then(m => m.ChatsPageModule)
             },
@@ -43,12 +47,20 @@ const routes: Routes = [
                 loadChildren: () => import('../pages/profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
             },
             {
+              path: 'profile-view',
+              loadChildren: () => import('../pages/profile-view/profile-view.module').then( m => m.ProfileViewPageModule)
+            },
+            {
                 path: 'prompts/:id',
                 loadChildren: () => import('../pages/prompts/prompts.module').then( m => m.PromptsPageModule)
             },
             {
                 path: 'settings',
                 loadChildren:() => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
+            },
+            {
+              path: 'search',
+              loadChildren: () => import('../pages/search/search.module').then( m => m.SearchPageModule)
             },
             {
                 path: 'setup',

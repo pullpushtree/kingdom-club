@@ -1,0 +1,23 @@
+<div #IMAGE_PATH>  
+  <div *ngIf="isRecording; then stopRecording else startRecording">
+    buttons renders here
+  </div>
+
+  <ng-template #startRecording>
+    <ion-fab vertical="top" horizontal="left" slot="fixed">
+      <ion-fab-button size="small" (click)="toggleRecording()">        
+        <ion-icon name="videocam-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </ng-template>
+
+  <ng-template #stopRecording>      
+    <ion-fab vertical="top" horizontal="left" slot="fixed">
+      <ion-fab-button size="small" color="secondary" (click)="toggleRecording()">
+        <ion-icon name="videocam-off-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ng-template>
+  
+</div>

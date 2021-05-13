@@ -1,0 +1,206 @@
+ion-toolbar {
+    position: absolute;
+    --background: transparent;
+    --ion-color-base: transparent !important;
+    ion-row {
+      ion-buttons {
+        padding: 20px 20px 0px 0px;
+      }
+    }
+  }
+  
+  .no-profile-setup{  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  
+    img{
+      border-radius: 50%;    
+      height: 150px;
+      width: 150px;
+      margin-top: 10%;
+      object-fit: cover;
+    }
+    p {
+      text-align: center;
+    }
+     ion-button{
+      --background: linear-gradient(
+          90deg,
+          rgba(5,0,68,1) 0%, 
+          rgba(87,66,158,0.51) 57%, 
+          rgba(60,115,209,1) 100%);        
+     }
+  }
+  
+  .img-box {
+    position: relative;
+    z-index: 2;  
+    
+    .profile-img {
+      position: relative;
+      width: 100vw;
+      height: 100vw;
+      border-radius: 10px;
+      z-index: 0;
+      object-fit: cover;
+    }
+    
+    ion-row {
+      position: absolute;
+      top: 59%;
+      left: 50%;
+      transform: translate(-50%, 125%);
+      width: 100%;
+    }
+    
+    .input-pic {
+      background-color: rgba(148, 148, 158, 0.466);
+      border: 1px rgb(235, 232, 228) solid;
+      border-radius: 20px;
+      --border-radius: 20px;
+      --border-width: 1px;
+      margin: 13px auto;
+      margin-left: 10px;
+      font-weight: 500;
+      color: #eee6e6;
+      border: 1px #ebe8e4 solid;
+      height: 38px;
+    }
+  
+    ion-fab-button {
+      width: 38px;
+      height: 38px;
+      margin: 14px 10px 0px 10px;
+      
+      .fab-horizontal-center {
+        margin-left: unset;
+        margin-inline-start: -50px !important;
+      }
+    }
+  }
+  .lastImage{
+    margin-top: 12px;  
+  }
+  
+  .profile-contact-row {
+    ion-row {
+      justify-content: space-between;
+      width: 100%;    
+      margin: 10px 0px 10px 0px;
+  
+      .profile-lable-box-left {
+        padding-left: 10px;
+        justify-content: space-between;      
+        width: 60%;
+        
+        .profile-name-label {       
+          margin: 0px;
+          font-size: 15px;
+          display: flex;
+        }
+       
+        .profile-username-label {        
+          margin: 0px;
+          font-size: 12px;
+          display: flex;
+        }
+      }
+      
+      .profile-label-follow-right { 
+        justify-content: space-between;      
+        width: 40%;
+        .profile-follow-btn {
+          float: right;
+          margin: 0px;
+        }
+      }
+    }
+  }
+  
+  .text-card-school {  
+    background-color: rgba(148, 148, 158, 0.2);
+    border-radius: 10px;
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0px 20px 0px;
+    width: 100%;
+    --box-shadow: rgba(28, 61, 207, 0.12) 0px 4px 16px;
+    box-shadow: rgb(0 0 0 / 12%) 0px 4px 5px;
+    //box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+    //box-shadow: inset rgb(0 0 0 / 12%) 0px 4px 5px;
+  
+    ion-row {    
+      
+      p {
+        margin: 0px;
+      }
+    }
+  }
+  
+  .text-card-prompt {  
+    background-color: rgba(148, 148, 158, 0.2);
+    border-radius: 10px;
+    width: 100%;
+    --box-shadow: rgba(28, 61, 207, 0.12) 0px 4px 16px;
+    box-shadow: rgb(0 0 0 / 12%) 0px 4px 5px;
+    // box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+    // box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+    //box-shadow: inset rgb(0 0 0 / 12%) 0px 4px 5px;  
+    
+    margin: 20px 0px 20px 0px;
+  
+    .profile-prompts-text {    
+      padding: 20px 20px 0px 20px;
+      width: 100%;
+      
+      p {
+        margin: 0px;
+        font-size: 14px !important;
+        font-family: "Roboto", sans-serif;
+      }
+    }
+  
+    .profile-prompts-asnwer {    
+      padding: 0px 20px 20px 20px;
+      width: 100%;
+  
+      h3 {
+        font-weight: 600;
+        margin-top: 10px;
+        font-weight: 700;
+        font-size: 20px !important;
+        line-height: 21px !important;
+      }
+    }
+  
+    .image-input-row-style {    
+      padding: 10px 10px 10px 10px;
+      width: 100%;
+  
+      ion-fab-button {
+        width: 38px;
+        height: 38px;
+        
+        .fab-horizontal-center {
+          margin-left: unset;
+          margin-inline-start: -49px !important;
+        }
+        
+      }
+  
+      .input-prompt {
+          background-color: rgba(148, 148, 158, 0.466);        
+          border: 1px #c2baba solid;
+          color: #3d3434;
+          border-radius: 20px;
+          --border-radius: 20px;
+          --border-width: 1px;
+          margin-right: 10px;
+          font-weight: 500;        
+          height: 38px;
+        }
+  
+    }
+  }
+  

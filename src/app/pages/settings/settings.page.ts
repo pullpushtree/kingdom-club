@@ -11,7 +11,7 @@ import { AuthService } from "src/app/services/auth.service";
 })
 export class SettingsPage implements OnInit {
   isDarkThemeTurnedOn: boolean;
-  image = "../../../assets/images/defaultProfile.png"
+  image = "../../../assets/images/defaultProfile.jpg"
   currentUser: any;  
   userData = {
     firstLastName: "",

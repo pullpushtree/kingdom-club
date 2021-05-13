@@ -1,0 +1,24 @@
+<div >  
+  <div *ngIf="isFlashOn; then flashOn else flashOff">
+    buttons renders here
+  </div>
+
+  <ng-template #flashOn>  
+    
+    <ion-fab vertical="top" horizontal="left" slot="fixed">
+      <ion-fab-button size="small" color="secondary" (click)="toggleFlashMode()">       
+        <ion-icon name="flash-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </ng-template>
+
+  <ng-template #flashOff>      
+    <ion-fab vertical="top" horizontal="left" slot="fixed">
+      <ion-fab-button size="small" (click)="toggleFlashMode()">
+        <ion-icon name="flash-off-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ng-template>
+  
+</div>

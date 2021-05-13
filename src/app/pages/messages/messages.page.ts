@@ -14,7 +14,7 @@ export class MessagesPage implements OnInit {
 
   messages: Observable<Message[]>;
   newMsg = '' ;
-  image = "../../../assets/images/defaultProfile.png"  
+  image = "../../../assets/images/defaultProfile.jpg"  
 
   constructor(
     private router: Router,

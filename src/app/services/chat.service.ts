@@ -5,7 +5,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 
 
@@ -25,6 +24,14 @@ export interface Message {
   fromPhoto: string;
   sentBy: string;
 }
+export interface Contact {
+  uid: string;  
+  displayName: string;
+  photoURL: string;  
+  follow: boolean;
+  follower: boolean;
+  isInMyContacts: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +48,6 @@ export class ChatService {
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
-    //private authService: AuthService,
     private router: Router,
     
   ) { 
@@ -51,7 +57,8 @@ export class ChatService {
   }  
 
   getUsers() {
-    return this.afs.collection('users').valueChanges({idField: 'uid'}) as Observable<User[]>;
+    return this.afs.collection('users')
+    .valueChanges({idField: 'uid'}) as Observable<User[]>;
   }
  
   async setOtherDetails(participantsDetails){
