@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2,  } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 import { CameraService } from '../../../services/camera.service';
 
 @Component({
@@ -6,28 +7,44 @@ import { CameraService } from '../../../services/camera.service';
   templateUrl: './flash.component.html',
   styleUrls: ['./flash.component.scss'],
 })
-export class FlashComponent implements OnInit {
-
-  isFlashOn = 'off';
+export class FlashComponent implements OnInit, AfterViewInit {
+  isFlashOn = false;
+  flashMode = 'off'
   constructor(
-    private cameraService : CameraService
+    private cameraService : CameraService,
+    private toastr: ToastController,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit() {}
 
+  ngAfterViewInit(){
+    if(this.isFlashOn == true) {
+      this.renderer.setAttribute(this.isFlashOn, 'isFlashOn', 'true')
+    }
+  }
 
   toggleFlashMode(){
     
-    console.log("Starting isFlashOn value ", this.isFlashOn)
-    if(this.isFlashOn == 'off') {      
-      this.isFlashOn = 'on';
-      console.log("flash is off and it's being set on ? ", this.isFlashOn)
-      this.cameraService.changeFlashMode(this.isFlashOn)     
-    } else {      
-      this.isFlashOn = 'off'; 
-      console.log("flash is on is is being set off. Should be false: ", this.isFlashOn)
-      this.cameraService.changeFlashMode(this.isFlashOn)          
+    if(this.flashMode == 'off') {
+      this.flashMode = 'on';
+      this.isFlashOn = true;
+      this.cameraService.changeFlashMode(this.flashMode) 
+    
+    } else { 
+      this.flashMode = 'off';
+      this.isFlashOn = false;
+      this.cameraService.changeFlashMode(this.flashMode)
     }
   } 
 
+  async toast(message,status){
+    const toast = await this.toastr.create({
+      message: message,
+      position: 'bottom',
+      color: status, 
+      duration: 2000
+    });
+    toast.present();
+  }
 }

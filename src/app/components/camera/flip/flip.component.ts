@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { ToastController } from '@ionic/angular';
+import { truncate } from 'node:fs';
 import { CameraService } from 'src/app/services/camera.service';
 
 @Component({
@@ -7,23 +9,38 @@ import { CameraService } from 'src/app/services/camera.service';
   styleUrls: ['./flip.component.scss'],
 })
 export class FlipComponent implements OnInit {
-
-  isFlip = false;
-  constructor(private cameraService : CameraService) { }
+  @Input() isBackCamera: boolean;
+  
+  constructor(
+    private cameraService : CameraService,
+    private toastr: ToastController, 
+    ) { }
 
   ngOnInit() {}
 
-  toggleCamera(){
-    
-    console.log("Starting  isFlip value : ", this.isFlip)
-    if(this.isFlip) {
-      this.isFlip = false    
-      console.log("flip to false - USER front of Camera", this.isFlip)     
-      this.cameraService.switchCamera().then( () => this.isFlip = false)  
-    } else { 
-      //this.isFlip = true
-      console.log("flip to true - USE back of CAMERA", this.isFlip)
-      this.cameraService.switchCamera().then( () => this.isFlip = true)    
-    }   
-  }   
+  async toast(message, status){
+    const toast = await this.toastr.create({
+      message: message,
+      position: 'bottom',
+      color: status, 
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  toggleCamera( flip: any ){
+    if (flip == true ){
+      this.cameraService.stopCamera()
+      .then( () => {
+        this.cameraService.startCameraBack()
+        .then( () => this.isBackCamera = true )
+      })  
+    } else {
+      this.cameraService.stopCamera()
+      .then( () => {
+        this.cameraService.startCameraFront()
+        .then( () => this.isBackCamera = false )
+      })
+    }
+  } 
 }

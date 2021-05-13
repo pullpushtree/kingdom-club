@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CameraService } from 'src/app/services/camera.service';
 
 @Component({
   selector: 'app-record',
@@ -10,7 +9,7 @@ export class RecordComponent implements OnInit {
   @Input() IMAGE_PATH: any;
   
   isRecording = false;
-  constructor(private cameraService : CameraService) { }
+  constructor() { }
 
   ngOnInit() {
     
@@ -22,12 +21,10 @@ export class RecordComponent implements OnInit {
 
     if(!this.isRecording) {
       this.isRecording = true
-      console.log("isRecording = true ", this.isRecording)
-      this.IMAGE_PATH = this.cameraService.startRecordVideo()
+      console.log("isRecording = true ", this.isRecording)      
     } else { 
       this.isRecording = false   
-      console.log("isRecording = false ", this.isRecording)     
-      this.IMAGE_PATH = this.cameraService.stopRecordVideo()       
+      console.log("isRecording = false ", this.isRecording)           
     }   
   }
 }
