@@ -1,55 +1,74 @@
-<!-- home.page.html -->
-
-<ion-content [fullscreen]="true" [ngClass]="{'custom-ion-content': isToBack}">  
+<ion-content [fullscreen]="true" [ngClass]="{'custom-ion-content': true}">    
   
-  <ion-grid class="girdStyle" >
+    <div *ngIf="IMAGE_PATH; then saveBtnOn else picBtnOn">
+      content renders here
+    </div>  
+
+    <ng-template #saveBtnOn>  
+
+      <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+        <ion-fab-button size="small" (click)="clearPicture()">
+          <ion-icon name="close-outline" ></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+         
+      <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+        <ion-fab-button size="small" (click)="cropPicture()">
+          <ion-icon name="crop-outline"></ion-icon>          
+        </ion-fab-button>
+      </ion-fab>
+
+
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button size="small" (click)="savePicture()">
+          <ion-icon name="chevron-forward-outline" class="fab-btn-horizontal-align"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ng-template>
+  
+    <ng-template #picBtnOn>      
+      <ion-grid class="girdStyle" >
     
-    <ion-row>
-      <ion-col></ion-col>
-    </ion-row>
+        <ion-row>
+          <ion-col></ion-col>
+        </ion-row>
+        
+        <ion-row>
     
-    <ion-row>
-
-      <ion-col size="2" size-sm>
-        <app-flip ></app-flip>
-      </ion-col>
-      <ion-col size="10" size-sm>
-      </ion-col>
-
-      <ion-col size="2" size-sm>
-        <app-flash></app-flash>
-      </ion-col>
-      <ion-col size="10" size-sm>        
-      </ion-col>
-
-      <ion-col size="2" size-sm>
-        <app-hide></app-hide>
-      </ion-col>
-      <ion-col size="10" size-sm>        
-      </ion-col>
-
-      <ion-col size="2" size-sm>
-        <app-record></app-record>
-      </ion-col>
-      <ion-col size="10" size-sm>        
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
-
-
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button size="large" (click)="takePicture()">
-      <ion-icon name="camera-outline" ></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+          <ion-col size="2" size-sm>
+            <app-flip #isBackCamera></app-flip>
+          </ion-col>
+          <ion-col size="10" size-sm>
+          </ion-col>
+    
+          <ion-col size="2" size-sm>
+            <app-flash #isFlashOn></app-flash>
+          </ion-col>
+          <ion-col size="10" size-sm>    
+          </ion-col>
+    
+          <ion-col size="2" size-sm>
+            <app-hide></app-hide>
+          </ion-col>
+          <ion-col size="10" size-sm>    
+          </ion-col>
+    
+          <ion-col size="2" size-sm>
+            <app-record></app-record>
+          </ion-col>
+          <ion-col size="10" size-sm>    
+          </ion-col>
+    
+        </ion-row>
+      </ion-grid>
+      <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+        <ion-fab-button size="large" (click)="takePicture()">
+          <ion-icon name="camera-outline" ></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ng-template>
 
   <ion-row *ngIf="IMAGE_PATH" >
-    <div class="imageLayer">
-      <ion-col>
-        <img [src]="IMAGE_PATH" style="height:100%;width:100%;">
-      </ion-col>
-    </div>
+    <img id="IMAGE_PATH" [src]="IMAGE_PATH" class="croppedImage" >    
   </ion-row>
-  
 </ion-content>
