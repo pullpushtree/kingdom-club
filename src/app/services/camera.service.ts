@@ -14,7 +14,6 @@ export class CameraService {
   currentUser: any;
   IMAGE_PATH: any;  
   setZoom = 1;
-  flashMode = 'off'; 
   imgURL: any;
   picData: string;
   
@@ -105,10 +104,10 @@ export class CameraService {
       width: window.screen.width,
       height: window.screen.height,
       camera: this.cameraPreview.CAMERA_DIRECTION.BACK,
-      toBack: true,
       tapPhoto: false,
       previewDrag: false,
-      alpha: 0,
+      toBack: true,
+      alpha: 1,
       disableExifHeaderStripping: true,
     }
 
@@ -131,9 +130,9 @@ export class CameraService {
       width: window.screen.width,
       height: window.screen.height,
       camera: this.cameraPreview.CAMERA_DIRECTION.FRONT,
-      toBack: true,
       tapPhoto: false,
       previewDrag: false,
+      toBack: true,
       alpha: 1,
       disableExifHeaderStripping: true
     }
@@ -149,7 +148,7 @@ export class CameraService {
   async stopCamera() {
     return await this.cameraPreview.stopCamera()
     .then((cameraData) => {
-      console.error('camera STOP :' + cameraData)
+      console.log('camera STOP :' + cameraData)
     });
   }
 

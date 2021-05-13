@@ -7,8 +7,7 @@ import { CameraService } from '../../services/camera.service';
   styleUrls: ['./camera.page.scss'],
 })
 export class CameraPage implements OnInit {
-  @Input('isFlashOn') isFlashOn : Boolean
-  @Input('isBackCamera') isBackCamera : Boolean
+  isBackCamera : Boolean
   IMAGE_PATH: any;
   
   constructor(
@@ -31,12 +30,16 @@ export class CameraPage implements OnInit {
     });     
   }
 
+  savePicture(){
+    this.cameraService.savePicture(this.IMAGE_PATH)
+  }
+
   cropPicture(){
     console.log("Camera.ts cropPicture() got hit",)  
   }
 
   clearPicture(){
-    this.IMAGE_PATH = null
+    this.IMAGE_PATH = ''
   }
 
   ionViewWillLeave(){
