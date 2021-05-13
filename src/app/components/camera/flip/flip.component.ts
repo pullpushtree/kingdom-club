@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { truncate } from 'node:fs';
 import { CameraService } from 'src/app/services/camera.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { CameraService } from 'src/app/services/camera.service';
   styleUrls: ['./flip.component.scss'],
 })
 export class FlipComponent implements OnInit {
-  @Input() isBackCamera: boolean;
+  isBackCamera: boolean = false ;
   
   constructor(
     private cameraService : CameraService,
@@ -42,5 +41,12 @@ export class FlipComponent implements OnInit {
         .then( () => this.isBackCamera = false )
       })
     }
-  } 
+  }
+
+  ionWillLeave(){
+    this.cameraService.stopCamera()
+      .then( () => {       
+       this.isBackCamera = false        
+      })
+  }  
 }

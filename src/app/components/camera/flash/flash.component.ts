@@ -47,4 +47,9 @@ export class FlashComponent implements OnInit, AfterViewInit {
     });
     toast.present();
   }
+  ionWillLeave(){    
+    this.flashMode = 'off';
+    this.isFlashOn = false;
+    this.cameraService.changeFlashMode(this.flashMode)
+  }
 }
