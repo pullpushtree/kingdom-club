@@ -108,7 +108,7 @@ export class CameraService {
       previewDrag: false,
       toBack: true,
       alpha: 1,
-      disableExifHeaderStripping: true,
+      disableExifHeaderStripping: false
     }
 
     return await this.cameraPreview.startCamera(cameraPreviewOpts)
@@ -134,7 +134,7 @@ export class CameraService {
       previewDrag: false,
       toBack: true,
       alpha: 1,
-      disableExifHeaderStripping: true
+      disableExifHeaderStripping: false
     }
       
     return await this.cameraPreview.startCamera(cameraPreviewOpts)
