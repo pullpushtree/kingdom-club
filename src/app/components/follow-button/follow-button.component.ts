@@ -13,10 +13,10 @@ export class FollowButtonComponent implements OnInit {
 
   followerCount: number;
   isFollowing: boolean;
-  image = "../../../assets/images/defaultProfile.png"
+  image = "../../../assets/images/defaultProfile.jpg"
 
-  followers;
-  following;
+  followers: any;
+  following: any;
   followingCount: any;
 
   constructor(

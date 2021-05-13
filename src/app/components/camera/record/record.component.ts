@@ -21,10 +21,10 @@ export class RecordComponent implements OnInit {
 
     if(!this.isRecording) {
       this.isRecording = true
-      console.log("isRecording = true ", this.isRecording)      
+      console.log("isRecording = true ", this.isRecording)
     } else { 
       this.isRecording = false   
-      console.log("isRecording = false ", this.isRecording)           
+      console.log("isRecording = false ", this.isRecording)     
     }   
   }
 }
