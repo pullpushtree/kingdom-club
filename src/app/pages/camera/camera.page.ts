@@ -1,4 +1,5 @@
 import { Component, Input, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 import { CameraService } from '../../services/camera.service';
 
 @Component({
@@ -11,6 +12,7 @@ export class CameraPage implements OnInit {
   IMAGE_PATH: any;
   
   constructor(
+    private router: Router,
     private cameraService : CameraService
   ) { }
 
@@ -32,6 +34,7 @@ export class CameraPage implements OnInit {
 
   savePicture(){
     this.cameraService.savePicture(this.IMAGE_PATH)
+    this.router.navigateByUrl('/home/profile-gallery')
   }
 
   cropPicture(){
