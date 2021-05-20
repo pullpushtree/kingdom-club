@@ -1,0 +1,104 @@
+.gallery-photo {
+  width: 250;
+  height: 250;
+}
+
+.selected-image{
+  position: absolute;
+  top: 71px;
+  right: 89px;
+  z-index: 50;
+  font-size: 27px;
+}
+
+.above-section {
+  justify-content: center;
+  align-content: center;
+  display: grid;
+  height: 50%;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.line{
+  width: 100%;
+  height: 5px;
+  
+  background: linear-gradient(
+    90deg,
+    rgba(5,0,68,1) 0%, 
+    rgba(87,66,158,0.51) 57%, 
+    rgba(60,115,209,1) 100%);
+    margin-bottom: 2px;
+}  
+
+.fab-above-bottom{
+  top: 37vh
+}
+
+
+ion-icon{
+  font-size: 25px;
+}
+
+.label-username {
+  margin-top: 10%;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  display: flex;
+  width: 500 px;
+  height: 500 px;
+
+  h3 {
+    font-size: 17px;
+    margin: 0px 0px 0px 0px;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+  }
+
+  h4 {
+    font-size: 15px;
+    margin: 0px 10px 0px 0px;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+
+    font-size: 1rem;    
+    letter-spacing: 1px;    
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+  }
+}
+
+ion-grid{
+  padding: 1px;
+  margin: 0px;  
+  ion-col {
+    padding: 0px;    
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  ion-row {
+    padding: 0px;
+    margin: 0px;
+    
+    img {      
+      height: 100px;
+      width: 100%;      
+      object-fit: cover;
+      &.cover {
+        object-fit: contain;
+      }
+    }
+  }
+}

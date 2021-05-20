@@ -1,0 +1,49 @@
+<ion-content>
+  <div class="above-section"> 
+    <img src="{{userData.photoURL ? userData.photoURL : this.image}}" (click)="gotToProfile()">         
+    <div class="label-username">      
+      <h3>{{userData.firstLastName ? userData.firstLastName : ""}}</h3>      
+      <h4>@{{userData?.displayName}}</h4>
+    </div>
+  </div>
+  
+  <ion-fab class="fab-first" vertical="top" horizontal="end" >
+    <ion-fab-button *ngIf="noPictures" color="light" size="small" (click)="toggleBulkEdit()">
+      <ion-icon name="options-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab class="fab-above-bottom" horizontal="start">
+    <ion-fab-button *ngIf="bulkEdit" color="light" size="small" (click)="unselectAllItems()">
+      <ion-icon name="close-circle-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  
+  <ion-fab  class="fab-above-bottom" horizontal="end">
+    <ion-fab-button *ngIf="bulkEdit" color="danger" size="small" (click)="delete()">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div class="line"></div>
+  <ion-grid>    
+
+    <ion-row>
+      <ion-col *ngFor="let image of gallery | async ; let i = index " size="4">
+        <img [src]="image.photoURL" (click)="openSelectedPicture(i)" tappable>       
+        
+        <ion-icon
+        class="selected-image" 
+        (click)=!selected?toggleCirlce():selectedItem(image)
+        (press)=selectedItem(image)
+        [ngStyle]="{'color' : image.isSelected ? '#ffffff' : '#ffffff' }"
+        [name]="image.icon? 'ellipse' : 'ellipse-outline' "         
+        [id]="image.uid"
+        *ngIf="bulkEdit"      
+        ></ion-icon> 
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>  
+
+</ion-content>
