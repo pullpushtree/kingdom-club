@@ -34,7 +34,7 @@ export class CameraService {
     return await this.cameraPreview.takePicture({  
       width: 1280,
       height: 1280,
-      quality: 100      
+      quality: 85      
     })
     .then((rawImageData) => {   
     this.savePreviewPicture(rawImageData)
@@ -51,44 +51,68 @@ export class CameraService {
     
     const curUser = JSON.parse(this.currentUser)
     const name = Math.floor(Date.now() / 1000)
-    const imagePath = `${curUser.uid}/scrapPic_${name}.jpg`; 
+    
+    const imagePath = `${curUser.uid}/scrapPics2/${name}.jpg`; 
     this.picData = "data:image/jpg;base64," + rawImageData;
     
-    const picRef = await this.afStore.ref(imagePath)    
+    const picRef = this.afStore.ref(imagePath)    
     picRef.putString(this.picData, 'data_url', {contentType: 'image/jpeg'})
     .then((snapshot) => {
       const dwnldURL = snapshot.ref.getDownloadURL();
-        dwnldURL.then(res => {
-          this.imgURL = res;   
-          this.afs.doc(`scrapbook/${curUser.uid}`)
-          .set({
+        dwnldURL.then(url => {
+          this.imgURL = url;   
+          this.afs.collection(`scrapbook2/${curUser.uid}/album`)          
+          .add({
+            uidd : this.afs.createId(),
             photoURL : this.imgURL,            
             fileName : imagePath,
             dateStamp : Date.now()
           })
-        })      
+          .then((docRef) => {
+            console.log("Document written with ID GOLD : ", docRef.id);
+            this.afs.doc(`scrapbook2/${curUser.uid}/album/${docRef.id}`)
+            .update({ uid : docRef.id})
+            .catch(function(error) {
+              console.error("Error adding document UID: ", error);
+          });
+          })
+          .catch(function(error) {
+              console.error("Error adding document: ", error);
+          });
+        })
+        .catch(err => {
+          this.toast("Picture Save Pic Preview Failed", "danger")
+          console.error(err)
+        })
     })
   }
 
   async savePicture(rawImageData){
-
+    
     const curUser = JSON.parse(this.currentUser)
     const name = Math.floor(Date.now() / 1000)
-    const imagePath = `${curUser.uid}/pictures_${name}.jpg`; 
-    this.picData = "data:image/jpg;base64," + rawImageData;
-    
-    const picRef = await this.afStore.ref(imagePath)    
-    picRef.putString(this.picData, 'data_url', {contentType: 'image/jpeg'})
+    console.log("user Id savePicture() ", curUser.uid)
+    const imagePath = `${curUser.uid}/pictures/${name}.jpg`; 
+        
+    const picRef = this.afStore.ref(imagePath)    
+    picRef.putString(rawImageData, 'data_url', {contentType: 'image/jpeg'})
     .then((snapshot) => {
       const dwnldURL = snapshot.ref.getDownloadURL();
       dwnldURL.then(res => {
         this.imgURL = res;   
-        this.afs.doc(`pictures/${curUser.uid}`)
-        .set({
+        this.afs.collection(`pictures/${curUser.uid}/album`)          
+        .add({
+          uid : this.afs.createId(),
           photoURL : this.imgURL,            
           fileName : imagePath,
           dateStamp : Date.now()
         })
+        .catch(err => {
+          console.error("Error occured while saving picture", err)
+        })
+      })
+      .catch(err => {
+        console.error("Error occured getting the ref picture url ", err)
       })      
     })
     .catch(err => {
