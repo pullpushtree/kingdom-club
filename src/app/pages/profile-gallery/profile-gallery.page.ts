@@ -18,15 +18,13 @@ export class ProfileGalleryPage implements OnInit {
     displayName: "",
     firstLastName: "",
     photoURL: ""
-  }
+  };
   bulkEdit = false;
   selected = false;
   
   selectedItems = [];
   pictureCount: number;
   noPictures: boolean;
-  
-  
 
   constructor(
     private router: Router,
@@ -66,7 +64,7 @@ export class ProfileGalleryPage implements OnInit {
   }
 
   openSelectedPicture(index: any){
-    this.router.navigateByUrl('home/profile-roll/' + index )
+    this.router.navigateByUrl('home/profile-roll/' + index );
   }
   
   toggleBulkEdit(){
@@ -76,28 +74,32 @@ export class ProfileGalleryPage implements OnInit {
   toggleCirlce(){
     this.selected = !this.selected;
   }
+
+  //toggle property on selected item to handle html styling
   toggleCirlce2(item: any){
     item.isSelected = false;
   }
 
+  //insert property on selected item to handle html styling
   toggleIcon(item: any){
     item.icon = false;
   }
 
   selectedItem(item: any){
+    //insert property on selected item to handle html styling
     item.isSelected = !item.isSelected;
     item.icon = !item.icon;
 
     if(!item.isSelected){
-      const selectedItemsArray = this.selectedItems 
+      const selectedItemsArray = this.selectedItems; 
 
       for ( var i = 0; i < selectedItemsArray.length; i++){
         if(selectedItemsArray[i].uid == item.uid) {
           selectedItemsArray.splice(i, 1);
         }
       }
-    } else {      
-      //Add selected item 
+    } else {     
+      
       this.selectedItems.push(item);
     }
   }  
@@ -119,9 +121,6 @@ export class ProfileGalleryPage implements OnInit {
     
     this.selectedItems = [];
     this.selected = false;
-    console.log("unselectAllItems()  this.selectedItems[] value : ", this.selectedItems)
+    console.log("unselectAllItems()  this.selectedItems[] value : ", this.selectedItems);
   }
-
-
-
 }
