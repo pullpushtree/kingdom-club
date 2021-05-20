@@ -1,0 +1,10 @@
+<ion-content>
+  <ion-card *ngFor=" let c of roll | async ; let i = index">
+    <img [src]="c.photoURL ? c.photoURL : image">
+    <ion-card-content>   
+      <ion-icon name="heart-outline"></ion-icon>
+      <ion-icon name="chatbubble-outline"></ion-icon>
+      <ion-icon name="paper-plane-outline"></ion-icon>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

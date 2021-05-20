@@ -1,0 +1,24 @@
+ion-card {
+    //position: relative;
+    //height:60vh;
+    //width: 100vw;
+    display: flex;
+    flex-direction: column;
+    margin: 0 !important;
+    
+}
+  
+ion-card-content {
+  ion-icon{
+    font-size: 22px;
+    padding-right: 10px;
+  }  
+}
+
+img {
+  position: relative;
+  height: 60vh;  
+  width: 100vw;
+  z-index: 2; 
+  object-fit: cover;  
+}
