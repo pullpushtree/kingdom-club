@@ -19,8 +19,8 @@ const routes: Routes = [
                 loadChildren:() => import('../pages/chats/chats.module').then(m => m.ChatsPageModule)
             },
             {
-              path: 'camera',
-              loadChildren: () => import('../pages/camera/camera.module').then( m => m.CameraPageModule)
+                path: 'camera',
+                loadChildren: () => import('../pages/camera/camera.module').then( m => m.CameraPageModule)
             },            
             {
                 path: 'chats',
@@ -35,8 +35,8 @@ const routes: Routes = [
                 loadChildren: () => import('../pages/contacts/contacts.module').then( m => m.ContactsPageModule)
             },
             {
-              path: 'messages',
-              loadChildren: () => import('../pages/messages/messages.module').then( m => m.MessagesPageModule)
+                path: 'messages',
+                loadChildren: () => import('../pages/messages/messages.module').then( m => m.MessagesPageModule)
             },
             {
                 path: 'profile',
@@ -47,8 +47,16 @@ const routes: Routes = [
                 loadChildren: () => import('../pages/profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
             },
             {
-              path: 'profile-view',
-              loadChildren: () => import('../pages/profile-view/profile-view.module').then( m => m.ProfileViewPageModule)
+                path: 'profile-gallery',
+                loadChildren: () => import('../pages/profile-gallery/profile-gallery.module').then( m => m.ProfileGalleryPageModule)
+            },
+            {
+                path: 'profile-roll/:id',
+                loadChildren: () => import('../pages/profile-roll/profile-roll.module').then( m => m.ProfileRollPageModule)
+            },
+            {
+                path: 'profile-view',
+                loadChildren: () => import('../pages/profile-view/profile-view.module').then( m => m.ProfileViewPageModule)
             },
             {
                 path: 'prompts/:id',
@@ -59,8 +67,8 @@ const routes: Routes = [
                 loadChildren:() => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
             },
             {
-              path: 'search',
-              loadChildren: () => import('../pages/search/search.module').then( m => m.SearchPageModule)
+                path: 'search',
+                loadChildren: () => import('../pages/search/search.module').then( m => m.SearchPageModule)
             },
             {
                 path: 'setup',
