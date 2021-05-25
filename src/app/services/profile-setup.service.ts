@@ -3,6 +3,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { User } from "../models/User";
 import { AuthService } from "./auth.service";
+import firebase from "firebase/app";
 
 @Injectable({
   providedIn: "root",
@@ -11,27 +12,19 @@ export class ProfileSetupService {
   profData: any;
   profViewData: any;
   profileImg: string;
-  gelleryData: any;
   currentUser: any;
-  userData: { 
-    displayName: string; 
-    firstLastName: string; 
-    photoURL: string; 
-  };
 
   constructor(
     private afs: AngularFirestore,
     private afauthSrv: AuthService,
   ) {
-    this.afauthSrv.user$.subscribe((user) => {
+    this.getCurrentUser().subscribe((user) => {
       this.currentUser = user;      
-      this.userData = {
-        displayName: this.currentUser.displayName,
-        firstLastName: this.currentUser.firstLastName,
-        photoURL: this.currentUser.photoURL
-      }
-      console.log("userData : ", this.userData)
     })
+  }
+
+  getCurrentUser(){
+    return this.afauthSrv.user$;
   }
 
   getScrapbookImages() {
@@ -65,6 +58,20 @@ export class ProfileSetupService {
     return this.afs.collection(`scrapbook2/${this.currentUser.uid}/album`, ref => 
     ref.orderBy('dateStamp', 'desc' ))
     .valueChanges();
+  }
+
+  toggleHeartRemove(img: any) {
+    let selectedImage = this.afs.doc(`scrapbook2/${this.currentUser.uid}/album/${img.uid}`);
+      selectedImage.update({
+        liked: firebase.firestore.FieldValue.arrayRemove(this.currentUser.uid)    
+    });    
+  }
+
+  toggleHeartAdd(img: any) {
+    let selectedImage = this.afs.doc(`scrapbook2/${this.currentUser.uid}/album/${img.uid}`);
+      selectedImage.update({
+        liked: firebase.firestore.FieldValue.arrayUnion(this.currentUser.uid)
+    });
   }
 
   setProfData(profObj: any) {
