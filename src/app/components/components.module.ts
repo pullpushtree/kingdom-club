@@ -7,15 +7,16 @@ import { FlipComponent } from '../components/camera/flip/flip.component';
 import { FlashComponent } from '../components/camera/flash/flash.component';
 import { RecordComponent } from '../components/camera/record/record.component';
 import { HideComponent } from '../components/camera/hide/hide.component';
+import { GalleryRollCardComponent } from '../components/gallery-roll-card/gallery-roll-card.component';
 
 @NgModule({
   declarations: [
     SelectImageComponent, FollowButtonComponent, FlipComponent, FlashComponent,
-    RecordComponent, HideComponent
+    RecordComponent, HideComponent, GalleryRollCardComponent
   ],
   exports: [
      SelectImageComponent, FollowButtonComponent, FlipComponent, FlashComponent,
-     RecordComponent, HideComponent
+     RecordComponent, HideComponent, GalleryRollCardComponent,
   ],
   imports: [
     CommonModule,

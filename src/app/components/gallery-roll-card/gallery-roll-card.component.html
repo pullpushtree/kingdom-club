@@ -1,0 +1,17 @@
+<ion-card >
+  <img [src]="img.photoURL ? img.photoURL : image"> 
+  <ion-card-content>   
+    
+    <ion-row>
+      <ion-icon       
+      (click)="toggleHeart(img)"
+      [color]="img.liked !== undefined && img.liked.includes(this.currentUser.uid)  ? 'danger' : '#737373' "     
+      [name]="img.liked !== undefined && img.liked.includes(this.currentUser.uid)   ? 'heart' : 'heart-outline' "     
+      class="icon-heart"
+      ></ion-icon>
+      <ion-icon name="chatbubble-outline"></ion-icon>
+      <ion-icon name="paper-plane-outline"></ion-icon>
+    </ion-row>    
+
+  </ion-card-content>
+</ion-card>

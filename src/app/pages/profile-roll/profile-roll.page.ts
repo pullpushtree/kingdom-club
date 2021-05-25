@@ -7,17 +7,24 @@ import { ProfileSetupService } from 'src/app/services/profile-setup.service';
   styleUrls: ['./profile-roll.page.scss'],
 })
 export class ProfileRollPage implements OnInit {
-  roll: any; 
-  image = "../../../assets/images/logo_square.png";
+  image = "../../../assets/images/logo_square.png";  
+  currentUser: any;
+  roll: any;  
+  
   constructor(
-    private gallerySetup: ProfileSetupService
+    private profileSetup: ProfileSetupService
   ) { }
-
-  ngOnInit() {
-    this.getSelectedRoll();
+  
+  ionViewDidEnter(){
+    this.profileSetup.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+      this.getSelectedRoll();
+    });
   }
   
+  ngOnInit() { }
+  
   getSelectedRoll(){
-    this.roll = this.gallerySetup.getSelectedRoll();
+    this.roll = this.profileSetup.getSelectedRoll();
   }
 }

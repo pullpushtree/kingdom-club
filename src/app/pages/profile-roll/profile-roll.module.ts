@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { ProfileRollPageRoutingModule } from './profile-roll-routing.module';
 
 import { ProfileRollPage } from './profile-roll.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     ProfileRollPageRoutingModule
   ],
   declarations: [ProfileRollPage]

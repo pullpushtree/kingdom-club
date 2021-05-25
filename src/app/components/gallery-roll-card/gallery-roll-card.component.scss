@@ -1,0 +1,23 @@
+ion-card {
+    display: flex;
+    flex-direction: column;
+    margin: 0 !important;
+}
+  
+ion-card-content {
+  ion-icon{
+    font-size: 27px;
+    padding-right: 10px;
+  } 
+  .icon-heart{
+    font-size: 29px;
+    padding-right: 11px;
+  }
+}
+
+img {
+   position: relative;
+   height: 60vh;  
+   width: 100vw;  
+   object-fit: cover;  
+}
