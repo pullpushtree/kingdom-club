@@ -132,7 +132,6 @@ export class ChatService {
         msg.fromPhoto = this.getFBUserForImg(msg);
         msg.myMsg = this.currentUser.uid === msg.sentBy
       }
-      console.log('FB messages: ', messages)
       return messages;
     })
     )
