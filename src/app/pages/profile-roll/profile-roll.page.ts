@@ -33,7 +33,7 @@ export class ProfileRollPage implements OnInit {
     let index = this.activatedRoute.snapshot.paramMap.get("id");    
     let indexNumber = +index;   
     setTimeout(() => {    
-      this.content.scrollByPoint(0, indexNumber*450, 500)      
+      this.content.scrollByPoint(0, indexNumber*465, 250)      
     }, 1);
   }
 
