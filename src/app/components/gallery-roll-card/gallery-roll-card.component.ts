@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ToastController } from "@ionic/angular";
 import { ProfileSetupService } from 'src/app/services/profile-setup.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-gallery-roll-card",
@@ -14,6 +15,7 @@ export class GalleryRollCardComponent implements OnInit {
   constructor(    
     private profileSetup: ProfileSetupService,
     private toastr: ToastController,
+    private router: Router,
   ) {}
 
   ngOnInit() {}
@@ -39,5 +41,10 @@ export class GalleryRollCardComponent implements OnInit {
       duration: 2000,
     });
     toast.present();
+  }
+
+  goToSelectedComment(img){
+    console.log("comment selected")
+    this.router.navigate(['home/profile-comments/', img.uid]);    
   }
 }

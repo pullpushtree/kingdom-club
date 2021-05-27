@@ -9,7 +9,7 @@
       [name]="img.liked !== undefined && img.liked.includes(this.currentUser.uid)   ? 'heart' : 'heart-outline' "     
       class="icon-heart"
       ></ion-icon>
-      <ion-icon name="chatbubble-outline"></ion-icon>
+      <ion-icon name="chatbubble-outline" (click)="goToSelectedComment(img)"></ion-icon>
       <ion-icon name="paper-plane-outline"></ion-icon>
     </ion-row>    
 

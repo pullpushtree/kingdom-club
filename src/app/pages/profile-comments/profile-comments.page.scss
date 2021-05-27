@@ -1,0 +1,61 @@
+.time {  
+  font-size: small;  
+  color:  #8a898d;
+  font-size: 12px;
+}
+
+.comment-input {
+  margin-left: 5px;
+  margin-top: 0px;
+  background-color: rgb(220, 221, 228);
+  border: 2px solid rgb(189, 189, 196);
+  border-radius: 20px;
+  resize: none;
+  max-height: 120px;
+}
+
+.col-small {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-btn {
+  background: rgb(187, 189, 212);
+  box-shadow: 0px 2px 14px rgb(30 40 182 / 59%);
+  border-radius: 50px;
+  font-size: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+}
+
+.avatar-img {
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  object-fit: cover;
+  &.cover {
+    object-fit: contain;
+  }
+}
+
+ion-row {
+  line-height: normal;
+  ion-label {
+    display: inline-block;
+    font-size: small;
+    font-weight: 600;
+    padding-right: 10px;
+  }
+  p {
+    display: inline-block;
+    font-size: small;
+    padding: 0px;
+    margin: 0px;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+}

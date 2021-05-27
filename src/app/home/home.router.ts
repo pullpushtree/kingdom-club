@@ -43,6 +43,10 @@ const routes: Routes = [
                 loadChildren:() => import('../pages/profile/profile.module').then(m => m.ProfilePageModule)
             },
             {
+              path: 'profile-comments/:id',
+              loadChildren: () => import('../pages/profile-comments/profile-comments.module').then( m => m.ProfileCommentsPageModule)
+            },
+            {
                 path: 'profile/edit',
                 loadChildren: () => import('../pages/profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
             },
