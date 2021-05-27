@@ -1,4 +1,16 @@
 <ion-card >
+
+  <ion-item>
+    <ion-avatar slot="start">      
+      <img src="{{currentUser.photoURL ? currentUser.photoURL : this.image}}" (click)="goToUserProfile()">    
+    </ion-avatar>    
+    <ion-label>
+      <h3>{{currentUser.displayName}}</h3> 
+      
+      <p>Dec 10, 2019</p>
+    </ion-label>
+  </ion-item>
+
   <img [src]="img.photoURL ? img.photoURL : image"> 
   <ion-card-content>   
     
@@ -9,7 +21,7 @@
       [name]="img.liked !== undefined && img.liked.includes(this.currentUser.uid)   ? 'heart' : 'heart-outline' "     
       class="icon-heart"
       ></ion-icon>
-      <ion-icon name="chatbubble-outline" (click)="goToSelectedComment(img)"></ion-icon>
+      <ion-icon name="chatbubble-outline"  (click)="goToSelectedComment(img, ind)"></ion-icon>
       <ion-icon name="paper-plane-outline"></ion-icon>
     </ion-row>    
 
