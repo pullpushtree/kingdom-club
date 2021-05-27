@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button  defaultHref="home/profile-roll/:id"></ion-back-button>
+      <ion-button (click)="navigateBackToLastRoll()">
+        <ion-icon name="arrow-back-outline" ></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Comments</ion-title>
   </ion-toolbar>

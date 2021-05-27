@@ -43,5 +43,10 @@ export class ProfileCommentsPage implements OnInit {
       this.content.scrollToTop();
     })
   }
+
+  navigateBackToLastRoll(){    
+    let selectedCommentPicIndex = localStorage.getItem('selectedCommentPicIndex');
+    this.router.navigateByUrl('home/profile-roll/' + selectedCommentPicIndex );    
+  }
 }
 

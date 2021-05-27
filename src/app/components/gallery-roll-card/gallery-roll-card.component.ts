@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ToastController } from "@ionic/angular";
 import { ProfileSetupService } from 'src/app/services/profile-setup.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: "app-gallery-roll-card",
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class GalleryRollCardComponent implements OnInit {
   @Input() currentUser: any;
   @Input() img: any;
+  @Input() ind: any;
 
   constructor(    
     private profileSetup: ProfileSetupService,
@@ -43,8 +44,8 @@ export class GalleryRollCardComponent implements OnInit {
     toast.present();
   }
 
-  goToSelectedComment(img){
-    console.log("comment selected")
+  goToSelectedComment(img, index){
+    localStorage.setItem('selectedCommentPicIndex', index )
     this.router.navigate(['home/profile-comments/', img.uid]);    
   }
 }

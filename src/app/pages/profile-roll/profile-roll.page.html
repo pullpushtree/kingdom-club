@@ -1,6 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/profile-gallery"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gallery</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content >
   <ion-list *ngFor=" let img of roll | async ; let i = index">
-    <app-gallery-roll-card [currentUser]="currentUser" [img]="img">    
+    <app-gallery-roll-card [currentUser]="currentUser" [img]="img" [ind]="i">    
     </app-gallery-roll-card>
   </ion-list>
 </ion-content>

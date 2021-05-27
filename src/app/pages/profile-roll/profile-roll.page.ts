@@ -29,15 +29,21 @@ export class ProfileRollPage implements OnInit {
       this.getSelectedRoll();
     });    
     
-    let index = this.activatedRoute.snapshot.paramMap.get("id");    
-    let indexNumber = +index;   
-    setTimeout(() => {    
-      //Multiply card height by index 
-      this.content.scrollByPoint(0, indexNumber*464, 250)      
-    }, 1);
+  }
+  ionViewWillEnter(){
+    let picId = this.activatedRoute.snapshot.paramMap.get("id");    
+    this.content.scrollByPoint(0, parseInt(picId)*514, 250) 
   }
 
   getSelectedRoll(){
     this.roll = this.profileSetup.getSelectedRoll();
+  }
+
+  goToUserProfile(){   
+    this.router.navigate(['home/profile/']);
+  }
+
+  ionViewWillLeave(){
+    this.content.scrollToTop();
   }
 }
