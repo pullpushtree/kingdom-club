@@ -4,6 +4,17 @@ import { Observable } from "rxjs";
 import { User } from "../models/User";
 import { AuthService } from "./auth.service";
 import firebase from "firebase/app";
+import { ToastController } from '@ionic/angular';
+
+export interface Comment {  
+  uid: string;
+  createdAt: firebase.firestore.FieldValue;  
+  cmmt: string;
+  fromName: string;
+  fromPhoto: string;
+  sentBy: string;
+  myMsg: boolean;
+}
 
 @Injectable({
   providedIn: "root",
@@ -17,10 +28,48 @@ export class ProfileSetupService {
   constructor(
     private afs: AngularFirestore,
     private afauthSrv: AuthService,
+    private toastr: ToastController,
   ) {
     this.getCurrentUser().subscribe((user) => {
-      this.currentUser = user;      
+      this.currentUser = user;
     })
+  }
+
+  getPictureComment(picId : string){
+    return this.afs.collection(`scrapbook2/${this.currentUser.uid}/album/${picId}/comments`, ref => 
+    ref.orderBy('createdAt'))
+    .valueChanges() as Observable<Comment[]>;
+  }
+
+  async addPictureComment(picId: string, cmmt: any){    
+    
+    const dataPayload = {      
+      createdAt: firebase.firestore.Timestamp.now(),
+      cmmt: cmmt,
+      fromName: this.currentUser.displayName, 
+      fromPhoto: this.currentUser.photoURL, 
+      sentBy: this.currentUser.uid      
+    }
+    
+    return await this.afs.collection(`scrapbook2/${this.currentUser.uid}/album/${picId}/comments`)
+    .add(dataPayload).then(docRef => {
+      this.afs.doc(`scrapbook2/${this.currentUser.uid}/album/${picId}/comments/${docRef.id}`)
+      .update({uid : docRef.id })      
+    })
+    .catch(error => {
+      this.toast("Comment failed", "danger");
+      console.log(error);
+    })
+  }
+
+  async toast(message,status){
+    const toast = await this.toastr.create({
+      message: message,
+      position: 'bottom',
+      color: status, 
+      duration: 2000
+    });
+    toast.present();
   }
 
   getCurrentUser(){
