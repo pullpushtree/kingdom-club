@@ -7,7 +7,6 @@
 .comment-input {
   margin-left: 5px;
   margin-top: 0px;
-  background-color: rgb(220, 221, 228);
   border: 2px solid rgb(189, 189, 196);
   border-radius: 20px;
   resize: none;
@@ -15,18 +14,20 @@
 }
 
 .col-small {
-  display: flex;
   justify-content: center;
-}
+  padding: 0px;
 
-.submit-btn {
-  background: rgb(187, 189, 212);
-  box-shadow: 0px 2px 14px rgb(30 40 182 / 59%);
-  border-radius: 50px;
-  font-size: 10px;
-  width: 40px;
-  height: 40px;
-  display: flex;
+  ion-fab-button {
+    .submit-btn {
+      border-radius: 50px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  ion-icon{
+    font-size: 23px;
+  }
 }
 
 .avatar-img {
