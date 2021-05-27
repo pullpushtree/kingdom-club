@@ -17,7 +17,7 @@
       <ion-label>
         <div class="flex_box">
           <ion-note slot="start"><h2>{{message.fromName}}</h2></ion-note>
-          <ion-note class="time" slot="end">{{message.createdAt.toDate() | date: "shortTime"}} </ion-note>        
+          <ion-note class="time" slot="end">{{message.createdAt.seconds | dateAgo }} </ion-note>                  
         </div>
         <div class="flex_box">
           <ion-note class="messageBottomRow">

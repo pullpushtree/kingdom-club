@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { ComponentsModule } from 'src/app/pipes/pipe.module';
 
 import { ChatsPageRoutingModule } from './chats-routing.module';
 
@@ -13,7 +14,8 @@ import { ChatsPage } from './chats.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ChatsPageRoutingModule
+    ChatsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [ChatsPage]
 })

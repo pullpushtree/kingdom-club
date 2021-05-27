@@ -17,7 +17,7 @@
         <b>{{ message.text}}</b> <br/>
         <div class="time ion-text-right">
           <br/> 
-          {{ message.createdAt?.toMillis() | date: 'short' }}
+          <p> {{message.createdAt.seconds | dateAgo }}</p> 
         </div>
         </ion-col>
 
@@ -26,7 +26,7 @@
       <b>{{ message.text}}</b> <br/>
         <div class="time ion-text-right">
           <br/> 
-          {{ message.createdAt?.toMillis() | date: 'short' }}
+          <p> {{message.createdAt.seconds | dateAgo }}</p> 
         </div>
       </ion-col>
 
