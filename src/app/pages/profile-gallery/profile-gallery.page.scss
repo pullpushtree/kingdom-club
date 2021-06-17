@@ -12,12 +12,11 @@
 }
 
 .above-section {
-  justify-content: center;
+  justify-items: center;
   align-content: center;
   display: grid;
   height: 50%;
   img {
-    position: relative;
     width: 150px;
     height: 150px;
     border-radius: 50%;
