@@ -1,0 +1,42 @@
+<!-- {{currentUser?.uid }} -->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons >
+      <ion-back-button defaultHref="home/messages"></ion-back-button>
+      <ion-title>notifications</ion-title>      
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-grid >
+    <ion-row *ngFor="let notification of notifications | async ; let i = index">
+      <ion-col size="2" >
+        <img src="{{notification.requesterPhoto ? notification?.requesterPhoto : this.image}}" class="avatar-img">    
+      </ion-col>
+      <ion-col size="7" class="col-middle" >
+        
+        <ion-row class="ion-no-padding">
+          <div class="comment-container" >
+            <p text-wrap>
+              <ion-label>{{notification.requesterFirstLastName}}</ion-label>{{ notification.text}}
+              <ion-label class="last-label-time">{{notification.createdAt.seconds | dateAgo }}</ion-label>
+            </p>
+          </div>
+        </ion-row>
+      </ion-col>
+
+      <ion-col size="3" > 
+        <ion-row *ngIf="notification.approved == false" class="col-last-small" float-right>
+          <ion-button size="small" (click)="approveReqest(notification)">YES</ion-button>
+          <ion-button size="small" (click)="rejectRequest(notification)" color="dark" class="no-btn">NO</ion-button>
+        </ion-row>         
+        <ion-row  *ngIf="notification.approved == true" class="col-last-small" float-right>        
+          <ion-button size="small" (click)="messageNewContact(notification)"  class="no-btn">Message</ion-button>
+        </ion-row>
+      </ion-col>
+   
+    </ion-row>
+  </ion-grid>
+ 
+</ion-content>

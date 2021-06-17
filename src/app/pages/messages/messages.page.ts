@@ -1,49 +1,74 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { IonContent } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { ChatService, Message } from 'src/app/services/chat.service';
+import { Observable, Subscription } from 'rxjs';
+import { ChatService } from 'src/app/services/chat.service';
 import { Router } from '@angular/router';
+import { Message } from 'src/app/models/Message';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
 })
-export class MessagesPage implements OnInit {  
+export class MessagesPage implements OnInit, OnDestroy {  
   @ViewChild(IonContent) content: IonContent;
 
   messages: Observable<Message[]>;
   newMsg = '' ;
-  image = "../../../assets/images/defaultProfile.jpg"  
+  image = "../../../assets/images/defaultProfile.jpg";
+  currentUser: any;
+  timeoutHandler: NodeJS.Timeout;
+  count: any;
+  $subs: Subscription
 
   constructor(
     private router: Router,
     private chatService: ChatService
   ) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ngOnDestroy(){
+    console.log("ngOnDestroy got hit  ")
+    this.$subs.unsubscribe();    
   }
 
   ionViewWillEnter(){
-    this.messages = this.chatService.getChatMessageFB()
-  }
-
-  sendMessage(){
-    this.chatService.addChatMessage(this.newMsg).then(()=> {
-      this.newMsg = '';
-      this.content.scrollToBottom();
-    })
+    this.chatService.getCurrentUser()
+    .subscribe((user) => {
+      this.currentUser = user;      
+      this.messages = this.chatService.getChatMessageFB()
+    });
   }
 
   goToContacts(){
     this.router.navigate(['/home/contacts'])
   }
 
-  selectedConversation(val: any){    
-    localStorage.setItem('selectedConversationId', val.msgId);
-    this.chatService.setOtherDetails(JSON.stringify(val.participantsDetails))
-    this.router.navigate(['/home/chats/', val.msgId])
+  selectedConversation(selectedOtherUserDetails: any){
+    
+    localStorage.setItem('selectedConversationId', selectedOtherUserDetails.msgId);
+    localStorage.setItem('otherUserDetails', JSON.stringify(selectedOtherUserDetails));
+    let markOpen = selectedOtherUserDetails.recentMessage['isMarkedOpen']
+    
+    if(markOpen == false ){
+      this.chatService.toggleMarkedOpened(selectedOtherUserDetails.msgId, true)
+    }
+
+   this.router.navigate(['/home/chats/', selectedOtherUserDetails.msgId])
+  }
+
+  viewSelectedProfile(val: any){
+    this.chatService.navigatetoToSelectedProfile(val.participants)
+  }
+
+  goToNotifications(){
+    this.router.navigate(['/home/notifications'])
+  }
+
+  deleteMessage(item){
+  console.log("item", item)
+  //this.chatService.deleteMessage(item.msgId);   
   }
 }
-
 
