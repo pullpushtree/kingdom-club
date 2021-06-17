@@ -1,35 +1,55 @@
 <ion-header>
   <ion-toolbar>
-    <ion-avatar slot="start">      
-      <img src="{{o_userRef.photoURL ? o_userRef.photoURL : this.image}}" (click)="viewSelectedProfile($event)" id ="xxx" name="yyy">    
-    </ion-avatar>    
-    <h3>{{o_userRef.displayName}}</h3> 
+    <ion-avatar slot="start">
+      <img
+        src="{{otherUserData?.otherPhotoURL ? otherUserData.otherPhotoURL : this.image}}"
+        (click)="viewSelectedProfile(otherUserData)"
+      />
+    </ion-avatar>
+    <h3>{{otherUserData?.otherFirstLastName}}</h3>
   </ion-toolbar>
 </ion-header>
+
+<!-- <ion-buttons slot="end" (click)="clearChat()">
+    <ion-button>
+      <ion-icon name="ellipsis-vertical-outline"></ion-icon>          
+    </ion-button>
+  </ion-buttons> -->
 
 <ion-content #content class="ion-padding">
   <ion-grid>
     <ion-row *ngFor="let message of messages | async">
-      
-      <ion-col *ngIf="message.sentBy == currentUser.user.uid" 
-      size="9" [offset]="0" class="message my-message" >
+      <ion-col
+        *ngIf="message.sentBy !== currentUser.uid"
+        size="7"
+        [offset]="4"
+        class="message other-message"
+      >
+        <div>
+          <h3>{{ message.text}}</h3>
+          <br />
 
-        <b>{{ message.text}}</b> <br/>
-        <div class="time ion-text-right">
-          <br/> 
-          <p> {{message.createdAt.seconds | dateAgo }}</p> 
-        </div>
-        </ion-col>
-
-      <ion-col *ngIf="message.sentBy !== currentUser.user.uid" 
-      size="9" [offset]="3" class="message other-message" >
-      <b>{{ message.text}}</b> <br/>
-        <div class="time ion-text-right">
-          <br/> 
-          <p> {{message.createdAt.seconds | dateAgo }}</p> 
+          <span class="time ion-text-right">
+            <p>{{message.createdAt.seconds | dateAgo }}</p>
+          </span>
         </div>
       </ion-col>
 
+      <ion-col
+        *ngIf="message.sentBy == currentUser.uid"
+        size="7"
+        [offset]="1"
+        class="message my-message"
+      >
+        <div>
+          <h3>{{ message.text}}</h3>
+          <br />
+
+          <span class="time ion-text-right">
+            <p>{{message.createdAt.seconds | dateAgo }}</p>
+          </span>
+        </div>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
@@ -38,29 +58,31 @@
   <ion-toolbar>
     <ion-row class="ion-align-items-center">
       <ion-col size="10">
-        <div >         
-          <ion-textarea rows="1" class="message-input"
-          auto-grow="true" maxRows="4" (keyup.enter)="sendMessage()"
-          maxLength="500" [(ngModel)]="newMsg"></ion-textarea>
+        <div>
+          <ion-textarea
+            rows="1"
+            class="message-input"
+            auto-grow="true"
+            maxRows="4"
+            (keyup.enter)="sendMessage()"
+            maxLength="500"
+            [(ngModel)]="newMsg"
+          ></ion-textarea>
         </div>
       </ion-col>
-      <ion-col size="2" class="col-small">  
-        <ion-fab-button 
-        fill="clear" 
-        [disabled]="newMsg === '' "  
-        class="submit-btn " 
-        (click)="sendMessage()"
-        slopt="end" 
-        size="small"
-        color="tertiary"
-        >        
-          <ion-icon name="send"></ion-icon>          
-        </ion-fab-button> 
-
-
+      <ion-col size="2" class="col-small">
+        <ion-fab-button
+          fill="clear"
+          [disabled]="newMsg === '' "
+          class="submit-btn"
+          (click)="sendMessage()"
+          slopt="end"
+          size="small"
+          color="tertiary"
+        >
+          <ion-icon name="send"></ion-icon>
+        </ion-fab-button>
       </ion-col>
     </ion-row>
   </ion-toolbar>
 </ion-footer>
-
-

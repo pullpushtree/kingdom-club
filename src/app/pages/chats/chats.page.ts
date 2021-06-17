@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { ChatService, Message } from 'src/app/services/chat.service';
-import { Router } from '@angular/router';
+import { ChatService } from 'src/app/services/chat.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Message } from 'src/app/models/Message';
 
 
 @Component({
@@ -15,49 +16,88 @@ export class ChatsPage implements OnInit {
 
   image = "../../../assets/images/defaultProfile.jpg"
   messages: Observable<Message[]>;
+  otherUserData: any;  
   newMsg = '' ;
   currentUser: any;
-  o_userRef = {
-    uid: "",
-    photoURL: "",
-    displayName: ""
-  }  
+  o_userRef: any;
+  o_user: any;
+  msgRef: any;
+  otherUserData2: Promise<Observable<unknown>>;
 
   constructor(
     private router: Router,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private activatedRoute: ActivatedRoute,
   ) { }
-
+  
   ngOnInit() {
   }
   
   ionViewWillEnter(){
-    let msgId = localStorage.getItem('selectedConversationId'); 
-    this.messages = this.chatService.getConversationHistory(msgId);  
-    this.currentUser = JSON.parse(localStorage.getItem("userCredKey"));    
-    this.o_userRef = this.chatService.getOtherUserDetailsForChat()
+    this.chatService.getCurrentUser()
+    .subscribe((user) => {
+      this.currentUser = user;
+      this.getMessages();
+      this.getOtherUserDetailsByMsgId()   
+    });
   }
 
-  ionViewDidEnter() {    
+  getMessages(){
+    const msgId = this.activatedRoute.snapshot.paramMap.get("id");
+    this.messages = this.chatService.getConversationHistory(msgId);
+  }
+
+  // clearChat(){
+  //   this.chatService.clearChat()
+  // }
+
+   getOtherUserDetailsByMsgId(){
+    const msgId = this.activatedRoute.snapshot.paramMap.get("id");
+    this.chatService.formatOtherUserDetails(msgId)
+    .then(res => { res.forEach(res => {
+      this.otherUserData = res;
+    })})
+  }
+
+  getOtherUser(userId){
+    return this.chatService.getUser(userId)
+    .subscribe(res => {      
+        this.otherUserData = {
+          photoURL: res.photoURL,
+          firstLastName: res.firstLastName,
+          displayName: res.displayName,
+          uid: res.uid
+        }
+        return this.otherUserData
+    })
+  }  
+
+  ionViewDidEnter() {  
     this.scrollToBottomOnInit();
   }
+
   scrollToBottomOnInit() {    
     setTimeout(() => {      
       if (this.content.scrollToBottom) {
         this.content.scrollToBottom(0);
       }
-    }, 200);
+    }, 500);
   }
 
-  viewSelectedProfile(){   
-    this.router.navigate(['home/profile-view/']);
+  viewSelectedProfile(o_userRef : any){   
+    this.router.navigate(['home/profile-view/', o_userRef.uid]);
   }
 
   sendMessage(){
-    this.chatService.addChatMessage(this.newMsg)
+    const msgId = this.activatedRoute.snapshot.paramMap.get("id");  
+    this.chatService.addChatMessageToConversationHistory(this.newMsg, msgId)
     .then(()=> {
       this.newMsg = '';
-      this.content.scrollToBottom();
+      setTimeout(() => {      
+        if (this.content.scrollToBottom) {
+          this.content.scrollToBottom(0);
+        }
+      }, 400);
     })
   }
 
