@@ -1,59 +1,57 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
-import { ProfileSetupService } from 'src/app/services/profile-setup.service';
-import { FollowService } from "../../services/follow.service"
-import { Observable } from 'rxjs';
+import { Component, OnInit, Input } from "@angular/core";
+import { AuthService } from "src/app/services/auth.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ProfileSetupService } from "src/app/services/profile-setup.service";
+import { FollowService } from "../../services/follow.service";
 
 @Component({
-  selector: 'app-profile-view',
-  templateUrl: './profile-view.page.html',
-  styleUrls: ['./profile-view.page.scss'],
+  selector: "app-profile-view",
+  templateUrl: "./profile-view.page.html",
+  styleUrls: ["./profile-view.page.scss"],
 })
 export class ProfileViewPage implements OnInit {
   @Input() currentUser;
 
-  
-  selectedUserProfile: any;  
-  user:any;
+  selectedUserProfile: any;
+  user: any;
   o_userRef: any;
 
-  image = "../../../assets/images/defaultProfile.jpg"; 
+  image = "../../../assets/images/defaultProfile.jpg";
 
   isFollowing: boolean;
   following;
-  
-  constructor( 
+
+  constructor(
     private router: Router,
     private afauthSrv: AuthService,
-    private profSrv: ProfileSetupService,
+    private profileSrv: ProfileSetupService,
+    private activatedRoute: ActivatedRoute,
     private followSvc: FollowService
+  ) {}
 
-    ) {
-          
-    }
+  ngOnInit() {}
 
-  ngOnInit() { }
+  ionViewWillEnter() {
+    this.profileSrv.getCurrentUser()
+    .subscribe((user) => {
+      this.currentUser = user;
+      const o_userId = this.activatedRoute.snapshot.paramMap.get("id");
 
-  ionViewDidEnter(){ 
-    this.currentUser = JSON.parse(localStorage.getItem("userCredKey"));    
-    this.o_userRef = localStorage.getItem("otherUserObjectDetails")
-    const o_userId = JSON.parse(this.o_userRef).uid
+      this.following = this.followSvc
+        .getFollowing(this.currentUser.uid, o_userId)
+        .then((following) => {
+          this.isFollowing = following.exists;
+        });
 
-    this.following = this.followSvc.getFollowing(this.currentUser.uid, o_userId)
-    .then(following => {
-      this.isFollowing = following.exists
-    })
-    
-    this.selectedUserProfile = this.profSrv.getSelectedUserProfileData(o_userId)
-    .subscribe(res => {
-      this.selectedUserProfile = res; 
-    }) 
-  }
-
-  likeBtn(){
-    console.log("like button was clicked")
+      this.profileSrv.getSelectedUserProfileData(o_userId)
+      .subscribe((res) => {
+        this.selectedUserProfile = res;
+      });
+    });
   }
 
 
+  likeBtn() {
+    console.log("like button was clicked");
+  }
 }

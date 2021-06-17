@@ -9,6 +9,9 @@
 
   
   <div class="flex" *ngIf="selectedUserProfile?.profilePic1; else noProfilePic">
+    <!-- {{currentUser.uid }}
+    <br>
+    {{selectedUserProfile?.uid}} -->
     <!-- main profile picture -->
     <div class="img-box" *ngIf="selectedUserProfile?.profilePic1">
       <img src="{{selectedUserProfile?.profilePic1 || image }}" class="profile-img">
@@ -39,9 +42,11 @@
 
           <app-follow-button 
             class="profile-follow-btn"
-            [user]="selectedUserProfile" 
+            [isFollowing]="isFollowing"
+            [otherUser]="selectedUserProfile" 
             id="{{selectedUserProfile.uid}}" 
-            [currentUser]="currentUser">
+            [currentUser]="currentUser"
+            >
           </app-follow-button>
 
         </div>
