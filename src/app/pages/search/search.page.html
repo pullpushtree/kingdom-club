@@ -17,7 +17,7 @@
  
  <ion-list *ngIf="searchTerm?.length > 0" style="width: 100%; "> 
 
-   <ion-item class="ddlSelectItems" *ngFor="let otherUser of searchTerm">  
+   <ion-item class="ddlSelectItems ion-no-padding" *ngFor="let otherUser of searchTerm">  
        <ion-avatar slot="start">
          <img src="{{otherUser.photoURL? otherUser.photoURL : this.image}}"
           (click)="goToSelectedProfile(otherUser)" 

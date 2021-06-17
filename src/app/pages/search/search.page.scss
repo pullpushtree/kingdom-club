@@ -5,3 +5,9 @@ h6 {
     font-size: 12px;
     font-family: 'Segoe UI';   
 }
+
+ion-item {   
+    --padding-start: 10px;
+    --padding-end: 5px;
+    --inner-padding-end: 0px;  
+}
