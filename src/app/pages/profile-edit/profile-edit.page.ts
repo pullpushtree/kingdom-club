@@ -8,6 +8,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { MediaService } from "../../services/media.service";
 import { first } from "rxjs/operators";
 import { ProfileSetupService } from "src/app/services/profile-setup.service";
+import * as firebase from "firebase";
 
 
 @Component({
@@ -270,7 +271,7 @@ export class ProfileEditPage implements OnInit {
       program: this.programSearchTerm,
       classOf: this.classOf,
       location: this.location,
-      lastUpdated: Date.now(),
+      lastUpdated: firebase.default.firestore.Timestamp.now(),
     };
     //this.media.uploadFirebase();
     await this.afs
