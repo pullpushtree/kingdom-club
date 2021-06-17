@@ -61,7 +61,7 @@ export class ChatsPage implements OnInit {
 
   getOtherUser(userId){
     return this.chatService.getUser(userId)
-    .subscribe(res => {      
+    .subscribe(res => {
         this.otherUserData = {
           photoURL: res.photoURL,
           firstLastName: res.firstLastName,
@@ -85,7 +85,7 @@ export class ChatsPage implements OnInit {
   }
 
   viewSelectedProfile(o_userRef : any){   
-    this.router.navigate(['home/profile-view/', o_userRef.uid]);
+    this.router.navigate(['home/profile-view/', o_userRef.otherUid]);
   }
 
   sendMessage(){
