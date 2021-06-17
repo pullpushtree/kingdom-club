@@ -71,6 +71,7 @@ export class SettingsPage implements OnInit {
     localStorage.removeItem('selectedCommentPicIndex');
     localStorage.removeItem('activatedChat');
     localStorage.removeItem("otherUserDetails");
+    localStorage.removeItem("otherUserId");
   }
   
   
