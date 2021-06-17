@@ -3,6 +3,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
 import { LoadingController, ToastController } from "@ionic/angular";
+import * as firebase from "firebase";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { AuthConstants } from "../config/auth-constant";
@@ -29,7 +30,7 @@ export class AuthService {
     private localStorageService: StorageService
   ) {
     this.user$ = this.afAuth.authState.pipe(
-      switchMap((user) => {
+      switchMap((user: any) => {
         if(user)
         {
           this.localStorageService.set(AuthConstants.AUTH, JSON.stringify(user));
@@ -130,7 +131,7 @@ export class AuthService {
           uid: data.user.uid,
           displayName: username,
           email: email,
-          timeStamp: Date.now(),
+          timeStamp: firebase.default.firestore.Timestamp.now(),
           dob: dob,
         });
 

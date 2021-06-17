@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { CameraPreview, CameraPreviewOptions } from '@ionic-native/camera-preview/ngx';
 import { ToastController } from '@ionic/angular';
+import * as firebase from 'firebase';
 import { AuthService } from './auth.service';
 
 
@@ -66,7 +67,7 @@ export class CameraService {
             uidd : this.afs.createId(),
             photoURL : this.imgURL,            
             fileName : imagePath,
-            dateStamp : Date.now()
+            dateStamp : firebase.default.firestore.Timestamp.now()
           })
           .then((docRef) => {
             console.log("Document written with ID GOLD : ", docRef.id);
@@ -105,7 +106,7 @@ export class CameraService {
           uid : this.afs.createId(),
           photoURL : this.imgURL,            
           fileName : imagePath,
-          dateStamp : Date.now()
+          dateStamp : firebase.default.firestore.Timestamp.now()
         })
         .catch(err => {
           console.error("Error occured while saving picture", err)
