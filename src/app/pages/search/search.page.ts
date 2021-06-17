@@ -1,85 +1,133 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {  Component, OnInit, Input, ViewChild} from "@angular/core";
 import { Router } from "@angular/router";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { IonSearchbar } from '@ionic/angular';
-import { FollowService } from 'src/app/services/follow.service';
+import { IonSearchbar } from "@ionic/angular";
+import { FollowService } from "src/app/services/follow.service";
+import { SearchService } from "src/app/services/search.service";
+
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss'],
+  selector: "app-search",
+  templateUrl: "./search.page.html",
+  styleUrls: ["./search.page.scss"],
 })
 export class SearchPage implements OnInit {
+  @ViewChild("search", { static: false }) search: IonSearchbar;
+  @Input() currentUser: any;
+  @Input() otherUser: any = {};
+  @Input() otherUserId: string;
+  @Input() isFollowing: boolean;
 
-  @ViewChild('search', { static : false } ) search : IonSearchbar;  
-  @Input() currentUser;
-
-  platformUserId : string
-  platformUser: any;
-  image = "../../../assets/images/defaultProfile.jpg";
-  searchTerm: any;
-  
-  list: any = []; 
-  following: any;
-  isFollowing: boolean;
-  o_userRef: string;
+   platformUser: any;
+   image = "../../../assets/images/defaultProfile.jpg";
+   searchTerm: any;
+   followerCount: number;
+   list: any = [];
+   following: any;
+   followers: any;  
+   listFollowingUserIds: any[];
 
   constructor(
-    private router: Router,    
-    private afs: AngularFirestore,
-    private followSvc: FollowService
-  ) { }
+    private router: Router,
+    private followSvc: FollowService,
+    private searchSrvc: SearchService  
+  ) {}
 
-  ngOnInit() {    
-    
-    this.getListOfUsers();
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.searchSrvc.getCurrentUser()
+    .subscribe((user) => {
+      this.currentUser = user;
+      this.getListOfUsers();
+      this.getListCurrentUserFollowStatus();
+
+      const oUserId = this.otherUser.uid;
+      this.following = this.followSvc.getFollowing(
+        this.currentUser.uid,
+        oUserId
+      );
+    });
   }
 
-  ionViewDidEnter(){    
-    this.currentUser = JSON.parse(localStorage.getItem("userCredKey"));    
+  ionViewDidEnter() {
     setTimeout(() => {
       this.search.setFocus();
     });
-
-    this.o_userRef = localStorage.getItem("otherUserObjectDetails")
-    const o_userId = JSON.parse(this.o_userRef).uid
-
-    this.following = this.followSvc.getFollowing(this.currentUser.uid, o_userId)
-    .then(following => {      
-      this.isFollowing = following.exists      
-      console.log("this.isFollowing pv : ", this.isFollowing)      
-    })
   }
 
-  getListOfUsers(){
-    this.list = this.afs.collection('users')
-    this.list.valueChanges().subscribe(val => {
-      this.platformUser = val 
-    })
+  async getListCurrentUserFollowStatus() {
+    return await this.followSvc
+      .getCurrentUserListOfFollowingUsers()
+      .forEach((newResultsWithFollowing) => {
+        newResultsWithFollowing.map((res) => {
+          return (this.listFollowingUserIds = res.followingCandidatId);
+        });
+      });
+  }
+
+  getListOfUsers() {
+    let listUSer = [];
+    this.followSvc
+      .getCurrentUserContactsListOfFollowingUsers()
+      .subscribe((res) => {
+        res.map((res) => {
+          listUSer.push(res["followingCandidatId"]);
+        });
+      });
+
+    this.list = this.searchSrvc.getUsers().subscribe((users) => {
+      listUSer.find((followingUSerId) => {
+        users.map((platformUser) => {
+          if (platformUser.uid == followingUSerId) {
+            this.isFollowing = platformUser.isFollowing = true;
+          }
+        });
+      });
+
+      this.platformUser = users.filter((items: any) => {
+        return items.uid !== this.currentUser.uid;
+      });
+    });
+
     this.searchTerm = this.list;
   }
-  filterList(event){
-    const val = event.target.value;
-    console.log("event val : ", val) 
-    this.searchTerm = this.platformUser;
-    if(val && val.trim() != ''){
-      this.searchTerm = this.searchTerm.filter((item: any) => {
-        return (item.displayName.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }   
-  }
- 
 
-  goToSelectedProfile(event: any){
+  filterList(event) {
+    const searchTermInput = event.target.value;
+    this.searchTerm = this.platformUser;
+    if (searchTermInput && searchTermInput.trim() != "") {
+      this.searchTerm = this.searchTerm.filter((item: any) => {
+        let test =
+          item.displayName
+            .toLowerCase()
+            .indexOf(searchTermInput.toLowerCase()) > -1 &&
+          item.uid !== this.currentUser.uid;
+
+        return test;
+      });
+    }
+  }
+
+  selectedUser(oUserObj){
+    console.log("oUserObk ", oUserObj)
+    this.followSvc.setSelectedUserToFollow(oUserObj)
+  }
+
+  goToSelectedProfile(event: any) {
     const val = event;
-    const userData = {
-      displayName: val.displayName, 
+    const otherUserData = {
+      displayName: val.displayName,
       photoURL: val.photoURL,
       uid: val.uid,
-      firstLastName: val.firstLastName
-    }
-    localStorage.setItem('selectedUserProfileView', val.uid)
-    localStorage.setItem('otherUserObjectDetails', JSON.stringify(userData))
-    this.router.navigate(['home/profile-view/']);
+      firstLastName: val.firstLastName,
+    };
+
+    this.followSvc.setOtherUserData(otherUserData);
+    localStorage.setItem("selectedUserProfileView", val.uid);
+    localStorage.setItem(
+      "otherUserObjectDetails",
+      JSON.stringify(otherUserData)
+    );
+    this.router.navigate(["home/profile-view/", val.uid]);
   }
 }
