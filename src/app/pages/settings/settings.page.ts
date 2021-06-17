@@ -1,7 +1,6 @@
 import { Component, OnInit, Renderer2 } from "@angular/core";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { BehaviorSubject } from "rxjs";
 import { AuthService } from "src/app/services/auth.service";
 
 @Component({
@@ -14,6 +13,7 @@ export class SettingsPage implements OnInit {
   image = "../../../assets/images/defaultProfile.jpg"
   currentUser: any;  
   userData = {
+    uid: "",
     firstLastName: "",
     photoURL: ""
   }
@@ -28,6 +28,7 @@ export class SettingsPage implements OnInit {
     this.authSrv.user$.subscribe(user => {
       this.currentUser = user    
       this.userData = {
+        uid: this.currentUser.uid,
         firstLastName: this.currentUser.firstLastName,
         photoURL: this.currentUser.photoURL
       }
@@ -57,6 +58,25 @@ export class SettingsPage implements OnInit {
       localStorage.setItem("themeSelected", themeSelected);
       this.render.setAttribute(document.body, "color-theme", "light");
     }
+  }
+
+  clearLocalStorage(){ 
+  
+    localStorage.removeItem('selectedConversationId');
+    localStorage.removeItem('otherUser');
+    localStorage.removeItem('selectedConversation');
+    localStorage.removeItem('otherUserObjectDetails');
+    localStorage.removeItem('participantArray');
+    localStorage.removeItem('selectedUserProfileView');
+    localStorage.removeItem('selectedCommentPicIndex');
+    localStorage.removeItem('activatedChat');
+    localStorage.removeItem("otherUserDetails");
+  }
+  
+  
+  viewSelectedProfile(o_userRef : any){ 
+    console.log(o_userRef)  
+    this.router.navigate(['home/profile-view/', o_userRef.uid]);
   }
 
   logout() {

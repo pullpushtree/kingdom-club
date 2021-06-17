@@ -1,14 +1,10 @@
 <ion-header>
   <ion-toolbar>
-
-    <ion-buttons >
-      <!-- <ion-back-button defaultHref="home/profile"></ion-back-button> -->
-      <ion-title></ion-title>
       <h3>{{userData.firstLastName ? userData.firstLastName : ""}}</h3>
-    </ion-buttons>
-    
     <ion-avatar slot="end">
-      <img src="{{userData.photoURL ? userData.photoURL : this.image}}">    
+      <img src="{{userData.photoURL ? userData.photoURL : this.image}}"
+      (click)="viewSelectedProfile(userData)"
+      />    
     </ion-avatar>
     
   </ion-toolbar>
@@ -31,6 +27,14 @@
           checked="isDarkThemeTurnedOn"
           [(ngModel)]="isDarkThemeTurnedOn" id="isDarkThemeTurnedOn" name="isDarkThemeTurnedOn"  
           (ionChange)="onToggleColorTheme($event)"></ion-toggle>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Clear Local Storage</ion-label>
+          <ion-button (click)="clearLocalStorage()"> Clear </ion-button>  
         </ion-item>
       </ion-col>
     </ion-row>
