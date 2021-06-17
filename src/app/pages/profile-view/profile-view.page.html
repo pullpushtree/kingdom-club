@@ -1,3 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/search"></ion-back-button>
+    </ion-buttons>
+    <ion-avatar slot="start" class="avatar-header">      
+      <img src="{{selectedUserProfile?.photoURL || image}}">    
+    </ion-avatar> 
+    <ion-title class="ion-no-padding">@{{selectedUserProfile?.displayName}}</ion-title>    
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
 
   <ng-template class="no-profile-pic"  #noProfilePic>
