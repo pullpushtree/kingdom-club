@@ -1,32 +1,69 @@
+<!-- {{currentUser?.uid }} -->
+    <!-- <br> -->    
 <ion-header>
   <ion-toolbar>
+    <ion-buttons class="new-content" slot="end" (click)="goToNotifications()">
+      <ion-button>        
+        <ion-icon slot="icon-only" *ngIf="unReadContent" name="notifications-outline"></ion-icon>
+        <ion-icon slot="icon-only" *ngIf="!unREadContent" color="danger" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>messages</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-list>
-    <ion-item  
-    *ngFor=" let message of messages | async ; let i = index" 
+  <ion-list >
+    <ion-item  class="main-item" 
+    *ngFor=" let message of messages | async ; let i = index">
+    <ion-col size="2">
+      <img src="{{message.otherUserPhoto? message.otherUserPhoto : this.image}}"
+      (click)="viewSelectedProfile(message)"
+      class="avatar-img">
+    </ion-col>     
+    <ion-col class="label" size="7"
     (click)="selectedConversation(message)">
-      
-    <ion-avatar slot="start">
-        <img src="{{message.fromPhoto? message.fromPhoto : this.image}}">
-      </ion-avatar>
+    
       <ion-label>
-        <div class="flex_box">
-          <ion-note slot="start"><h2>{{message.fromName}}</h2></ion-note>
-          <ion-note class="time" slot="end">{{message.createdAt.seconds | dateAgo }} </ion-note>                  
-        </div>
-        <div class="flex_box">
-          <ion-note class="messageBottomRow">
-            <ion-icon [ngClass]="message.read ? 'messageIsRead' : 'messageIsNotRead' " name="checkmark-done-outline"></ion-icon>
-            <h3>{{message.lastMessageSent}}</h3>
-          </ion-note>
-          <!-- <ion-icon [ngClass]="message.delivered ? 'messageIsDelivered' : 'messageIsNoDevlivered' " name="checkmark-outline"></ion-icon> -->
-        </div>
+        <h2
+        [ngClass]="message.recentMessage.isMarkedOpen == false ? 'unReadFont' :'readFont' "  
+        >          
+          {{message.otherFirstLastName}}
+        </h2>
+        
+        <ion-row class="messageBottomRow" >
+          <ion-icon no-padding      
+          *ngIf="message.recentMessage.sentBy !== currentUser.uid"
+          [color]="message.recentMessage.isMarkedOpen == false ? 'secondary' : 'medium' " 
+          name="checkmark-done-outline"
+          [ngClass]="message.recentMessage.sentBy == currentUser.uid ? 'seen-indicator-hide' :'seen-indicator' "  
+          >
+        </ion-icon>            
+          <p 
+          [ngClass]="message.recentMessage.isMarkedOpen == false ? 'unReadFontSmaller' : 'readFontSmaller' "
+          > 
+            {{message.recentMessage.lastMessage}}
+          </p>
+            
+        </ion-row>        
       </ion-label>
+    </ion-col>
+    <ion-col size="3" class="time-col"
+    (click)="selectedConversation(message)"> 
+      <ion-label >
+        <ion-note class="time">
+          {{message.recentMessage.sentAt.seconds | dateAgo }}             
+        </ion-note>
+      </ion-label>
+      <ion-row> 
+        <ion-note>
+          &nbsp;
+        </ion-note>
+      </ion-row>
+    </ion-col>   
+             
     </ion-item>
   </ion-list>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
