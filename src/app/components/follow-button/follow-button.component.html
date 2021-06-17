@@ -1,14 +1,13 @@
-<div class="profile" #user>  
+<div class="profile">
   <div *ngIf="isFollowing; then unfollowButton else followButton">
     buttons renders here
   </div>
 
   <ng-template #followButton>  
-    <ion-button color="primary"  (click)="toggleFollow()">Follow</ion-button>    
+    <ion-button color="primary" (click)="toggleFollow(otherUser)">Follow</ion-button>    
   </ng-template>
 
   <ng-template #unfollowButton>      
-    <ion-button color="tertiary" (click)="toggleFollow()">Unfollow</ion-button>
+    <ion-button color="tertiary" (click)="toggleFollow(otherUser)">Unfollow</ion-button>
   </ng-template>
-  
 </div>
