@@ -1,13 +1,15 @@
 <ion-header>
+  {{currentUser?.uid | json }}
   <ion-toolbar>
     <ion-title>contacts</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  
   <ion-list>
     <ion-item  
-    *ngFor=" let contact of contacts | async ; let i = index"     
+    *ngFor=" let contact of contacts | async"     
     (click)="startSelectedChat(contact)"
     >
       
