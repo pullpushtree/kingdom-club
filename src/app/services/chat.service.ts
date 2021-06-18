@@ -335,4 +335,35 @@ export class ChatService {
         }
       });
   }
+
+  async sendSelectedProfileViewUserMessage(oUserObj :any, newMsg: string , selectedImage: string){
+    
+    const chatBubblePayload = {
+      createdAt: firebase.default.firestore.Timestamp.now(),
+      participants: [this.currentUser.uid, oUserObj.uid],
+      sentBy: this.currentUser.uid,
+      text: newMsg,
+      isDeleted: false,
+      img: selectedImage,
+    };
+
+    this.afs.collection(`messages/`, ref => 
+    ref.where("participants", "array-contains", this.currentUser.uid))
+    .ref.where("participants", "array-contains",  oUserObj.uid)
+    .get()
+ 
+    .then((querySnapshot) => {
+
+      if( querySnapshot !== null ){
+        querySnapshot.forEach((doc) => {           
+            this.afs.collection(`messages/${doc.id}/chat`)            
+          .add(chatBubblePayload)
+          console.log("new stuff added ")
+        });
+      }    
+  })
+  .catch((error) => {
+      console.log("Error getting documents: ", error);
+  });
+  }
 }

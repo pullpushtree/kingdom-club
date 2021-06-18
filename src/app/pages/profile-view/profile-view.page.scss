@@ -32,8 +32,14 @@ ion-toolbar {
   }    
 }
 
-.message-input{
-  
+.toast-custom-class{
+  --color:#ffffff;
+    --border-color:#000000;
+    --border-radius:3px;
+    --border-style:solid;
+    --border-width:3px;    
+    --background:#1833FF;
+    --button-color:#ffffff;
 }
 
 .send-btn {

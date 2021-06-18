@@ -10,11 +10,6 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- <ion-buttons slot="end" (click)="clearChat()">
-    <ion-button>
-      <ion-icon name="ellipsis-vertical-outline"></ion-icon>          
-    </ion-button>
-  </ion-buttons> -->
 
 <ion-content #content class="ion-padding">
   <ion-grid>
@@ -26,9 +21,11 @@
         class="message other-message"
       >
         <div>
+          <div *ngIf="message.img"> 
+            <img src="{{message?.img ? message.img : this.image}}">
+          </div>
           <h3>{{ message.text}}</h3>
           <br />
-
           <span class="time ion-text-right">
             <p>{{message.createdAt.seconds | dateAgo }}</p>
           </span>
@@ -42,9 +39,11 @@
         class="message my-message"
       >
         <div>
+          <div *ngIf="message.img"> 
+            <img src="{{message?.img ? message.img : this.image}}">
+          </div>
           <h3>{{ message.text}}</h3>
           <br />
-
           <span class="time ion-text-right">
             <p>{{message.createdAt.seconds | dateAgo }}</p>
           </span>
