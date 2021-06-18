@@ -28,18 +28,32 @@
     <div class="img-box" *ngIf="selectedUserProfile?.profilePic1">
       <img src="{{selectedUserProfile?.profilePic1 || image }}" class="profile-img">
      
-      <ion-row class="image-input-row-style">
-        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
-        
-        <ion-fab-button 
-        (click)="likeBtn()" 
-        slopt="end" 
-        class="like-btn"
-        color="primary" 
+      <ion-row class="image-input-row-style" class="ion-no-padding">
+        <ion-textarea
+          auto-grow="true"
+          rows="1"
+          maxRows="4"
+            class="message-input"
+            (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic1, newMsgP1)"
+            maxLength="500"
+            [(ngModel)]="newMsgP1"
+          >
+        </ion-textarea>
+
+        <ion-fab-button
+          slopt="end" 
+          class="send-btn"
+          color="primary" 
+          fill="clear"
+          [disabled]="newMsgP1 === '' "
+          id="newMsgP1"
+          (click)="msgSlot($event)"
+          (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic1, newMsgP1)"
         >        
           <ion-icon name="star-outline"></ion-icon>
         </ion-fab-button>         
       </ion-row>
+
     </div>
 
     <!-- follow section -->
@@ -114,10 +128,26 @@
     <div class="img-box" *ngIf="selectedUserProfile?.profilePic2"> 
       <img src="{{selectedUserProfile?.profilePic2 || image }}" class="profile-img">
      
-      <ion-row class="image-input-row-style">
-        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+      <ion-row class="image-input-row-style" class="ion-no-padding">
+        <ion-textarea
+        auto-grow="true"
+        rows="1"
+        maxRows="4"
+          class="message-input"
+          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic2, newMsgP2)"
+          maxLength="500"
+          [(ngModel)]="newMsgP2"
+        ></ion-textarea>     
         
-        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+        <ion-fab-button 
+        slopt="end" 
+        class="send-btn"
+        color="primary" 
+        id="profilePic2"
+        fill="clear"
+        [disabled]="newMsgP2 === '' "
+        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic2, newMsgP2)"
+        >
           <ion-icon name="star-outline"></ion-icon>
         </ion-fab-button>         
       </ion-row>
@@ -136,11 +166,27 @@
       </ion-row> 
 
       <ion-row class="image-input-row-style">
-        <ion-input class="input-prompt" placeholder="Write something"></ion-input>        
-        
-        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
-          <ion-icon name="star-outline"></ion-icon>
-        </ion-fab-button>         
+        <ion-textarea
+        auto-grow="true"
+        rows="1"
+        maxRows="4"
+          class="message-input"
+          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profileAnswer1, newMsgC1)"
+          maxLength="500"
+          [(ngModel)]="newMsgC1"
+        ></ion-textarea>
+     
+        <ion-fab-button 
+        slopt="end" 
+        class="send-btn"
+        color="primary" 
+        id="profileAnswer1"
+        fill="clear"
+        [disabled]="newMsgC1 === '' "
+        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profileAnswer1, newMsgC1)"
+        > 
+          <ion-icon name="star-outline"></ion-icon>  
+        </ion-fab-button>      
       </ion-row> 
       
     </div>
@@ -151,11 +197,29 @@
       <img src="{{selectedUserProfile?.profilePic3 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
-        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
         
-        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+        
+        <ion-textarea                 
+        auto-grow="true"
+        rows="1"                
+        maxRows="4"
+          class="message-input"
+          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic3, newMsgP3)"
+          maxLength="500"
+          [(ngModel)]="newMsgP3"
+        ></ion-textarea>     
+        
+        <ion-fab-button         
+        slopt="end" 
+        class="send-btn"
+        color="primary" 
+        id="profilePic3"
+        fill="clear"
+        [disabled]="newMsgP3 === '' "        
+        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic3, newMsgP3)"
+        >
           <ion-icon name="star-outline"></ion-icon>
-        </ion-fab-button>         
+        </ion-fab-button>   
       </ion-row>
     </div>
 
@@ -172,11 +236,27 @@
       </ion-row> 
 
       <ion-row class="image-input-row-style">
-        <ion-input class="input-prompt" placeholder="Write something"></ion-input>        
+        <ion-textarea
+        auto-grow="true"
+        rows="1"
+        maxRows="4"
+          class="message-input"
+          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profileAnswer2, newMsgC2)"
+          maxLength="500"
+          [(ngModel)]="newMsgC2"
+        ></ion-textarea>
         
-        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+        <ion-fab-button 
+        slopt="end" 
+        class="send-btn"
+        color="primary" 
+        id="profileAnswer2"
+        fill="clear"
+        [disabled]="newMsgC2 === '' "
+        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profileAnswer2, newMsgC2)"
+        >
           <ion-icon name="star-outline"></ion-icon>
-        </ion-fab-button>         
+        </ion-fab-button>
       </ion-row> 
       
     </div>
@@ -187,11 +267,28 @@
       <img src="{{selectedUserProfile?.profilePic4 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
-        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+        <ion-textarea
+        auto-grow="true"
+        rows="1"
+        maxRows="4"
+          class="message-input"
+          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic4, newMsgP4)"
+          maxLength="500"
+          [(ngModel)]="newMsgP4"
+        ></ion-textarea>
+     
         
-        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+        <ion-fab-button 
+        slopt="end" 
+        class="send-btn"
+        color="primary" 
+        id="profilePic4"
+        fill="clear"
+        [disabled]="newMsgP4 === '' "
+        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic4, newMsgp4)"
+        >
           <ion-icon name="star-outline"></ion-icon>
-        </ion-fab-button>         
+        </ion-fab-button>
       </ion-row>
     </div>
 
@@ -208,11 +305,27 @@
       </ion-row> 
 
       <ion-row class="image-input-row-style">
-        <ion-input class="input-prompt" placeholder="Write something"></ion-input>        
+        <ion-textarea
+        auto-grow="true"
+        rows="1"
+        maxRows="4"
+          class="message-input"
+          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profileAnswer3, newMsgC3)"
+          maxLength="500"
+          [(ngModel)]="newMsgC3"
+        ></ion-textarea>
         
-        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+        <ion-fab-button 
+        slopt="end" 
+        class="send-btn"
+        color="primary" 
+        id="profileAnswer3"
+        fill="clear"
+        [disabled]="newMsgC3 === '' "
+        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profileAnswer3, newMsgC3)"
+        >
           <ion-icon name="star-outline"></ion-icon>
-        </ion-fab-button>         
+        </ion-fab-button>    
       </ion-row> 
       
     </div>
@@ -223,11 +336,29 @@
       <img src="{{selectedUserProfile?.profilePic5 || image }}" class="profile-img">
      
       <ion-row class="image-input-row-style">
-        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+
+        <ion-textarea
+        auto-grow="true"
+        rows="1"
+        maxRows="4"
+          class="message-input"
+          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic5, newMsgP5)"
+          maxLength="500"
+          [(ngModel)]="newMsgP5"
+        ></ion-textarea>
+     
         
-        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+        <ion-fab-button 
+        slopt="end" 
+        class="send-btn"
+        color="primary" 
+        id="profilePic5"
+        fill="clear"
+        [disabled]="newMsgP5 === '' "
+        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic5, newMsgP5)"
+        >
           <ion-icon name="star-outline"></ion-icon>
-        </ion-fab-button>         
+        </ion-fab-button>       
       </ion-row>
     </div>
 
@@ -237,11 +368,29 @@
       <img src="{{selectedUserProfile?.profilePic6 || image }}" class="profile-img">       
      
       <ion-row class="image-input-row-style">
-        <ion-input class="input-pic" placeholder="Write something"></ion-input>        
+
+        <ion-textarea
+        auto-grow="true"
+        rows="1"
+        maxRows="4"
+          class="message-input"
+          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic6, newMsgP6)"
+          maxLength="500"
+          [(ngModel)]="newMsgP6"
+        ></ion-textarea>
+     
         
-        <ion-fab-button (click)="likeBtn()" slopt="end" class="like-btn" >        
+        <ion-fab-button 
+        slopt="end" 
+        class="send-btn"
+        color="primary" 
+        id="profilePic6"
+        fill="clear"
+        [disabled]="newMsgP6 === '' "
+        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic6, newMsgP6)"
+        >
           <ion-icon name="star-outline"></ion-icon>
-        </ion-fab-button>         
+        </ion-fab-button>   
       </ion-row>
     </div>
 
