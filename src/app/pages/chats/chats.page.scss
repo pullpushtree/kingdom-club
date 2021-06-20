@@ -86,3 +86,38 @@ ion-header {
     font-size: 23px;
   }
 }
+
+.text-card-prompt {    
+  background-color: rgba(148, 148, 158, 0.466);
+  --box-shadow: rgba(28, 61, 207, 0.12) 0px 4px 16px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 4px 5px; 
+  border-radius: 10px;
+  width: 100%;
+  margin: 5px 0px 5px 0px;
+
+  .profile-prompts-text { 
+    padding: 10px 10px 10px 10px;
+    width: 100%;
+    
+    p {
+      //margin: 0px 0px 0px 0px;
+      font-weight: 600;
+      color:rgb(187, 189, 194);
+      font-size: 12px !important;
+      font-family: "Raleway", sans-serif;
+    }
+  }
+}
+
+.profile-prompts-asnwer { 
+  padding: 0px 10px 10px 10px;
+  width: 100%;
+
+  h3 {    
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 15px !important;
+    line-height: 16px !important;
+    font-family: "Domine", serif;
+  }
+}

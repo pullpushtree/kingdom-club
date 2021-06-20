@@ -31,7 +31,9 @@ export class ProfileViewPage implements OnInit {
 
   isFollowing: boolean;
   following;
-  selectedImage: string;
+  selectedMedia: string;
+  question: string;
+  answer: string;
 
   constructor(
     private router: Router,
@@ -65,10 +67,9 @@ export class ProfileViewPage implements OnInit {
   }
 
 
-  sendMessage(oUserObj: any, image: string, text: string){   
-    
-    this.selectedImage = image
-    this.chatService.sendSelectedProfileViewUserMessage(oUserObj, text, this.selectedImage)
+  sendMessage(oUserObj: any, text: string, media: string, type: any){   
+    this.selectedMedia = media
+    this.chatService.sendSelectedProfileViewUserMessage(oUserObj, text, this.selectedMedia, type)
     .then(()=> {
       this.clearFields()    
       // perhaps a toast confirming message sent       

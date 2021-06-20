@@ -321,7 +321,8 @@ export class ChatService {
               sentBy: this.currentUser.uid,
               isMarkedOpen: false,
             },
-            uid: selectedContact.requesterId,           
+            uid: selectedContact.requesterId,
+            type: 'text'
          }
 
           this.afs
@@ -336,15 +337,16 @@ export class ChatService {
       });
   }
 
-  async sendSelectedProfileViewUserMessage(oUserObj :any, newMsg: string , selectedImage: string){
+  async sendSelectedProfileViewUserMessage(oUserObj :any, newMsg: string , selectedMedia: string, type: string){
     
     const chatBubblePayload = {
       createdAt: firebase.default.firestore.Timestamp.now(),
+      isDeleted: false,
+      media: selectedMedia,      
       participants: [this.currentUser.uid, oUserObj.uid],
       sentBy: this.currentUser.uid,
       text: newMsg,
-      isDeleted: false,
-      img: selectedImage,
+      type: type
     };
 
     this.afs.collection(`messages/`, ref => 

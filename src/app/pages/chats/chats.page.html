@@ -21,8 +21,18 @@
         class="message other-message"
       >
         <div>
-          <div *ngIf="message.img"> 
-            <img src="{{message?.img ? message.img : this.image}}">
+          <div *ngIf="message.type == 'picture'"> 
+            <img src="{{message.media ? message.media : this.image}}">
+          </div>
+            
+          <div class="text-card-prompt"  *ngIf="message.type == 'card'">
+            <ion-row class="profile-prompts-text">
+              <p>{{message?.media.text}}</p>
+            </ion-row>
+            
+            <ion-row class="profile-prompts-asnwer">
+              <h3>{{message.media?.answer}}</h3>
+            </ion-row> 
           </div>
           <h3>{{ message.text}}</h3>
           <br />
@@ -39,11 +49,25 @@
         class="message my-message"
       >
         <div>
-          <div *ngIf="message.img"> 
-            <img src="{{message?.img ? message.img : this.image}}">
+
+
+          <div *ngIf="message.type == 'picture'"> 
+            <img src="{{message.media ? message.media : this.image}}">
           </div>
+            
+          <div class="text-card-prompt"  *ngIf="message.type == 'card'">
+            <ion-row class="profile-prompts-text">
+              <p>{{message?.media.text}}</p>
+            </ion-row>
+            
+            <ion-row class="profile-prompts-asnwer">
+              <h3>{{message.media?.answer}}</h3>
+            </ion-row> 
+          </div>
+
+
           <h3>{{ message.text}}</h3>
-          <br />
+          
           <span class="time ion-text-right">
             <p>{{message.createdAt.seconds | dateAgo }}</p>
           </span>
