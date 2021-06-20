@@ -72,7 +72,7 @@ export class ProfileViewPage implements OnInit {
     .then(()=> {
       this.clearFields()    
       // perhaps a toast confirming message sent       
-      this.toast("Message Sent!", "primary");
+      this.toast("Message Sent!", "dark");
     }).catch(error =>{
       this.toast("Message Failed!", "danger");
     })
@@ -92,11 +92,9 @@ export class ProfileViewPage implements OnInit {
   async toast(message,status){
     const toast = await this.toastr.create({
       message: message,
-      position: "middle",
+      position: "bottom",
       color: status, 
-      duration: 2000,      
-      cssClass: 'toast-custom-class'
-      
+      duration: 2000
     });
     toast.present();
   }
