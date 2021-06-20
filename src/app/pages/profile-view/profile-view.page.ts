@@ -76,6 +76,7 @@ export class ProfileViewPage implements OnInit {
       this.toast("Message Sent!", "dark");
     }).catch(error =>{
       this.toast("Message Failed!", "danger");
+      console.log("error", error)
     })
   }
   clearFields(){
