@@ -12,13 +12,12 @@ ion-header {
 }
 
 .message {
-  border-radius: 18px !important;
+  border-radius: 12px !important;
   padding: 8px 10px;
-  margin-top: 5px !important;
-  margin-bottom: 5px !important;
   white-space: pre-wrap;
   display: flex;
   flex-direction: column;
+  width: fit-content;
 
   h3 {
     font-size: 0.9rem;
@@ -31,7 +30,7 @@ ion-header {
   }
 }
 
-.my-message {
+.currentUser-message {
   background-color: rgb(92, 92, 136);
   color: #fff;
   font-size: 0.7rem;
@@ -41,13 +40,15 @@ ion-header {
   background: rgb(132, 138, 225);
   color: #fff;
   font-size: 14px;
+  float: right;
 }
 
 .time {
-  color: #dfdfdf;
+  //color: #dfdfdf;
   float: right;
   align-items: flex-end;
-  //font-size: small;
+  font-size: small;
+  color: rgba(255, 255, 255, 0.466);
 }
 
 .message-input {
@@ -67,6 +68,9 @@ ion-header {
   width: 40px;
   height: 40px;
   display: flex;
+}
+ion-col{
+  padding: 3px
 }
 
 .col-small {
@@ -92,18 +96,16 @@ ion-header {
   --box-shadow: rgba(28, 61, 207, 0.12) 0px 4px 16px;
   box-shadow: rgb(0 0 0 / 12%) 0px 4px 5px; 
   border-radius: 10px;
-  width: 100%;
   margin: 5px 0px 5px 0px;
 
   .profile-prompts-text { 
     padding: 10px 10px 10px 10px;
-    width: 100%;
     
     p {
       //margin: 0px 0px 0px 0px;
       font-weight: 600;      
-      color:rgba(55, 58, 63, 0.699);     
-      font-size: 12px !important;
+      color:rgba(55, 58, 63, 0.897);     
+      font-size: 15px !important;
       font-family: "Raleway", sans-serif;
     }
   }
@@ -111,13 +113,12 @@ ion-header {
 
 .profile-prompts-asnwer { 
   padding: 0px 10px 10px 10px;
-  width: 100%;
 
   h3 {    
     margin-top: 10px;
     font-weight: 500;
-    font-size: 15px !important;
-    line-height: 16px !important;
+    font-size: 16px !important;
+    line-height: 17px !important;
     font-family: "Domine", serif;
   }
 }

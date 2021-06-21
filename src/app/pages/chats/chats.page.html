@@ -16,11 +16,9 @@
     <ion-row *ngFor="let message of messages | async">
       <ion-col
         *ngIf="message.sentBy !== currentUser.uid"
-        size="7"
-        [offset]="4"
-        class="message other-message"
-      >
-        <div>
+        size="10"
+        [offset]="2">
+        <div class="message other-message">
           <div *ngIf="message.type == 'picture'"> 
             <img src="{{message.media ? message.media : this.image}}">
           </div>
@@ -35,7 +33,6 @@
             </ion-row> 
           </div>
           <h3>{{ message.text}}</h3>
-          <br />
           <span class="time ion-text-right">
             <p>{{message.createdAt.seconds | dateAgo }}</p>
           </span>
@@ -44,11 +41,9 @@
 
       <ion-col
         *ngIf="message.sentBy == currentUser.uid"
-        size="7"
-        [offset]="1"
-        class="message my-message"
-      >
-        <div>
+        size="10"
+        [offset]="0">
+        <div class="message currentUser-message">
 
 
           <div *ngIf="message.type == 'picture'"> 
