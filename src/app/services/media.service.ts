@@ -11,6 +11,7 @@ import {
   PopoverController,
 } from "@ionic/angular";
 import { AuthService } from "./auth.service";
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: "root",
@@ -45,13 +46,14 @@ export class MediaService {
   ) {
     this.afauthSrv.user$.subscribe((user) => {
       this.currentUser = user; 
+      console.log("currentUser ", this.currentUser)
     })
 
   } 
 
   async upload(){    
     const getImageSlot = localStorage.getItem('picSelectedHolder');  
-
+    console.log("getImageSlot value localstorage get picSelectedHolder ", getImageSlot)
     this.imagePath = `profilePicture/${this.currentUser.uid}_`+ new Date().getTime() +'.jpg';
     await this.afStore.ref(this.imagePath).putString(this.picData, 'data_url')
       .then((snapshot) => {
@@ -138,30 +140,102 @@ export class MediaService {
            else 
            {
              console.log("error profilePic selected slot didn't work. Try again")
+             this.popover.dismiss()
              return;
            }           
           }).catch((error) => {
+            this.popover.dismiss()
             console.error(error);
           });
     }).catch((error) => {
+      this.popover.dismiss()
         console.dir(error)
     });
   } 
 
   async takeCameraOrLibraryPhoto(source: string) {
+    const name = Math.floor(Date.now() / 1000)
+    const imagePath = `${this.currentUser.uid}/scrapPics2/${name}.jpg`; 
     if (source === "library") {
       await this.openLibrary()
       .then((imgData) => {
-        this.picData = "data:image/jpg;base64," + imgData;         
+        this.picData = "data:image/jpg;base64," + imgData;        
+        const picRef = this.afStore.ref(imagePath)
+        picRef.putString(this.picData, 'data_url', {contentType: 'image/jpeg'})
+        .then((snapshot) => {
+          const dwnldURL = snapshot.ref.getDownloadURL();
+          dwnldURL.then(url => {            
+            this.imgURL = url;  
+
+            this.upload();
+            this.afs.collection(`scrapbook2/${this.currentUser.uid}/album`)          
+            .add({              
+              photoURL : this.imgURL,            
+              fileName : imagePath,
+              dateStamp : firebase.default.firestore.Timestamp.now()
+            })
+            .then((docRef) => {
+
+              this.afs.doc(`scrapbook2/${this.currentUser.uid}/album/${docRef.id}`)
+              .update({ uid : docRef.id})
+              .catch(function(error) {
+                console.error("Error adding document UID: ", error);
+              });
+              this.popover.dismiss();
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+          })
+        .catch(err => {
+          this.toast("Picture Save Pic Preview Failed", "danger")
+          console.error(err)
+        })
+    })
       }).catch((error) => {
         console.dir(error);
       });
     } else {
       await this.openCamera()
-      .then((imgData) => {   
-        console.log("M3 media.service.ts takeCameraOrLibraryPhoto CAMERA imgData value : ", imgData)      
+      .then((imgData) => {
         this.picData = "data:image/jpg;base64," + imgData; 
-        console.log("M4 media.service.ts takeCameraOrLibraryPhoto CAMERA >>> PICDATA value : ", this.picData)        
+        const picRef = this.afStore.ref(imagePath)    
+        picRef.putString(this.picData, 'data_url', {contentType: 'image/jpeg'})
+        .then((snapshot) => {
+          const dwnldURL = snapshot.ref.getDownloadURL();
+          dwnldURL.then(url => {
+            this.imgURL = url;            
+            
+            this.upload();
+            this.afs.collection(`scrapbook2/${this.currentUser.uid}/album`)          
+            .add({
+              uidd : this.afs.createId(),
+              photoURL : this.imgURL,            
+              fileName : imagePath,
+              dateStamp : firebase.default.firestore.Timestamp.now()
+            })
+            .then((docRef) => {
+              this.afs.doc(`scrapbook2/${this.currentUser.uid}/album/${docRef.id}`)
+              .update({ uid : docRef.id})
+              .catch(function(error) {
+                this.popover.dismiss()
+                console.error("Error adding document UID: ", error);
+              });
+              this.popover.dismiss();
+            })
+            .catch(function(error) {
+              this.popover.dismiss()
+                console.error("Error adding document: ", error);
+            });
+          })
+        .catch(err => {
+          this.popover.dismiss()
+          this.toast("Picture Save Pic Preview Failed", "danger")
+          console.error(err)
+        })
+    })
+
+
         //this.upload();
       }).catch((error) => {
         console.log(error)
@@ -215,7 +289,6 @@ export class MediaService {
   }
 
   async uploadFirebase() {
-    const currentUser = JSON.parse(localStorage.getItem(AuthConstants.AUTH));
     const loading = await this.loadingCtrl.create({
       message: "Please wait..",
       spinner: "crescent",
@@ -235,13 +308,12 @@ export class MediaService {
           .then((downloadableURL) => {
             //update user collection
             const tempDownloadbleURL = downloadableURL;
-            console.log("M5 media.service.ts uploadFirebase() then downloadebleURL value : ", tempDownloadbleURL)            
             //update firebase user 
             this.updateFirebasePhotoURL(tempDownloadbleURL);
 
             this.afs
               .collection("users")
-              .doc(currentUser.user.uid)
+              .doc(this.currentUser.user.uid)
               .update({ photoURL: tempDownloadbleURL })
               .finally(async () => {
                 await loading.dismiss();

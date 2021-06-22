@@ -28,7 +28,6 @@ export class CameraService {
     this.afauthSrv.user$.subscribe((user) => {
       this.currentUser = JSON.stringify(user); 
     })
-
   }
 
   async takePicture() {

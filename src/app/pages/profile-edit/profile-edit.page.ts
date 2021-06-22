@@ -86,11 +86,11 @@ export class ProfileEditPage implements OnInit {
 
       this.profileQuestion1 = this.currentUser.profileAnswer1 ? this.currentUser.profileAnswer1.text : "";
       this.profileQuestion2 = this.currentUser.profileAnswer2 ? this.currentUser.profileAnswer2.text : "";
-      this.profileQuestion3 = this.currentUser.profileAnswer3 ? this.currentUser.profileAnswer3.text : "";
+      this.profileQuestion3 = this.currentUser.profileAnswer3.text ? this.currentUser.profileAnswer3.text : "";
 
-      this.profileAnswer1 = this.currentUser.profileAnswer1 ? this.currentUser.profileAnswer1.answer : "";      
-      this.profileAnswer2 = this.currentUser.profileAnswer2 ? this.currentUser.profileAnswer2.answer : "";
-      this.profileAnswer3 = this.currentUser.profileAnswer3 ? this.currentUser.profileAnswer3.answer : "";  
+      this.profileAnswer1 = this.currentUser.profileAnswer1.answer ? this.currentUser.profileAnswer1.answer : "";      
+      this.profileAnswer2 = this.currentUser.profileAnswer2.answer ? this.currentUser.profileAnswer2.answer : "";
+      this.profileAnswer3 = this.currentUser.profileAnswer3.answer ? this.currentUser.profileAnswer3.answer : "";  
     });
   }
   clearLocalStorage(){ 
@@ -120,6 +120,7 @@ export class ProfileEditPage implements OnInit {
       return popoverElement.present();
     })
   }
+
   async deletePic(ev: any){
     localStorage.setItem('picSelectedHolder', ev.target.id);
     await this.media.delete();
@@ -207,7 +208,6 @@ export class ProfileEditPage implements OnInit {
 
   ionViewWillEnter() {
     this.data = this.profSrv.getProfData();
-
     if (this.data != null || undefined) {
       if (this.data.id == "profileAnswer1") {
         this.profileQuestion1 = this.data.text;
@@ -253,6 +253,13 @@ export class ProfileEditPage implements OnInit {
   async saveSelectedProfileAnswers() {
 
     let submitedValues = {
+      profilePic1: this.profilePic1,
+      profilePic2: this.profilePic2,
+      profilePic3: this.profilePic3,
+      profilePic4: this.profilePic4,
+      profilePic5: this.profilePic5,
+      profilePic6: this.profilePic6,
+
       profileAnswer1: {
         text: this.profileQuestion1,
         answer: this.profileAnswer1,
@@ -274,13 +281,9 @@ export class ProfileEditPage implements OnInit {
       lastUpdated: firebase.default.firestore.Timestamp.now(),
     };
     //this.media.uploadFirebase();
-    await this.afs
-      .collection("users").doc(`${this.currentUser.uid}`)
-      .update(submitedValues)
-      .catch(error => {
-        console.error(error);
-
-      });    
-    this.router.navigate(["home/profile"]);
+    await this.profSrv.saveProfileEdits(submitedValues)
+    .then(() => this.router.navigate(["home/profile"]))
+    .catch(error => console.log(error)
+    )
   }
 }

@@ -151,4 +151,13 @@ export class ProfileSetupService {
     return this.afs.doc(`users/${uid}`)
       .valueChanges() as Observable<User[]>;
   }
+
+  async saveProfileEdits(submitedValues : any){
+    return await this.afs
+    .collection("users").doc(`${this.currentUser.uid}`)
+    .update(submitedValues)
+    .catch(error => {
+      console.error(error);
+    });    
+  }
 }
