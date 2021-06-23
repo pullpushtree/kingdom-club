@@ -134,7 +134,7 @@
         rows="1"
         maxRows="4"
           class="img-message-input message-input"
-          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic2, newMsgP2, 'picture')"
+          (keyup.enter)="sendMessage(selectedUserProfile, newMsgP2, selectedUserProfile?.profilePic2, 'picture')"
           maxLength="500"
           [(ngModel)]="newMsgP2"
         ></ion-textarea>     
@@ -146,7 +146,7 @@
         id="profilePic2"
         fill="clear"
         [disabled]="newMsgP2 === '' "
-        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic2, newMsgP2, 'picture')"
+        (click)="sendMessage(selectedUserProfile, newMsgP2, selectedUserProfile?.profilePic2, 'picture')"
         >
           <ion-icon name="star-outline"></ion-icon>
         </ion-fab-button>         
@@ -204,7 +204,7 @@
         rows="1"                
         maxRows="4"
           class="img-message-input message-input"
-          (keyup.enter)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic3, newMsgP3, 'picture')"
+          (keyup.enter)="sendMessage(selectedUserProfile, newMsgP3, selectedUserProfile?.profilePic3, 'picture')"
           maxLength="500"
           [(ngModel)]="newMsgP3"
         ></ion-textarea>     
@@ -216,7 +216,7 @@
         id="profilePic3"
         fill="clear"
         [disabled]="newMsgP3 === '' "        
-        (click)="sendMessage(selectedUserProfile, selectedUserProfile?.profilePic3, newMsgP3, 'picture')"
+        (click)="sendMessage(selectedUserProfile, newMsgP3, selectedUserProfile?.profilePic3, 'picture')"
         >
           <ion-icon name="star-outline"></ion-icon>
         </ion-fab-button>   
