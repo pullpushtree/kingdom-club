@@ -10,7 +10,6 @@ import { Message } from "../models/Message";
 import { Chat } from "../models/Chat";
 
 
-
 @Injectable({
   providedIn: "root",
 })
@@ -31,13 +30,12 @@ export class ChatService {
   newDateToUser: firebase.default.firestore.Timestamp;
 
   constructor(
-    private authService: AuthService,    
+    private authService: AuthService,
     private afs: AngularFirestore,
     private router: Router
   ) {
-    this.authService.user$
-    .subscribe((res) => {
-      this.currentUser = res;    
+    this.authService.user$.subscribe((res) => {
+      this.currentUser = res;
     });
   }
 
@@ -57,32 +55,32 @@ export class ChatService {
       .doc(uid)
       .valueChanges() as Observable<User>;
   }
-  
+
   deleteMessage(msgId) {
     this.afs.collection<Chat>(`messages`).doc(msgId).delete();
   }
-  
-  navigatetoToSelectedProfile(participants: any) {    
-    if (this.currentUser.uid !== participants[0]) {      
+
+  navigatetoToSelectedProfile(participants: any) {
+    if (this.currentUser.uid !== participants[0]) {
       this.router.navigate([`/home/profile-view/${participants[0]}`]);
     } else {
       this.router.navigate([`/home/profile-view/${participants[1]}`]);
     }
   }
 
-  getUserContactsForMessages(){
+  getUserContactsForMessages() {
     let users = [];
     return this.getUsers().pipe(
-      switchMap(res => {
+      switchMap((res) => {
         users = res;
         return this.afs
-        .collection(`contacts/${this.currentUser.uid}/contact`)
-        .valueChanges();
+          .collection(`contacts/${this.currentUser.uid}/contact`)
+          .valueChanges();
       }),
-      map(contacts => {
-        contacts.map(badSideResonseJuseUseItforUID => {          
-          users.forEach(oUser => {
-            if(oUser.uid == badSideResonseJuseUseItforUID['uid']){              
+      map((contacts) => {
+        contacts.map((badSideResonseJuseUseItforUID) => {
+          users.forEach((oUser) => {
+            if (oUser.uid == badSideResonseJuseUseItforUID["uid"]) {
               this.otherUserData = {
                 photoURL: oUser.photoURL,
                 displayName: oUser.displayName,
@@ -90,15 +88,15 @@ export class ChatService {
                 uid: oUser.uid,
               };
             }
-          })
-        })
+          });
+        });
 
-        return contacts
+        return contacts;
       })
-    )
+    );
   }
 
-  getChatMessageFB() {    
+  getChatMessageFB() {
     let users = [];
     return this.getUsers().pipe(
       switchMap((res) => {
@@ -115,7 +113,7 @@ export class ChatService {
       map((messages) => {
         for (let msg of messages) {
           let otherUserDetail = [];
-          users.forEach((res) => {            
+          users.forEach((res) => {
             if (
               (msg.participants[0] == res.uid &&
                 this.currentUser.uid !== res.uid) ||
@@ -133,18 +131,18 @@ export class ChatService {
             }
           });
           msg.msgId,
-          (msg.otherUserPhoto = otherUserDetail[0].photoURL),
-          (msg.otherDisplayName = otherUserDetail[0].displayName),
-          (msg.otherFirstLastName = otherUserDetail[0].firstLastName),
-          (msg.otherUserUID = otherUserDetail[0].uid),            
-          (msg.participants = [msg.participants[0], msg.participants[1]]);
+            (msg.otherUserPhoto = otherUserDetail[0].photoURL),
+            (msg.otherDisplayName = otherUserDetail[0].displayName),
+            (msg.otherFirstLastName = otherUserDetail[0].firstLastName),
+            (msg.otherUserUID = otherUserDetail[0].uid),
+            (msg.participants = [msg.participants[0], msg.participants[1]]);
           msg.myMsg = this.currentUser.uid === msg.recentMessage["sentBy"];
           msg.recentMessage = {
             sentBy: msg.recentMessage["sentBy"],
             sentAt: msg.recentMessage["sentAt"],
             lastMessage: msg.recentMessage["lastMessage"],
             isMarkedOpen: msg.recentMessage["isMarkedOpen"],
-          };          
+          };
         }
         return messages;
       })
@@ -158,26 +156,28 @@ export class ChatService {
   }
 
   async getMessageById(msgId: string) {
-    return this.afs.collection<Chat>(`messages/${msgId}/chat`)
-      .valueChanges() as Observable<Chat[]>;    
+    return this.afs
+      .collection<Chat>(`messages/${msgId}/chat`)
+      .valueChanges() as Observable<Chat[]>;
   }
 
-  async toggleMarkedOpened(msgId: string,  toggleValue : boolean){
-    const chatBubblePayload = {      
-      recentMessage :{
-        isMarkedOpen: toggleValue
-      }
+  async toggleMarkedOpened(msgId: string, toggleValue: boolean) {
+    const chatBubblePayload = {
+      recentMessage: {
+        isMarkedOpen: toggleValue,
+      },
     };
 
-    this.afs.doc(`messages/${msgId}`)
-    .set(chatBubblePayload, {merge: true})
-    .catch((error) => {
-      console.dir(error);
-    });
+    this.afs
+      .doc(`messages/${msgId}`)
+      .set(chatBubblePayload, { merge: true })
+      .catch((error) => {
+        console.dir(error);
+      });
   }
 
-  async setOtherDetails(participants: any) {    
-    if (this.currentUser.uid !== participants[0].uid) {      
+  async setOtherDetails(participants: any) {
+    if (this.currentUser.uid !== participants[0].uid) {
       let tempVal = this.afs.collection<User>("users").doc(participants[0].uid);
       return tempVal;
     } else {
@@ -196,17 +196,14 @@ export class ChatService {
       .valueChanges() as Observable<User>;
   }
 
-   getOtherUserbyMessageId(msgId: string) {    
+  getOtherUserbyMessageId(msgId: string) {
     return this.getUsers().pipe(
       map(() => {
         return this.afs
-          .collection("messages", (ref) =>
-            ref.where('msgId', '==', msgId)
-          )
+          .collection("messages", (ref) => ref.where("msgId", "==", msgId))
           .valueChanges({ idField: "msgId" }) as Observable<Message[]>;
       }),
       map(() => {
-        console.log("this.otherUserdata ", this.otherUserData)
         return this.otherUserData;
       })
     );
@@ -216,190 +213,256 @@ export class ChatService {
     let users = [];
     return this.getUsers().pipe(
       switchMap((res) => {
-        users = res;        
-        return this.afs.doc<Message>(`messages/${msgId}`).valueChanges() as Observable<Message>
+        users = res;
+        return this.afs
+          .doc<Message>(`messages/${msgId}`)
+          .valueChanges() as Observable<Message>;
       }),
-  
-      map((bubble) => {       
-          bubble.participants.forEach((res) => {            
-            if (res !== this.currentUser.uid) {              
-              users.filter((oUser) => {
-                if (oUser.uid == res) {                  
-                  this.otherUserData = {
-                    otherPhotoURL: oUser.photoURL,
-                    otherDisplayName: oUser.displayName,
-                    otherFirstLastName: oUser.firstLastName,
-                    otherUid: oUser.uid,
-                  };
-                  return this.otherUserData;
-                }
-              });
-            }
-            return this.otherUserData
-          });
-        return bubble =  this.otherUserData;
+
+      map((bubble) => {
+        bubble.participants.forEach((res) => {
+          if (res !== this.currentUser.uid) {
+            users.filter((oUser) => {
+              if (oUser.uid == res) {
+                this.otherUserData = {
+                  otherPhotoURL: oUser.photoURL,
+                  otherDisplayName: oUser.displayName,
+                  otherFirstLastName: oUser.firstLastName,
+                  otherUid: oUser.uid,
+                };
+                return this.otherUserData;
+              }
+            });
+          }
+          return this.otherUserData;
+        });
+        return (bubble = this.otherUserData);
       })
     );
   }
 
-  async clearChat(msgId){    
-    this.afs.collection(`messages`).doc(msgId)
-    .set({
-      createdAt: firebase.default.firestore.Timestamp.now()
+  async clearChat(msgId) {
+    this.afs.collection(`messages`).doc(msgId).set({
+      createdAt: firebase.default.firestore.Timestamp.now(),
     });
   }
 
   async addChatMessageToConversationHistory(msgText: string, msgId: string) {
-    let oUserObj =  this.getOtherUserbyMessageId(msgId)
-    this.o_user = oUserObj.subscribe(res => {
-      this.o_user = res
+    let oUserObj = this.getOtherUserbyMessageId(msgId);
+    this.o_user = oUserObj.subscribe((res) => {
+      this.o_user = res;
       const chatBubblePayload = {
+        
         createdAt: firebase.default.firestore.Timestamp.now(),
-        participants: [this.currentUser.uid, this.o_user.otherUid],
+        participants: [this.currentUser.uid, this.o_user.otherUid],        
+        participants2 :  {[this.currentUser.uid] : true, [this.o_user.otherUid] : true},
         sentBy: this.currentUser.uid,
         text: msgText,
-        isDeleted: false
+        isDeleted: false,
       };
+      console.log(chatBubblePayload);
       
-      this.afs.collection(`messages/${msgId}/chat`)
-      .add(chatBubblePayload)
-      .catch((error) => {
-        console.dir(error);
-      });
-    })
-    
+      this.afs
+        .collection(`messages/${msgId}/chat`)
+        .add(chatBubblePayload)
+        .catch((error) => {
+          console.dir(error);
+        });
+    });
+
     const messagePayLoad = {
       recentMessage: {
         lastMessage: msgText,
         sentAt: firebase.default.firestore.Timestamp.now(),
         sentBy: this.currentUser.uid,
-        isMarkedOpen: false
-      }
-    }   
-    this.afs.doc(`messages/${msgId}`)
-      .update(messagePayLoad) 
-    .catch((error) => {
-      console.dir(error);
-    });    
-  }
-
-  async startNewChatFormater(newContactObj: any){
-    let newSelectedContactRef = {
-            createdAt: this.newDateToUser,
-            participants: [this.currentUser.uid, newContactObj.requesterId],
-            recentMessage: {
-              lastMessage: '',
-              seen: null,
-              sentOn: null,
-              sentBy: this.currentUser.uid,
-              isMarkedOpen: false,
-            },
-            uid: newContactObj.requesterId
-    }
-
-    this.startNewChat(newSelectedContactRef)
-  }
-
-  async startNewChat(selectedContact : any) {
-    localStorage.setItem("otherUserObjectDetails", JSON.stringify(selectedContact));
-
-    this.afs.collection("messages", (ref) =>
-        ref.where("participants", "array-contains",  [ this.currentUser.uid, selectedContact.uid ])
-      )
-      .valueChanges({ idField: "msgId" })
-      .subscribe((result) => {
-        if (result.length >= 1 ) {
-          result.map((msgObj) => {
-            localStorage.setItem("activatedChat", JSON.stringify(msgObj));
-            const chatId = msgObj.msgId;
-            this.router.navigate(["home/chats/", chatId]);
-          });
-        } else if ( result.length == 0 ) {
-         const data ={
-           createdAt: firebase.default.firestore.Timestamp.now(),
-           participants: [ this.currentUser.uid, selectedContact.uid ],
-           recentMessage: {
-              lastMessage: '',
-              seen: null,
-              sentOn: null,
-              sentBy: this.currentUser.uid,
-              isMarkedOpen: false,
-            },
-            uid: selectedContact.uid,
-            type: 'text'
-         }
-
-          this.afs.collection("messages")
-            .add(data)
-            .then((msgObj) => {              
-              this.afs.doc(`messages/${msgObj.id}`).update({msgId: msgObj.id})              
-              this.router.navigate(["home/chats/", msgObj.id]);
-            })
-            .catch(error => console.log(error));
-          localStorage.setItem("activatedChat", JSON.stringify(data));
-        }
+        isMarkedOpen: false,
+      },
+    };
+    this.afs
+      .doc(`messages/${msgId}`)
+      .update(messagePayLoad)
+      .catch((error) => {
+        console.dir(error);
       });
   }
 
-  checkIfChatAlreadyExist(oUserId){
-    return this.afs.collection(`messages/`, ref => 
-    ref.where("participants", "array-contains", [this.currentUser.uid, oUserId]))
-    .ref.where("participants", "array-contains",  oUserId)
-    .get()    
+  async startNewChatFormater(newContactObj: any) {
+    let newSelectedContactRef = {
+      createdAt: this.newDateToUser,
+      participants: [this.currentUser.uid, newContactObj.requesterId],      
+      participants2 :  {[this.currentUser.uid] : true, [newContactObj.uid] : true},
+      recentMessage: {
+        lastMessage: "",
+        seen: null,
+        sentOn: null,
+        sentBy: this.currentUser.uid,
+        isMarkedOpen: false,
+      },
+      uid: newContactObj.requesterId,
+    };
+
+    this.startNewChat(newSelectedContactRef);
   }
 
-  async sendSelectedProfileViewUserMessage(oUserObj :any, newMsg: string , selectedMedia: string, type: string){
-    try {      
-      if((await this.checkIfChatAlreadyExist(oUserObj.uid)).size > 0){
-  
-  const chatBubblePayload = {
-    createdAt: firebase.default.firestore.Timestamp.now(),
-    isDeleted: false,
-    media: selectedMedia,
-    participants: [this.currentUser.uid, oUserObj.uid],
-    sentBy: this.currentUser.uid,
-    text: newMsg,
-    type: type
-  };
+  async startNewChat(selectedContact: any) {   
+    try {
+      const msgCol = await this.afs
+        .collection("messages", (ref) =>
+          ref.where("participants", "array-contains", [
+            this.currentUser.uid,
+            selectedContact.uid,
+          ])
+        )
+        .ref.get();
 
-  this.afs.collection(`messages/`, ref =>
-    ref.where("participants", "array-contains", this.currentUser.uid))
-    .ref.where("participants", "array-contains",  oUserObj.uid)
-    .get()
+      msgCol.docs.map((res) => {
+        let msgId = res.data()["msgId"];
+        let participants = res.data()["participants"];
+        if (
+          participants.includes(this.currentUser.uid) &&
+          participants.includes(selectedContact.uid)
+        ) {
+          //Found a match. Redirect User to Exsiting chat.
+          this.router.navigate(["home/chats/", msgId]);
+        }
+        return;
+      });
+      msgCol.docs.forEach((element, index) => {
+        if (index == 0) {
+          let selectedContactId = selectedContact.uid;
+          let currentUserId = this.currentUser.uid;
+          const data = {
+            createdAt: firebase.default.firestore.Timestamp.now(),
+            participants: [this.currentUser.uid, selectedContact.uid],                     
+            participants2 :  {[currentUserId] : true, [selectedContactId] : true},
+            recentMessage: {
+              isMarkedOpen: false,
+              lastMessage: " my testing version",
+              sentAt: firebase.default.firestore.Timestamp.now(),
+              sentBy: this.currentUser.uid,
+            },
+            uid: selectedContact.uid,
+            type: "text",
+          };
 
-    .then((querySnapshot) => {
-
-      if( querySnapshot !== null ){
-        querySnapshot.forEach((doc) => { 
-            this.afs.collection(`messages/${doc.id}/chat`)
-          .add(chatBubblePayload)
-          console.log("add new chat bubble")
-        });
-      } 
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    });
-  } else {  
-    let notificationPayload = {
-      contacts: [ this.currentUser.uid , oUserObj.uid ], 
-      approved: false, 
-      approvedDate: null, 
-      hasBeenOpened: false,
-      createdAt: firebase.default.firestore.Timestamp.now(), 
-      archived : false,
-      text: " would like to chat with you!",
-      requesterId: this.currentUser.uid, 
-      requesterPhoto: this.currentUser.photoURL,
-      requesterDisplayName: this.currentUser.displayName,
-      requesterFirstLastName: this.currentUser.firstLastName
+          return this.afs
+            .collection("messages")
+            .add(data)
+            .then((msgObj) => {
+              this.afs
+                .doc(`messages/${msgObj.id}`)
+                .update({ msgId: msgObj.id });
+              this.router.navigate(["home/chats/", msgObj.id]);
+            })
+            .catch((error) => console.log(error));
+        }
+      });
+    } catch (err) {
+      console.log("Try catch error triggered.  ");
     }
-    this.afs.collection(`contacts/${oUserObj.uid}/notifications`).add(notificationPayload) 
-  } 
-    } catch {
-      error => {
-        console.log(error)
+  }
+
+  async checkIfChatAlreadyExist(oUserId) {
+    return await this.afs
+      .collection(`messages`, (ref) =>
+        ref
+          .where(`participants2.${this.currentUser.uid}`, "==", true)
+          .where(`participants2.${oUserId}`, "==", true)
+      )
+      .ref.get();
+  }
+
+  async sendSelectedProfileViewUserMessage(
+    oUserObj: any,
+    newMsg: string,
+    selectedMedia: string,
+    type: string
+  ) {
+    try {
+      if ((await this.checkIfChatAlreadyExist(oUserObj.uid)).size > 0) {
+        let exsitingChatCheck = await (
+          await this.checkIfChatAlreadyExist(oUserObj.uid)
+        ).query.get();
+        const chatCheckRef = exsitingChatCheck.docs.map((res) => {
+          let partArray = [];
+          partArray.push(res.data());
+          return { id: res.id, data: res.data() };
+        });
+
+        chatCheckRef.map((res) => {
+          const data = [res.data];
+
+          data.forEach((message) => {
+            let participantsArray = [];
+            let msgId = message["msgId"];
+            participantsArray.push({
+              participants: message["participants"],
+              msgId: msgId,
+            });
+            participantsArray.forEach((message) => {
+              if (
+                message["participants"].includes(this.currentUser.uid) &&
+                message["participants"].includes(oUserObj.uid)
+              ) {
+                const chatBubblePayload = {
+                  createdAt: firebase.default.firestore.Timestamp.now(),
+                  isDeleted: false,
+                  media: selectedMedia,
+                  participants: [this.currentUser.uid, oUserObj.uid],
+                  participants2 :  {[this.currentUser.uid] : true, [oUserObj.uid] : true},
+                  sentBy: this.currentUser.uid,
+                  text: newMsg,
+                  type: type,
+                };
+
+                this.afs
+                  .collection(`messages/${msgId}/chat`)
+                  .add(chatBubblePayload)
+                  .then(() => {
+                    const messagePayLoad = {
+                      recentMessage: {
+                        lastMessage: newMsg,
+                        sentAt: firebase.default.firestore.Timestamp.now(),
+                        sentBy: this.currentUser.uid,
+                        isMarkedOpen: false,
+                      },
+                    };
+                    this.afs
+                      .doc(`messages/${msgId}`)
+                      .update(messagePayLoad)
+                      .catch((error) => {
+                        console.dir(error);
+                      });
+                  })
+                  .catch((error) => {
+                    console.dir(error);
+                  });
+              }
+            });
+          });
+        });
+      } else {
+        let notificationPayload = {
+          contacts: [this.currentUser.uid, oUserObj.uid],
+          approved: false,
+          approvedDate: null,
+          hasBeenOpened: false,
+          createdAt: firebase.default.firestore.Timestamp.now(),
+          archived: false,
+          text: " would like to chat with you!",
+          requesterId: this.currentUser.uid,
+          requesterPhoto: this.currentUser.photoURL,
+          requesterDisplayName: this.currentUser.displayName,
+          requesterFirstLastName: this.currentUser.firstLastName,
+        };
+        this.afs
+          .collection(`contacts/${oUserObj.uid}/notifications`)
+          .add(notificationPayload);
       }
-    }  
+    } catch {
+      (error) => {
+        console.log(error);
+      };
+    }
   }
 }
